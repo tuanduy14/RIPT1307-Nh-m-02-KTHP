@@ -1,3 +1,9 @@
+import React from 'react';
+import { DatePicker } from 'antd';
+
+const MyDatepicker = DatePicker as any;
+
+export default MyDatepicker;
 import { DatePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/vi_VN';
 import 'antd/es/date-picker/style/index.less';

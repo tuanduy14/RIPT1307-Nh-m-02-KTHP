@@ -1,0 +1,15 @@
+# Simple Render blueprint: Static frontend + web service for API
+services:
+  - type: web
+    name: backend
+    env: node
+    buildCommand: "cd server && yarn install && yarn build"
+    startCommand: "cd server && yarn start"
+  - type: static
+    name: frontend
+    env: static
+    buildCommand: "yarn install && yarn build"
+    staticPublishPath: dist
+
+# On Render, create a Postgres service and set DATABASE_URL in service env.
+# Set API_BASE in frontend environment to the backend URL, e.g. https://<backend>.onrender.com/api

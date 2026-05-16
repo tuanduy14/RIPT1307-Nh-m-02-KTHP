@@ -1,90 +1,59 @@
 ﻿export default [
 	{
-		path: '/user',
-		layout: false,
+		path: '/student',
+		name: 'Student',
+		icon: 'UserOutlined',
 		routes: [
 			{
-				path: '/user/login',
-				layout: false,
-				name: 'login',
-				component: './user/Login',
+				path: '/student/dashboard',
+				name: 'Dashboard',
+				component: './Student/Dashboard',
 			},
 			{
-				path: '/user',
-				redirect: '/user/login',
+				path: '/student/devices',
+				name: 'Danh sách thiết bị',
+				component: './Student/Devices',
+			},
+			{
+				path: '/student/history',
+				name: 'Lịch sử mượn',
+				component: './Student/History',
+			},
+			{
+				path: '/student',
+				redirect: '/student/dashboard',
 			},
 		],
 	},
-
-	///////////////////////////////////
-	// DEFAULT MENU
 	{
-		path: '/dashboard',
-		name: 'Dashboard',
-		component: './TrangChu',
-		icon: 'HomeOutlined',
-	},
-	{
-		path: '/gioi-thieu',
-		name: 'About',
-		component: './TienIch/GioiThieu',
-		hideInMenu: true,
-	},
-	{
-		path: '/random-user',
-		name: 'RandomUser',
-		component: './RandomUser',
-		icon: 'ArrowsAltOutlined',
-	},
-
-	// DANH MUC HE THONG
-	// {
-	// 	name: 'DanhMuc',
-	// 	path: '/danh-muc',
-	// 	icon: 'copy',
-	// 	routes: [
-	// 		{
-	// 			name: 'ChucVu',
-	// 			path: 'chuc-vu',
-	// 			component: './DanhMuc/ChucVu',
-	// 		},
-	// 	],
-	// },
-
-	{
-		path: '/notification',
+		path: '/admin',
+		name: 'Admin',
+		icon: 'SettingOutlined',
 		routes: [
 			{
-				path: './subscribe',
-				exact: true,
-				component: './ThongBao/Subscribe',
+				path: '/admin/requests',
+				name: 'Quản lý yêu cầu',
+				component: './Admin/Requests',
 			},
 			{
-				path: './check',
-				exact: true,
-				component: './ThongBao/Check',
+				path: '/admin/devices',
+				name: 'Quản lý thiết bị',
+				component: './Admin/Devices',
 			},
 			{
-				path: './',
-				exact: true,
-				component: './ThongBao/NotifOneSignal',
+				path: '/admin/stats',
+				name: 'Thống kê',
+				component: './Admin/Stats',
+			},
+			{
+				path: '/admin',
+				redirect: '/admin/requests',
 			},
 		],
-		layout: false,
-		hideInMenu: true,
 	},
 	{
 		path: '/',
-	},
-	{
-		path: '/403',
-		component: './exception/403/403Page',
-		layout: false,
-	},
-	{
-		path: '/hold-on',
-		component: './exception/DangCapNhat',
-		layout: false,
+		redirect: '/student/dashboard',
 	},
 	{
 		component: './exception/404',
