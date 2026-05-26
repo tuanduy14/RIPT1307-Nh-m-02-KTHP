@@ -1,4 +1,21 @@
 ﻿export default [
+	// 1. GIAO DIỆN ĐĂNG NHẬP 
+    {
+        path: '/user',
+        layout: false,
+        routes: [
+            {
+                path: '/user/login',
+                layout: false,
+                name: 'login',
+                component: './user/Login', 
+            },
+            {
+                path: '/user',
+                redirect: '/user/login',
+            },
+        ],
+    },
 	{
 		path: '/student',
 		name: 'Student',
@@ -31,30 +48,45 @@
         icon: 'SettingOutlined',
         routes: [
             {
-                path: '/admin/requests',
-                name: 'Quản lý yêu cầu',
-                component: './Admin/Request',   
+                path: '/admin/dashboard',
+                name: 'Dashboard',
+                icon: 'dashboard',
+                component: './Admin/Dashboard', 
             },
             {
-                path: '/admin/devices',
-                name: 'Quản lý thiết bị',
+                path: '/admin/requests',
+                name: 'Quản lý yêu cầu',
+                icon: 'form',
+                component: './Admin/Request', 
+            },
+            {
+                path: '/admin/equipments',
+                name: 'Quản lý kho thiết bị',
+                icon: 'database',
                 component: './Admin/Equipment', 
+            },
+            {
+                path: '/admin/history',
+                name: 'Lịch sử mượn/trả',
+                icon: 'history',
+                component: './Admin/History', 
             },
             {
                 path: '/admin/stats',
                 name: 'Thống kê',
-                component: './Admin/Dashboard', // 
+                icon: 'pieChart',
+                component: './Admin/Stats', 
             },
             {
                 path: '/admin',
-                redirect: '/admin/stats', 
+                redirect: '/admin/dashboard', 
             },
         ],
     },
 	{
-		path: '/',
-		redirect: '/student/dashboard',
-	},
+        path: '/',
+        redirect: '/user/login', 
+    },
 	{
 		component: './exception/404',
 	},
