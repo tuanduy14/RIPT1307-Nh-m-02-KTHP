@@ -68,7 +68,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         rightContentRender: () => <RightContent />,
         disableContentMargin: false,
 
-        // 1. TÙY CHỈNH FOOTER
+        // GIAO DIỆN LIGHT MODE (MẶC ĐỊNH)
+        layout: 'side',   
+        siderWidth: 240,  
+
         footerRender: () => {
             const isAdminPath = window.location.pathname.startsWith('/admin');
             if (isAdminPath) {
@@ -87,7 +90,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
                 const isUncheckPath = unCheckPermissionPaths.some((path) => window.location.pathname.includes(path));
 
                 if (location.pathname === '/') {
-                    history.replace('/user/login'); // Thay đổi ở đây để tự động về trang login
+                    history.replace('/user/login');
                 } else if (
                     !isUncheckPath &&
                     currentRole &&
@@ -98,33 +101,45 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
             }
         },
 
-        menuItemRender: (item: any, dom: any) => (
-            <a
-                className='not-underline'
-                key={item?.path}
-                href={item?.path}
-                onClick={(e) => {
-                    e.preventDefault();
-                    history.push(item?.path ?? '/');
-                }}
-                style={{ display: 'block' }}
-            >
-                {dom}
-            </a>
-        ),
+        // HIỂN THỊ BADGE SỐ 3 CHO MENU CẢNH BÁO
+        menuItemRender: (item: any, dom: any) => {
+            const isAlertMenu = item.path === '/admin/alerts';
+            
+            return (
+                <a
+                    className='not-underline'
+                    key={item?.path}
+                    href={item?.path}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        history.push(item?.path ?? '/');
+                    }}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}
+                >
+                    <div style={{ display: 'flex', alignItems: 'center' }}>{dom}</div>
+                    
+                    {isAlertMenu && (
+                        <div style={{ 
+                            backgroundColor: '#f5222d', 
+                            color: '#fff', 
+                            borderRadius: '12px', 
+                            padding: '0 8px', 
+                            fontSize: 12, 
+                            fontWeight: 700,
+                            lineHeight: '20px',
+                        }}>
+                            3
+                        </div>
+                    )}
+                </a>
+            );
+        },
 
-        // MỞ KHÓA CHO TRANG LOGIN
         childrenRender: (dom) => {
             const isLoginPage = window.location.pathname.startsWith('/user/login');
-            
             if (isLoginPage) {
-                return (
-                    <ErrorBoundary>
-                        {dom}
-                    </ErrorBoundary>
-                );
+                return <ErrorBoundary>{dom}</ErrorBoundary>;
             }
-
             return (
                 <OIDCBounder>
                     <ErrorBoundary>
@@ -134,17 +149,24 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
             );
         },
         
-        // 2. ĐỔI LOGO HEADER CHO ADMIN
+        // CHỈNH LẠI MÀU LOGO TRÊN NỀN SÁNG
         menuHeaderRender: (logo, title) => {
             const isAdminPath = window.location.pathname.startsWith('/admin');
-            
             if (isAdminPath) {
                 return (
-                    <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                        {logo}
-                        <h1 style={{ margin: '0 0 0 12px', fontSize: 18, fontWeight: 600, color: '#1890ff' }}>
+                    <div style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        justifyContent: 'center', 
+                        padding: '16px 8px', 
+                        cursor: 'pointer' 
+                    }}>
+                        <h1 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#1890ff' }}>
                             CLB Manager
                         </h1>
+                        <span style={{ fontSize: 13, color: '#8c8c8c', marginTop: 4 }}>
+                            Quản trị viên
+                        </span>
                     </div>
                 );
             }
@@ -156,10 +178,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
             );
         },
 
-        // 3. ẨN THANH HEADER NGANG BÊN TRÊN
         headerRender: (props, defaultDom) => {
             const isAdminPath = window.location.pathname.startsWith('/admin');
-            
             if (isAdminPath) {
                 return false; 
             }

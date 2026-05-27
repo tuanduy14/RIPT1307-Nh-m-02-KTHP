@@ -45,24 +45,24 @@
 	{
         path: '/admin',
         name: 'Admin',
-        icon: 'SettingOutlined',
+        layout: 'side',
         routes: [
             {
                 path: '/admin/dashboard',
                 name: 'Dashboard',
-                icon: 'dashboard',
+                icon: 'appstore',
                 component: './Admin/Dashboard', 
             },
             {
                 path: '/admin/requests',
-                name: 'Quản lý yêu cầu',
-                icon: 'form',
+                name: 'Yêu cầu mượn',
+                icon: 'fileText',
                 component: './Admin/Request', 
             },
             {
                 path: '/admin/equipments',
-                name: 'Quản lý kho thiết bị',
-                icon: 'database',
+                name: 'Kho thiết bị',
+                icon: 'inbox',
                 component: './Admin/Equipment', 
             },
             {
@@ -74,8 +74,14 @@
             {
                 path: '/admin/stats',
                 name: 'Thống kê',
-                icon: 'pieChart',
+                icon: 'barChart',
                 component: './Admin/Stats', 
+            },
+            {
+                path: '/admin/alerts',
+                name: 'Cảnh báo',
+                icon: 'bell',
+                component: './Admin/Alerts', 
             },
             {
                 path: '/admin',

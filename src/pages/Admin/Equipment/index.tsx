@@ -1,102 +1,187 @@
-import React from 'react';
-import { Card, Table, Button, Typography, Space, Tag, Input, Row, Col } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Card, Table, Button, Tag, Space, Modal, Form, Input, InputNumber, Select, message, Popconfirm } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const { Title, Text } = Typography;
+const EquipmentPage: React.FC = () => {
+  const [form] = Form.useForm();
+  
+  // 1. Dữ liệu giả (Mock Data) lưu trong State để có thể Thêm/Sửa/Xóa trực tiếp trên giao diện
+  const [data, setData] = useState([
+    { id: 1, name: 'Loa bluetooth JBL', total: 6, available: 1, status: 'warning', statusText: 'Sắp hết' },
+    { id: 2, name: 'Bộ micro không dây', total: 5, available: 0, status: 'error', statusText: 'Hết hàng' },
+    { id: 3, name: 'Máy chiếu Epson', total: 10, available: 8, status: 'success', statusText: 'Còn hàng' },
+  ]);
 
-const EquipmentManagementPage: React.FC = () => {
-  // 1. Mock Data được trích xuất y hệt từ ảnh thiết kế của bạn
-  const equipmentData = [
-    { key: '1', id: 'TB001', name: 'Máy chiếu Epson EB-X41', total: 4, borrowed: 2, stock: 2, status: 'in_stock' },
-    { key: '2', id: 'TB002', name: 'Loa bluetooth JBL', total: 6, borrowed: 5, stock: 1, status: 'low_stock' },
-    { key: '3', id: 'TB003', name: 'Camera Canon EOS M50', total: 3, borrowed: 1, stock: 2, status: 'in_stock' },
-    { key: '4', id: 'TB004', name: 'Bộ micro không dây', total: 5, borrowed: 5, stock: 0, status: 'out_of_stock' },
-    { key: '5', id: 'TB005', name: 'Màn chiếu 100 inch', total: 2, borrowed: 0, stock: 2, status: 'in_stock' },
-  ];
+  // Các State quản lý Modal Form
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingItem, setEditingItem] = useState<any>(null); // Lưu thông tin thiết bị đang được sửa
 
-  // 2. Cấu hình Cột chuẩn Light Mode
+  // 2. Định nghĩa các cột của Bảng (Table)
   const columns = [
-    { title: 'Mã TB', dataIndex: 'id', key: 'id', render: (text: string) => <Text strong>{text}</Text> },
+    { title: 'Mã TB', dataIndex: 'id', key: 'id', width: 80 },
     { title: 'Tên thiết bị', dataIndex: 'name', key: 'name' },
-    { title: 'Tổng SL', dataIndex: 'total', key: 'total', align: 'center' as const },
-    { title: 'Đang mượn', dataIndex: 'borrowed', key: 'borrowed', align: 'center' as const },
-    { title: 'Tồn kho', dataIndex: 'stock', key: 'stock', align: 'center' as const },
+    { title: 'Tổng số lượng', dataIndex: 'total', key: 'total', align: 'center' as const },
+    { title: 'Sẵn sàng cho mượn', dataIndex: 'available', key: 'available', align: 'center' as const },
     {
-      title: 'Tình trạng',
+      title: 'Tình trạng kho',
       key: 'status',
-      dataIndex: 'status',
-      align: 'center' as const,
-      render: (status: string) => {
-        let color = '';
-        let text = '';
-        
-        // Chuyển đổi trạng thái sang màu sắc chuẩn của Ant Design (Xanh/Cam/Đỏ)
-        if (status === 'in_stock') {
-          color = 'success'; text = 'Còn hàng';
-        } else if (status === 'low_stock') {
-          color = 'warning'; text = 'Sắp hết';
-        } else if (status === 'out_of_stock') {
-          color = 'error'; text = 'Hết hàng';
-        }
-
-        return (
-          <Tag color={color} style={{ borderRadius: 12, padding: '2px 10px' }}>
-            {text}
-          </Tag>
-        );
-      },
+      dataIndex: 'statusText',
+      render: (text: string, record: any) => (
+        <Tag color={record.status} style={{ borderRadius: 12, padding: '2px 10px' }}>
+          {text}
+        </Tag>
+      ),
     },
     {
       title: 'Thao tác',
       key: 'action',
       align: 'center' as const,
-      render: () => (
-        // Xếp 3 nút bấm theo chiều dọc giống bản thiết kế
-        <Space direction="vertical" size="small">
-          <Button size="small" style={{ width: 75, borderRadius: 6 }}>Chi tiết</Button>
-          <Button type="primary" ghost size="small" style={{ width: 75, borderRadius: 6 }}>Sửa</Button>
-          <Button danger size="small" style={{ width: 75, borderRadius: 6 }}>Xóa</Button>
+      render: (_: any, record: any) => (
+        <Space size="middle">
+          {/* Nút Sửa */}
+          <Button 
+            type="text" 
+            icon={<EditOutlined style={{ color: '#1890ff' }} />} 
+            onClick={() => handleOpenModal(record)}
+          />
+          {/* Nút Xóa kèm xác nhận */}
+          <Popconfirm
+            title="Bạn có chắc chắn muốn xóa thiết bị này?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="Xóa"
+            cancelText="Hủy"
+          >
+            <Button type="text" danger icon={<DeleteOutlined />} />
+          </Popconfirm>
         </Space>
       ),
     },
   ];
 
-  return (
-    // Đồng bộ nền xám nhạt (#f0f2f5) cho toàn hệ thống
-    <div style={{ padding: 24, minHeight: '100vh', background: '#f0f2f5' }}>
-      
-      {/* Header & Thanh công cụ (Tìm kiếm, Thêm mới) */}
-      <Row justify="space-between" align="middle" style={{ marginBottom: 24 }}>
-        <Col>
-          <Title level={2} style={{ margin: 0 }}>Quản lý kho thiết bị</Title>
-        </Col>
-        <Col>
-          <Space size="middle">
-            <Input 
-              placeholder="Tìm thiết bị..." 
-              prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />} 
-              style={{ width: 250, borderRadius: 6 }} 
-            />
-            <Button type="primary" icon={<PlusOutlined />} style={{ borderRadius: 6 }}>
-              Thêm thiết bị
-            </Button>
-          </Space>
-        </Col>
-      </Row>
+  // 3. Các hàm xử lý Logic
+  // Mở Form (Dùng chung cho cả Thêm mới và Sửa)
+  const handleOpenModal = (record: any = null) => {
+    setEditingItem(record);
+    if (record) {
+      form.setFieldsValue(record); // Đổ dữ liệu cũ vào form nếu là chế độ Sửa
+    } else {
+      form.resetFields(); // Làm sạch form nếu là chế độ Thêm mới
+    }
+    setIsModalVisible(true);
+  };
 
-      {/* Khu vực Bảng Danh Sách */}
-      <Card 
-        title={<Text style={{ fontSize: 16, fontWeight: 500 }}>Danh sách thiết bị trong kho</Text>} 
-        bordered={false} 
+  // Đóng Form
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    setEditingItem(null);
+  };
+
+  // Lưu thông tin từ Form
+  const handleSave = (values: any) => {
+    // Tự động set màu trạng thái dựa trên số lượng sẵn sàng (available)
+    let status = 'success';
+    let statusText = 'Còn hàng';
+    if (values.available === 0) {
+      status = 'error';
+      statusText = 'Hết hàng';
+    } else if (values.available <= 2) {
+      status = 'warning';
+      statusText = 'Sắp hết';
+    }
+
+    const newDataItem = { ...values, status, statusText };
+
+    if (editingItem) {
+      // Logic Sửa: Tìm và cập nhật thiết bị cũ
+      const updatedData = data.map(item => item.id === editingItem.id ? { ...item, ...newDataItem } : item);
+      setData(updatedData);
+      message.success('Cập nhật thông tin thiết bị thành công!');
+    } else {
+      // Logic Thêm: Tạo ID mới và đưa vào danh sách
+      newDataItem.id = data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1;
+      setData([...data, newDataItem]);
+      message.success('Thêm thiết bị mới thành công!');
+    }
+    handleCloseModal();
+  };
+
+  // Logic Xóa
+  const handleDelete = (id: number) => {
+    const newData = data.filter(item => item.id !== id);
+    setData(newData);
+    message.success('Đã xóa thiết bị khỏi hệ thống!');
+  };
+
+  return (
+    <div style={{ padding: 24, background: '#f0f2f5', minHeight: '100vh' }}>
+      <Card
+        title={<span style={{ fontSize: 18, fontWeight: 600 }}>Quản lý Kho thiết bị</span>}
+        extra={
+          <Button 
+            type="primary" 
+            icon={<PlusOutlined />} 
+            onClick={() => handleOpenModal()}
+          >
+            Thêm thiết bị
+          </Button>
+        }
+        bordered={false}
+        style={{ borderRadius: 8, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
       >
         <Table 
-          dataSource={equipmentData} 
           columns={columns} 
-          pagination={false} 
+          dataSource={data} 
+          rowKey="id" 
+          pagination={{ pageSize: 5 }} 
         />
       </Card>
+
+      {/* 4. MODAL FORM: Khung điền thông tin ẩn/hiện */}
+      <Modal
+        title={editingItem ? "Sửa thông tin thiết bị" : "Thêm thiết bị mới"}
+        visible={isModalVisible}
+        onCancel={handleCloseModal}
+        onOk={() => form.submit()} // Liên kết nút OK của Modal với nút Submit của Form
+        okText="Lưu lại"
+        cancelText="Hủy bỏ"
+        destroyOnClose // Xóa sạch dữ liệu trong form khi đóng
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSave}
+          initialValues={{ total: 1, available: 1 }} // Giá trị mặc định khi thêm mới
+        >
+          <Form.Item
+            name="name"
+            label="Tên thiết bị"
+            rules={[{ required: true, message: 'Vui lòng nhập tên thiết bị!' }]}
+          >
+            <Input placeholder="Ví dụ: Máy chiếu Panasonic" />
+          </Form.Item>
+
+          <Space style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+            <Form.Item
+              name="total"
+              label="Tổng số lượng kho"
+              rules={[{ required: true, message: 'Nhập số lượng!' }]}
+            >
+              <InputNumber min={1} style={{ width: '100%' }} />
+            </Form.Item>
+
+            <Form.Item
+              name="available"
+              label="Sẵn sàng cho mượn"
+              rules={[{ required: true, message: 'Nhập số lượng!' }]}
+            >
+              {/* Số lượng sẵn sàng không được vượt quá Tổng số lượng */}
+              <InputNumber min={0} style={{ width: '100%' }} />
+            </Form.Item>
+          </Space>
+        </Form>
+      </Modal>
     </div>
   );
 };
 
-export default EquipmentManagementPage;
+export default EquipmentPage;
