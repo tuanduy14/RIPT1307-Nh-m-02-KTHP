@@ -50,6 +50,46 @@
 	// 		},
 	// 	],
 	// },
+	
+  {
+    path: '/',
+    redirect: '/student/login',
+  },
+  {
+    path: '/student/login',
+    component: '@/pages/Student/Login',
+  },
+  {
+    path: '/student',
+    component: '@/components/Student/StudentLayout',
+    routes: [
+      {
+        path: '/student',
+        redirect: '/student/dashboard',
+      },
+      {
+        path: '/student/dashboard',
+        component: '@/pages/Student/Dashboard',
+      },
+      {
+        path: '/student/devices',
+        component: '@/pages/Student/Devices',
+      },
+      {
+        path: '/student/borrow-request',
+        component: '@/pages/Student/BorrowRequest',
+      },
+      {
+        path: '/student/history',
+        component: '@/pages/Student/BorrowHistory',
+      },
+      {
+        path: '/student/notifications',
+        component: '@/pages/Student/Notifications',
+      },
+    ],
+  },
+
 
 	{
 		path: '/notification',
