@@ -1,149 +1,202 @@
-import React from 'react';
-import { Row, Col, Card, Statistic, Progress, Typography, Divider, Space } from 'antd';
-import { ArrowUpOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Card, Row, Col, Typography, Progress, Modal, Table, Tag, Space, Divider } from 'antd';
+import { BarChartOutlined, CheckCircleOutlined, WarningOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
 const StatsPage: React.FC = () => {
-  // Dữ liệu Mock thống kê
-  const topDevices = [
-    { name: 'Máy chiếu', count: 18, percent: 100 },
-    { name: 'Loa bluetooth', count: 14, percent: 77 },
-    { name: 'Camera', count: 11, percent: 61 },
-    { name: 'Bộ micro', count: 8, percent: 44 },
-    { name: 'Màn chiếu', count: 5, percent: 27 },
+  // 1. Quản lý trạng thái Modal (Bảng chi tiết)
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [tableColumns, setTableColumns] = useState<any[]>([]);
+  const [tableData, setTableData] = useState<any[]>([]);
+
+  // 2. Dữ liệu giả (Mock Data) cho từng hạng mục thống kê
+  const totalBorrowsData = [
+    { key: '1', id: 'LS001', student: 'Nguyễn Văn A', equipment: 'Máy chiếu Epson', date: '01/05/2026' },
+    { key: '2', id: 'LS002', student: 'Trần Thị B', equipment: 'Loa JBL', date: '02/05/2026' },
+    { key: '3', id: 'LS003', student: 'Lê Văn C', equipment: 'Bộ micro', date: '05/05/2026' },
+    { key: '4', id: 'LS004', student: 'Phạm Văn D', equipment: 'Đèn LED trợ sáng', date: '10/05/2026' },
   ];
 
+  const maintenanceData = [
+    { key: '1', equipment: 'Camera Sony', issue: 'Hỏng ống kính', status: 'Đang sửa' },
+    { key: '2', equipment: 'Micro không dây', issue: 'Chai pin', status: 'Chờ linh kiện' },
+  ];
+
+  const rejectedData = [
+    { key: '1', student: 'Hoàng Thị E', equipment: 'Máy chiếu Epson', reason: 'Thiết bị đã được đặt trước' },
+    { key: '2', student: 'Ngô Văn F', equipment: 'Loa kéo', reason: 'Sinh viên đang bị phạt thẻ vàng' },
+  ];
+
+  const overdueData = [
+    { key: '1', student: 'Nguyễn Văn G', equipment: 'Đèn Flash', overdue: '3 ngày' },
+    { key: '2', student: 'Trần Văn H', equipment: 'Chân máy ảnh', overdue: '1 ngày' },
+  ];
+
+  // 3. Hàm xử lý khi click vào các ô thống kê
+  const handleCardClick = (type: string) => {
+    setIsModalVisible(true);
+    switch (type) {
+      case 'borrows':
+        setModalTitle('Chi tiết: Tổng lượt mượn trong tháng');
+        setTableColumns([
+          { title: 'Mã LS', dataIndex: 'id', key: 'id' },
+          { title: 'Sinh viên', dataIndex: 'student', key: 'student' },
+          { title: 'Thiết bị', dataIndex: 'equipment', key: 'equipment' },
+          { title: 'Ngày mượn', dataIndex: 'date', key: 'date' },
+        ]);
+        setTableData(totalBorrowsData);
+        break;
+      case 'maintenance':
+        setModalTitle('Chi tiết: Thiết bị đang bảo trì');
+        setTableColumns([
+          { title: 'Thiết bị', dataIndex: 'equipment', key: 'equipment' },
+          { title: 'Tình trạng lỗi', dataIndex: 'issue', key: 'issue', render: (text: string) => <Text type="danger">{text}</Text> },
+          { title: 'Trạng thái', dataIndex: 'status', key: 'status', render: (text: string) => <Tag color="warning">{text}</Tag> },
+        ]);
+        setTableData(maintenanceData);
+        break;
+      case 'rejected':
+        setModalTitle('Chi tiết: Yêu cầu bị từ chối');
+        setTableColumns([
+          { title: 'Sinh viên', dataIndex: 'student', key: 'student' },
+          { title: 'Thiết bị', dataIndex: 'equipment', key: 'equipment' },
+          { title: 'Lý do từ chối', dataIndex: 'reason', key: 'reason' },
+        ]);
+        setTableData(rejectedData);
+        break;
+      case 'overdue':
+        setModalTitle('Chi tiết: Lượt mượn quá hạn');
+        setTableColumns([
+          { title: 'Sinh viên', dataIndex: 'student', key: 'student' },
+          { title: 'Thiết bị', dataIndex: 'equipment', key: 'equipment' },
+          { title: 'Số ngày trễ', dataIndex: 'overdue', key: 'overdue', render: (text: string) => <Tag color="red">{text}</Tag> },
+        ]);
+        setTableData(overdueData);
+        break;
+    }
+  };
+
   return (
-    <div style={{ padding: 24, minHeight: '100vh', background: '#f0f2f5' }}>
-      <Title level={2} style={{ margin: '0 0 24px 0' }}>Thống kê</Title>
+    <div style={{ padding: 24, background: '#f0f2f5', minHeight: '100vh' }}>
+      {/* Thêm CSS hiệu ứng nổi lên khi hover chuột vào Card */}
+      <style>{`
+        .stat-card {
+          transition: all 0.3s ease;
+          cursor: pointer;
+          border-radius: 8px;
+        }
+        .stat-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+        }
+      `}</style>
 
-      {/* HÀNG 1: THẺ SỐ LIỆU NHANH */}
-      <Row gutter={[16, 16]}>
+      <Title level={2} style={{ marginBottom: 24, fontWeight: 600 }}>
+        <BarChartOutlined style={{ marginRight: 8, color: '#1890ff' }} />
+        Thống kê Hệ thống
+      </Title>
+
+      {/* HÀNG 1: CÁC Ô THỐNG KÊ (CÓ THỂ CLICK) */}
+      <Row gutter={16} style={{ marginBottom: 24 }}>
         <Col span={6}>
-          <Card bordered={false}>
-            <Statistic 
-              title={<Text type="secondary">Tổng lượt mượn T5</Text>} 
-              value={42} 
-              valueStyle={{ fontWeight: 'bold' }}
-            />
+          <Card className="stat-card" bordered={false} onClick={() => handleCardClick('borrows')}>
+            <Space>
+              <CheckCircleOutlined style={{ fontSize: 24, color: '#52c41a' }} />
+              <Text type="secondary">Tổng lượt mượn tháng</Text>
+            </Space>
+            <Title level={2} style={{ margin: '12px 0 0 0' }}>128</Title>
+            <Text style={{ color: '#52c41a', fontSize: 12 }}>+12% so với tháng trước</Text>
           </Card>
         </Col>
+
         <Col span={6}>
-          <Card bordered={false}>
-            <Statistic 
-              title={<Text type="secondary">Đã hoàn trả</Text>} 
-              value={36} 
-              valueStyle={{ color: '#52c41a', fontWeight: 'bold' }} 
-            />
+          <Card className="stat-card" bordered={false} onClick={() => handleCardClick('maintenance')}>
+            <Space>
+              <WarningOutlined style={{ fontSize: 24, color: '#faad14' }} />
+              <Text type="secondary">Thiết bị đang bảo trì</Text>
+            </Space>
+            <Title level={2} style={{ margin: '12px 0 0 0' }}>5</Title>
+            <Text style={{ color: '#faad14', fontSize: 12 }}>Cần kiểm tra kho</Text>
           </Card>
         </Col>
+
         <Col span={6}>
-          <Card bordered={false}>
-            <Statistic 
-              title={<Text type="secondary">Đang mượn</Text>} 
-              value={18} 
-              valueStyle={{ color: '#1890ff', fontWeight: 'bold' }} 
-            />
+          <Card className="stat-card" bordered={false} onClick={() => handleCardClick('rejected')}>
+            <Space>
+              <CloseCircleOutlined style={{ fontSize: 24, color: '#ff4d4f' }} />
+              <Text type="secondary">Yêu cầu từ chối</Text>
+            </Space>
+            <Title level={2} style={{ margin: '12px 0 0 0' }}>12</Title>
+            <Text type="secondary" style={{ fontSize: 12 }}>Đã gửi thông báo</Text>
           </Card>
         </Col>
+
         <Col span={6}>
-          <Card bordered={false}>
-            <Statistic 
-              title={<Text type="secondary">Tỉ lệ quá hạn</Text>} 
-              value={7} 
-              suffix="%" 
-              valueStyle={{ color: '#f5222d', fontWeight: 'bold' }} 
-            />
+          <Card className="stat-card" bordered={false} onClick={() => handleCardClick('overdue')}>
+            <Space>
+              <WarningOutlined style={{ fontSize: 24, color: '#ff4d4f' }} />
+              <Text type="secondary">Lượt mượn trễ hạn</Text>
+            </Space>
+            <Title level={2} style={{ margin: '12px 0 0 0' }}>3</Title>
+            <Text style={{ color: '#ff4d4f', fontSize: 12 }}>Đã gửi email nhắc nhở</Text>
           </Card>
         </Col>
       </Row>
 
-      {/* HÀNG 2: BIỂU ĐỒ & PHÂN BỔ */}
-      <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-        {/* Cột trái: Top thiết bị */}
-        <Col span={12}>
-          <Card 
-            title={<Text strong style={{ fontSize: 16 }}>Top thiết bị mượn nhiều — Tháng 5</Text>} 
-            bordered={false}
-            style={{ height: '100%' }}
-          >
-            {topDevices.map((device, index) => (
-              <Row key={index} style={{ marginBottom: 16, alignItems: 'center' }}>
-                <Col span={6}>
-                  <Text type="secondary">{device.name}</Text>
-                </Col>
-                <Col span={15}>
-                  <Progress percent={device.percent} showInfo={false} strokeColor="#1890ff" />
-                </Col>
-                <Col span={3} style={{ textAlign: 'right' }}>
-                  <Text strong>{device.count}</Text>
-                </Col>
-              </Row>
-            ))}
-          </Card>
-        </Col>
-
-        {/* Cột phải: Phân bổ trạng thái */}
-        <Col span={12}>
-          <Card 
-            title={<Text strong style={{ fontSize: 16 }}>Phân bổ trạng thái thiết bị</Text>} 
-            bordered={false}
-            style={{ height: '100%' }}
-          >
-            <div style={{ marginBottom: 12 }}>
-              <Row justify="space-between">
-                <Text type="secondary">Có sẵn trong kho</Text>
-                <Text strong>61%</Text>
-              </Row>
-              <Progress percent={61} showInfo={false} strokeColor="#52c41a" size="small" />
+      {/* HÀNG 2: BIỂU ĐỒ HOẠT ĐỘNG (MINH HỌA BẰNG PROGRESS) */}
+      <Row gutter={16}>
+        <Col span={24}>
+          <Card title={<span style={{ fontWeight: 600 }}>Tần suất sử dụng thiết bị (Top 3)</span>} bordered={false} style={{ borderRadius: 8 }}>
+            <div style={{ marginBottom: 16 }}>
+              <Space style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: 4 }}>
+                <Text strong>1. Máy chiếu Epson</Text>
+                <Text>85 lượt (65%)</Text>
+              </Space>
+              <Progress percent={65} status="active" strokeColor="#1890ff" showInfo={false} />
             </div>
 
-            <div style={{ marginBottom: 12 }}>
-              <Row justify="space-between">
-                <Text type="secondary">Đang cho mượn</Text>
-                <Text strong>38%</Text>
-              </Row>
-              <Progress percent={38} showInfo={false} strokeColor="#1890ff" size="small" />
+            <Divider dashed />
+
+            <div style={{ marginBottom: 16 }}>
+              <Space style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: 4 }}>
+                <Text strong>2. Loa Bluetooth JBL</Text>
+                <Text>45 lượt (35%)</Text>
+              </Space>
+              <Progress percent={35} status="active" strokeColor="#52c41a" showInfo={false} />
             </div>
 
-            <div style={{ marginBottom: 12 }}>
-              <Row justify="space-between">
-                <Text type="secondary">Quá hạn chưa trả</Text>
-                <Text strong>7%</Text>
-              </Row>
-              <Progress percent={7} showInfo={false} strokeColor="#f5222d" size="small" />
+            <Divider dashed />
+
+            <div>
+              <Space style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: 4 }}>
+                <Text strong>3. Micro không dây</Text>
+                <Text>20 lượt (15%)</Text>
+              </Space>
+              <Progress percent={15} status="active" strokeColor="#faad14" showInfo={false} />
             </div>
-
-            <Divider style={{ margin: '20px 0 16px 0' }} />
-
-            <Text strong style={{ display: 'block', marginBottom: 12 }}>So sánh tháng trước</Text>
-            <Row>
-              <Col span={12}>
-                <Statistic 
-                  title={<Text type="secondary">T4</Text>} 
-                  value={35} 
-                  suffix="lượt" 
-                  valueStyle={{ fontSize: 16 }}
-                />
-              </Col>
-              <Col span={12}>
-                <Statistic 
-                  title={<Text type="secondary">T5</Text>} 
-                  value={42} 
-                  suffix={
-                    <Space size={4} style={{ color: '#52c41a', fontSize: 14, marginLeft: 8 }}>
-                      <ArrowUpOutlined />
-                      <span>20%</span>
-                    </Space>
-                  } 
-                  valueStyle={{ fontSize: 16, fontWeight: 'bold' }}
-                />
-              </Col>
-            </Row>
           </Card>
         </Col>
       </Row>
+
+      {/* 4. MODAL: KHUNG BẢNG CHI TIẾT NỔI LÊN KHI CLICK VÀO CARD */}
+      <Modal
+        title={<span style={{ fontSize: 18, color: '#1890ff' }}>{modalTitle}</span>}
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null} // Tắt các nút OK/Cancel ở dưới cùng
+        width={700} // Mở rộng Modal cho đẹp
+        centered // Căn giữa màn hình
+      >
+        <Table
+          columns={tableColumns}
+          dataSource={tableData}
+          pagination={{ pageSize: 5 }}
+          size="middle"
+          bordered
+        />
+      </Modal>
     </div>
   );
 };

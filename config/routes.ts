@@ -4,16 +4,9 @@
         path: '/user',
         layout: false,
         routes: [
-            {
-                path: '/user/login',
-                layout: false,
-                name: 'login',
-                component: './user/Login', 
-            },
-            {
-                path: '/user',
-                redirect: '/user/login',
-            },
+            { path: '/user/login', layout: false, name: 'login', component: './user/Login' },
+            { path: '/user/signup', layout: false, name: 'signup', component: './user/SignUp' },
+            { path: '/user', redirect: '/user/login' },
         ],
     },
 	{
@@ -44,49 +37,16 @@
 	},
 	{
         path: '/admin',
-        name: 'Admin',
-        layout: 'side',
+        name: 'Admin', 
+        flatMenu: true, 
         routes: [
-            {
-                path: '/admin/dashboard',
-                name: 'Dashboard',
-                icon: 'appstore',
-                component: './Admin/Dashboard', 
-            },
-            {
-                path: '/admin/requests',
-                name: 'Yêu cầu mượn',
-                icon: 'fileText',
-                component: './Admin/Request', 
-            },
-            {
-                path: '/admin/equipments',
-                name: 'Kho thiết bị',
-                icon: 'inbox',
-                component: './Admin/Equipment', 
-            },
-            {
-                path: '/admin/history',
-                name: 'Lịch sử mượn/trả',
-                icon: 'history',
-                component: './Admin/History', 
-            },
-            {
-                path: '/admin/stats',
-                name: 'Thống kê',
-                icon: 'barChart',
-                component: './Admin/Stats', 
-            },
-            {
-                path: '/admin/alerts',
-                name: 'Cảnh báo',
-                icon: 'bell',
-                component: './Admin/Alerts', 
-            },
-            {
-                path: '/admin',
-                redirect: '/admin/dashboard', 
-            },
+            { path: '/admin/dashboard', name: 'Dashboard', icon: 'appstore', component: './Admin/Dashboard' },
+            { path: '/admin/requests', name: 'Yêu cầu mượn', icon: 'fileText', component: './Admin/Request' },
+            { path: '/admin/equipments', name: 'Kho thiết bị', icon: 'inbox', component: './Admin/Equipment' },
+            { path: '/admin/history', name: 'Lịch sử mượn/trả', icon: 'history', component: './Admin/History' },
+            { path: '/admin/stats', name: 'Thống kê', icon: 'barChart', component: './Admin/Stats' },
+            { path: '/admin/alerts', name: 'Cảnh báo', icon: 'bell', component: './Admin/Alerts' },
+            { path: '/admin', exact: true, redirect: '/admin/dashboard' },
         ],
     },
 	{

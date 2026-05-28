@@ -1,22 +1,19 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox, Typography, message, Divider, Space } from 'antd';
+import { Form, Input, Button, Typography, message, Divider, Space } from 'antd';
 import { GoogleOutlined, GithubOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 
 const { Title, Text } = Typography;
 
-const LoginPage: React.FC = () => {
+const SignUp: React.FC = () => {
   const onFinish = (values: any) => {
-    // Logic giả lập Đăng nhập (MOCK)
-    if (values.username === 'admin' && values.password === '123456') {
-      message.success('Đăng nhập thành công! Chào mừng Quản trị viên.');
-      
-      // ĐÂY LÀ DÒNG QUAN TRỌNG NHẤT: Chuyển hướng chính xác vào trang Dashboard
-      history.push('/admin/dashboard'); 
-      
-    } else {
-      message.error('Sai tên đăng nhập hoặc mật khẩu! (Gợi ý: admin / 123456)');
+    if (values.password !== values.confirm) {
+      message.error('Mật khẩu xác nhận không khớp!');
+      return;
     }
+    // Logic giả lập Đăng ký thành công
+    message.success('Đăng ký tài khoản thành công! Vui lòng đăng nhập.');
+    history.push('/user/login');
   };
 
   return (
@@ -25,30 +22,23 @@ const LoginPage: React.FC = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      // Màu nền Gradient tông Tím - Xanh giống hệt bản thiết kế
+      // Dùng lại đúng mã màu Gradient Tím - Xanh của trang Login
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     }}>
       
-      {/* Nhúng CSS trực tiếp để "tút tát" lại Ant Design Input 
-        giúp nó có nền kính mờ trong suốt (Glassmorphism)
-      */}
+      {/* Khối CSS "Kính mờ" đồng bộ 100% với trang Login */}
       <style>{`
-        /* 1. Xử lý lớp bọc ngoài cùng (Wrapper chứa icon) */
         .glass-form .ant-input-affix-wrapper {
           background: rgba(255, 255, 255, 0.1) !important;
           border: 1px solid rgba(255, 255, 255, 0.2) !important;
           border-radius: 8px !important;
           box-shadow: none !important;
         }
-
-        /* 2. Ép "lõi" nhập chữ bên trong phải TRONG SUỐT hoàn toàn */
         .glass-form .ant-input-affix-wrapper > input.ant-input,
         .glass-form .ant-input {
           background: transparent !important;
           color: #fff !important;
         }
-
-        /* 3. Đổi màu chữ và nền khi trình duyệt Tự động điền (Autofill) */
         .glass-form .ant-input:-webkit-autofill,
         .glass-form .ant-input:-webkit-autofill:hover, 
         .glass-form .ant-input:-webkit-autofill:focus, 
@@ -56,24 +46,12 @@ const LoginPage: React.FC = () => {
           -webkit-text-fill-color: #fff !important;
           transition: background-color 5000s ease-in-out 0s;
         }
-
-        /* 4. Tùy chỉnh màu sắc Icon và Placeholder (Chữ mờ) */
         .glass-form .ant-input::placeholder {
           color: rgba(255, 255, 255, 0.5) !important;
         }
         .glass-form .ant-input-password-icon,
         .glass-form .ant-input-prefix {
           color: rgba(255, 255, 255, 0.7) !important;
-        }
-
-        /* 5. Tùy chỉnh Checkbox và Divider */
-        .glass-checkbox .ant-checkbox-inner {
-          background: rgba(255, 255, 255, 0.15) !important;
-          border-color: rgba(255, 255, 255, 0.4) !important;
-        }
-        .glass-checkbox .ant-checkbox-checked .ant-checkbox-inner {
-          background-color: #4facfe !important;
-          border-color: #4facfe !important;
         }
         .glass-divider .ant-divider-inner-text {
           color: rgba(255, 255, 255, 0.6) !important;
@@ -85,26 +63,26 @@ const LoginPage: React.FC = () => {
         }
       `}</style>
 
-      {/* Khối Box kính mờ chứa Form đăng nhập */}
+      {/* Khối Box kính mờ */}
       <div style={{
         width: '100%',
         maxWidth: 420,
         padding: '40px 32px',
-        background: 'rgba(255, 255, 255, 0.1)', // Nền trắng trong suốt 10%
-        backdropFilter: 'blur(12px)', // Hiệu ứng làm mờ background phía sau
+        background: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.2)', // Viền sáng nhẹ
+        border: '1px solid rgba(255, 255, 255, 0.2)',
         borderRadius: 20,
-        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.2)', // Đổ bóng mờ ảo
+        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.2)',
         textAlign: 'center',
       }}>
-        <Title level={2} style={{ color: '#fff', margin: 0, fontWeight: 600 }}>Welcome Back</Title>
+        <Title level={2} style={{ color: '#fff', margin: 0, fontWeight: 600 }}>Create Account</Title>
         <Text style={{ color: 'rgba(255, 255, 255, 0.7)', display: 'block', marginBottom: 32, marginTop: 8 }}>
-          Sign in to your account
+          Sign up to get started
         </Text>
 
         <Form
-          name="admin_login"
+          name="signup_form"
           layout="vertical"
           onFinish={onFinish}
           size="large"
@@ -114,26 +92,24 @@ const LoginPage: React.FC = () => {
             name="username"
             rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Tên đăng nhập" />
+            <Input prefix={<UserOutlined />} placeholder="Username" />
           </Form.Item>
 
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
+            rules={[{ required: true, message: 'Vui lòng tạo mật khẩu!' }]}
           >
-            <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" />
+            <Input.Password prefix={<LockOutlined />} placeholder="Password" />
           </Form.Item>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox className="glass-checkbox" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                Remember me
-              </Checkbox>
-            </Form.Item>
-            <a style={{ color: '#4facfe' }} href="#">Forgot password?</a>
-          </div>
+          <Form.Item
+            name="confirm"
+            rules={[{ required: true, message: 'Vui lòng xác nhận mật khẩu!' }]}
+          >
+            <Input.Password prefix={<LockOutlined />} placeholder="Confirm Password" />
+          </Form.Item>
 
-          <Form.Item>
+          <Form.Item style={{ marginTop: 8, marginBottom: 24 }}>
             <Button 
               type="primary" 
               htmlType="submit" 
@@ -147,14 +123,14 @@ const LoginPage: React.FC = () => {
                 height: 44
               }}
             >
-              Sign In
+              Sign Up
             </Button>
           </Form.Item>
         </Form>
 
-        {/* Phần bổ sung theo nguyên tác của bản thiết kế */}
-        <Divider className="glass-divider">or continue with</Divider>
+        <Divider className="glass-divider">or sign up with</Divider>
 
+        {/* Nút Mạng xã hội phong cách kính mờ */}
         <Space size="middle" style={{ width: '100%', justifyContent: 'center' }}>
           <Button 
             icon={<GoogleOutlined />} 
@@ -182,15 +158,13 @@ const LoginPage: React.FC = () => {
           </Button>
         </Space>
 
-        <div style={{ textAlign: 'center', marginTop: 24, color: 'rgba(255,255,255,0.7)' }}>
-          Don't have an account?{' '}
-          <a onClick={() => history.push('/user/signup')} style={{ color: '#00e1ff', fontWeight: 'bold' }}>
-            Sign up
-          </a>
+        <div style={{ marginTop: 24 }}>
+          <Text style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Already have an account? </Text>
+          <a onClick={() => history.push('/user/login')} style={{ color: '#4facfe', fontWeight: 'bold' }}>Sign in</a>
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default SignUp;

@@ -1,115 +1,144 @@
-import React from 'react';
-import { Card, Table, Button, Select, Typography, Space, Tag } from 'antd';
-import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Card, Table, Tag, Button, Space, Select, message, Popconfirm, Drawer, Descriptions } from 'antd';
+import { CheckOutlined, CloseOutlined, EyeOutlined } from '@ant-design/icons';
 
-const { Title, Text } = Typography;
+const { Option } = Select;
 
-const RequestManagementPage: React.FC = () => {
-  // 1. Mock Data giữ nguyên
-  const requestData = [
-    { key: '1', id: '#YC001', student: 'Nguyễn Văn A', device: 'Máy chiếu', qty: 1, borrowDate: '23/05', returnDate: '26/05', status: 'pending' },
-    { key: '2', id: '#YC002', student: 'Trần Thị B', device: 'Loa bluetooth', qty: 2, borrowDate: '24/05', returnDate: '27/05', status: 'pending' },
-    { key: '3', id: '#YC003', student: 'Lê Văn C', device: 'Camera Canon', qty: 1, borrowDate: '20/05', returnDate: '22/05', status: 'approved' },
-    { key: '4', id: '#YC004', student: 'Phạm Thị D', device: 'Bộ micro', qty: 1, borrowDate: '18/05', returnDate: '20/05', status: 'rejected' },
-    { key: '5', id: '#YC005', student: 'Hoàng Văn E', device: 'Màn chiếu', qty: 1, borrowDate: '25/05', returnDate: '28/05', status: 'pending' },
-  ];
+const RequestPage: React.FC = () => {
+  // 1. Dữ liệu giả (Mock Data)
+  const [data, setData] = useState([
+    { id: 'YC001', student: 'Nguyễn Văn A (B21DCCN001)', equipment: 'Máy chiếu Epson', borrowDate: '23/05/2026', status: 'pending' },
+    { id: 'YC002', student: 'Trần Thị B (B21DCCN002)', equipment: 'Loa bluetooth JBL', borrowDate: '24/05/2026', status: 'pending' },
+    { id: 'YC003', student: 'Lê Văn C (B21DCCN003)', equipment: 'Camera Sony', borrowDate: '25/05/2026', status: 'approved' },
+    { id: 'YC004', student: 'Phạm Thị D (B21DCCN004)', equipment: 'Bộ micro không dây', borrowDate: '26/05/2026', status: 'rejected' },
+  ]);
 
-  // 2. Cấu hình Cột (Xóa bỏ các css màu đen, dùng màu mặc định của Antd)
+  // Các State quản lý giao diện
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState<any>(null);
+
+  // 2. Hàm xử lý logic (Duyệt / Từ chối / Xem chi tiết)
+  const handleApprove = (id: string) => {
+    setData(data.map(item => item.id === id ? { ...item, status: 'approved' } : item));
+    message.success(`Đã DUYỆT yêu cầu mượn đồ ${id}!`);
+  };
+
+  const handleReject = (id: string) => {
+    setData(data.map(item => item.id === id ? { ...item, status: 'rejected' } : item));
+    message.warning(`Đã TỪ CHỐI yêu cầu mượn đồ ${id}!`);
+  };
+
+  const showDetails = (record: any) => {
+    setSelectedRequest(record);
+    setIsDrawerVisible(true);
+  };
+
+  // 3. Cấu hình Cột cho Bảng
   const columns = [
-    { title: 'Mã YC', dataIndex: 'id', key: 'id', render: (text: string) => <Text strong>{text}</Text> },
+    { title: 'Mã YC', dataIndex: 'id', key: 'id', width: 100 },
     { title: 'Sinh viên', dataIndex: 'student', key: 'student' },
-    { title: 'Thiết bị', dataIndex: 'device', key: 'device' },
-    { title: 'SL', dataIndex: 'qty', key: 'qty', align: 'center' as const },
-    { title: 'Mượn', dataIndex: 'borrowDate', key: 'borrowDate' },
-    { title: 'Trả', dataIndex: 'returnDate', key: 'returnDate' },
+    { title: 'Thiết bị', dataIndex: 'equipment', key: 'equipment' },
+    { title: 'Ngày mượn', dataIndex: 'borrowDate', key: 'borrowDate' },
     {
       title: 'Trạng thái',
-      key: 'status',
       dataIndex: 'status',
-      align: 'center' as const,
+      key: 'status',
       render: (status: string) => {
-        let color = '';
-        let text = '';
-        
-        // Sử dụng các màu preset cực đẹp của Ant Design cho Light Mode
-        if (status === 'pending') {
-          color = 'warning'; text = 'Chờ duyệt';
-        } else if (status === 'approved') {
-          color = 'success'; text = 'Đã duyệt';
-        } else if (status === 'rejected') {
-          color = 'error'; text = 'Từ chối';
-        }
-
-        return (
-          <Tag color={color} style={{ borderRadius: 12, padding: '2px 10px' }}>
-            {text}
-          </Tag>
-        );
+        let color = 'orange';
+        let text = 'Chờ duyệt';
+        if (status === 'approved') { color = 'green'; text = 'Đã duyệt'; }
+        if (status === 'rejected') { color = 'red'; text = 'Từ chối'; }
+        return <Tag color={color} style={{ borderRadius: 12, padding: '2px 10px' }}>{text}</Tag>;
       },
     },
     {
       title: 'Thao tác',
       key: 'action',
       align: 'center' as const,
-      render: (_, record: any) => (
-        <Space direction="vertical" size="small">
+      render: (_: any, record: any) => (
+        <Space size="small">
+          {/* Nếu đang Chờ duyệt thì hiện 2 nút Duyệt/Từ chối */}
           {record.status === 'pending' ? (
             <>
-              {/* Nút primary (xanh dương) cho hành động tích cực, nút danger (đỏ) cho hành động từ chối */}
-              <Button type="primary" size="small" style={{ width: 75, borderRadius: 6 }}>Duyệt</Button>
-              <Button danger size="small" style={{ width: 75, borderRadius: 6 }}>Từ chối</Button>
+              <Popconfirm title="Xác nhận duyệt yêu cầu này?" onConfirm={() => handleApprove(record.id)} okText="Duyệt" cancelText="Hủy">
+                <Button type="primary" size="small" icon={<CheckOutlined />} style={{ background: '#52c41a', borderColor: '#52c41a' }}>
+                  Duyệt
+                </Button>
+              </Popconfirm>
+              <Popconfirm title="Lý do từ chối? Xác nhận từ chối yêu cầu này?" onConfirm={() => handleReject(record.id)} okText="Từ chối" cancelText="Hủy">
+                <Button type="primary" danger size="small" icon={<CloseOutlined />}>
+                  Từ chối
+                </Button>
+              </Popconfirm>
             </>
           ) : (
-            <Button size="small" style={{ width: 75, borderRadius: 6 }}>Chi tiết</Button>
+            /* Nếu đã duyệt/từ chối rồi thì chỉ hiện nút Chi tiết */
+            <Button type="default" size="small" icon={<EyeOutlined />} onClick={() => showDetails(record)}>
+              Chi tiết
+            </Button>
           )}
         </Space>
       ),
     },
   ];
 
+  // 4. Lọc dữ liệu theo trạng thái
+  const filteredData = filterStatus === 'all' 
+    ? data 
+    : data.filter(item => item.status === filterStatus);
+
   return (
-    // Đổi background nền tổng thể thành màu xám nhạt (#f0f2f5) đặc trưng của Ant Design Admin
-    <div style={{ padding: 24, minHeight: '100vh', background: '#f0f2f5' }}>
-      
-      {/* Header trang */}
-      <Title level={2} style={{ margin: '0 0 24px 0' }}>Quản lý yêu cầu mượn</Title>
-
-      {/* Khu vực Lọc (Filter) */}
-      <Card bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '12px 24px' }}>
-        <Space size="middle">
-          <Button icon={<SearchOutlined />} />
-          <Select
-            defaultValue="all"
-            style={{ width: 200 }}
-            options={[
-              { value: 'all', label: 'Tất cả trạng thái' },
-              { value: 'pending', label: 'Chờ duyệt' },
-              { value: 'approved', label: 'Đã duyệt' },
-              { value: 'rejected', label: 'Từ chối' },
-            ]}
-          />
-        </Space>
-      </Card>
-
-      {/* Khu vực Bảng Dữ Liệu */}
+    <div style={{ padding: 24, background: '#f0f2f5', minHeight: '100vh' }}>
       <Card 
-        title={<Text style={{ fontSize: 16, fontWeight: 500 }}>Danh sách yêu cầu mượn</Text>} 
-        bordered={false} 
+        title={<span style={{ fontSize: 18, fontWeight: 600 }}>Quản lý Yêu cầu mượn thiết bị</span>}
         extra={
-          <Button icon={<DownloadOutlined />}>
-            Xuất Excel
-          </Button>
+          <Select 
+            defaultValue="all" 
+            style={{ width: 160 }} 
+            onChange={(value) => setFilterStatus(value)}
+          >
+            <Option value="all">Tất cả trạng thái</Option>
+            <Option value="pending">Chờ duyệt</Option>
+            <Option value="approved">Đã duyệt</Option>
+            <Option value="rejected">Từ chối</Option>
+          </Select>
         }
+        bordered={false}
+        style={{ borderRadius: 8, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
       >
         <Table 
-          dataSource={requestData} 
           columns={columns} 
-          pagination={false} 
+          dataSource={filteredData} 
+          rowKey="id" 
+          pagination={{ pageSize: 5 }} 
         />
       </Card>
 
+      {/* 5. DRAWER: Bảng trượt từ bên phải để xem thông tin chi tiết */}
+      <Drawer
+        title={<span style={{ fontWeight: 600 }}>Chi tiết yêu cầu</span>}
+        placement="right"
+        onClose={() => setIsDrawerVisible(false)}
+        visible={isDrawerVisible}
+        width={400}
+      >
+        {selectedRequest && (
+          <Descriptions column={1} bordered size="middle">
+            <Descriptions.Item label="Mã YC"><b>{selectedRequest.id}</b></Descriptions.Item>
+            <Descriptions.Item label="Sinh viên">{selectedRequest.student}</Descriptions.Item>
+            <Descriptions.Item label="Thiết bị">{selectedRequest.equipment}</Descriptions.Item>
+            <Descriptions.Item label="Ngày mượn">{selectedRequest.borrowDate}</Descriptions.Item>
+            <Descriptions.Item label="Trạng thái">
+              {selectedRequest.status === 'approved' 
+                ? <Tag color="green">Đã duyệt</Tag> 
+                : <Tag color="red">Từ chối</Tag>}
+            </Descriptions.Item>
+          </Descriptions>
+        )}
+      </Drawer>
     </div>
   );
 };
 
-export default RequestManagementPage;
+export default RequestPage;
