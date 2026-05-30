@@ -1,187 +1,186 @@
 import React from 'react';
-import {
-  Button,
-  Card,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  message,
-} from 'antd';
-import dayjs from 'dayjs';
+import { Button, Card, DatePicker, Form, Input, InputNumber, Select, message } from 'antd';
+import moment from 'moment';
 import { BorrowRequest, Device, StudentUser } from '@/types/studentBorrow';
 
 const { TextArea } = Input;
 
 interface BorrowRequestFormProps {
-  devices: Device[];
-  currentUser: StudentUser;
-  selectedDeviceId?: string;
-  onSubmit: (request: BorrowRequest) => void;
+	devices: Device[];
+	currentUser: StudentUser;
+	selectedDeviceId?: string;
+	onSubmit: (request: BorrowRequest) => void;
 }
 
-const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({
-  devices,
-  currentUser,
-  selectedDeviceId,
-  onSubmit,
-}) => {
-  const [form] = Form.useForm();
+const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({ devices, currentUser, selectedDeviceId, onSubmit }) => {
+	const [form] = Form.useForm();
 
-  const selectedDeviceValue = Form.useWatch('deviceId', form);
+	const selectedDeviceValue = Form.useWatch('deviceId', form);
 
-  const selectedDevice = devices.find(
-    (item) => item.id === selectedDeviceValue,
-  );
+	const selectedDevice = devices.find((item) => item.id === selectedDeviceValue);
 
-  React.useEffect(() => {
-    if (selectedDeviceId) {
-      form.setFieldsValue({
-        deviceId: selectedDeviceId,
-      });
-    }
-  }, [selectedDeviceId]);
+	React.useEffect(() => {
+		if (selectedDeviceId) {
+			form.setFieldsValue({
+				deviceId: selectedDeviceId,
+			});
+		}
+	}, [selectedDeviceId, form]);
 
-  const handleFinish = (values: any) => {
-    const device = devices.find((item) => item.id === values.deviceId);
+	const disabledBorrowDate = (current: moment.Moment) => {
+		return current && current < moment().startOf('day');
+	};
 
-    if (!device) {
-      message.error('Thiết bị không tồn tại');
-      return;
-    }
+	const disabledReturnDate = (current: moment.Moment) => {
+		const borrowDate = form.getFieldValue('borrowDate');
 
-    if (device.availableQuantity <= 0) {
-      message.error('Thiết bị này hiện đã hết hàng');
-      return;
-    }
+		if (!borrowDate) {
+			return current && current < moment().startOf('day');
+		}
 
-    if (values.quantity > device.availableQuantity) {
-      message.error('Số lượng mượn không được vượt quá số lượng còn trong kho');
-      return;
-    }
+		return current && current <= borrowDate.startOf('day');
+	};
 
-    if (!values.expectedReturnDate.isAfter(values.borrowDate, 'day')) {
-      message.error('Ngày trả dự kiến phải sau ngày mượn');
-      return;
-    }
+	const handleFinish = (values: any) => {
+		const device = devices.find((item) => item.id === values.deviceId);
 
-    const newRequest: BorrowRequest = {
-      id: `YC${Date.now()}`,
-      studentId: currentUser.id,
-      studentName: currentUser.fullName,
-      studentEmail: currentUser.email,
-      deviceId: device.id,
-      deviceName: device.name,
-      quantity: values.quantity,
-      borrowDate: values.borrowDate.format('YYYY-MM-DD'),
-      expectedReturnDate: values.expectedReturnDate.format('YYYY-MM-DD'),
-      reason: values.reason,
-      status: 'Chờ duyệt',
-      createdAt: new Date().toISOString(),
-    };
+		if (!device) {
+			message.error('Thiết bị không tồn tại');
+			return;
+		}
 
-    onSubmit(newRequest);
+		if (device.availableQuantity <= 0) {
+			message.error('Thiết bị này hiện đã hết hàng');
+			return;
+		}
 
-    form.resetFields();
+		if (values.quantity > device.availableQuantity) {
+			message.error('Số lượng mượn không được vượt quá số lượng còn trong kho');
+			return;
+		}
 
-    message.success('Gửi yêu cầu mượn thành công');
-  };
+		if (!values.expectedReturnDate.isAfter(values.borrowDate, 'day')) {
+			message.error('Ngày trả dự kiến phải sau ngày mượn');
+			return;
+		}
 
-  return (
-    <Card title="Gửi yêu cầu mượn thiết bị">
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleFinish}
-        initialValues={{
-          quantity: 1,
-          borrowDate: dayjs(),
-          expectedReturnDate: dayjs().add(3, 'day'),
-        }}
-      >
-        <Form.Item
-          label="Thiết bị muốn mượn"
-          name="deviceId"
-          rules={[{ required: true, message: 'Vui lòng chọn thiết bị' }]}
-        >
-          <Select placeholder="Chọn thiết bị">
-            {devices.map((device) => (
-              <Select.Option
-                key={device.id}
-                value={device.id}
-                disabled={
-                  device.availableQuantity <= 0 ||
-                  device.condition === 'Đang bảo trì'
-                }
-              >
-                {device.name} - còn {device.availableQuantity}/
-                {device.totalQuantity}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
+		const newRequest: BorrowRequest = {
+			id: `YC${Date.now()}`,
+			studentId: currentUser.id,
+			studentName: currentUser.fullName,
+			studentEmail: currentUser.email,
+			deviceId: device.id,
+			deviceName: device.name,
+			quantity: values.quantity,
+			borrowDate: values.borrowDate.format('YYYY-MM-DD'),
+			expectedReturnDate: values.expectedReturnDate.format('YYYY-MM-DD'),
+			reason: values.reason,
+			status: 'Chờ duyệt',
+			createdAt: new Date().toISOString(),
+		};
 
-        {selectedDevice && (
-          <Card size="small" style={{ marginBottom: 16, background: '#fafafa' }}>
-            <p>
-              <strong>Loại:</strong> {selectedDevice.category}
-            </p>
-            <p>
-              <strong>Tình trạng:</strong> {selectedDevice.condition}
-            </p>
-            <p>
-              <strong>Số lượng còn:</strong>{' '}
-              {selectedDevice.availableQuantity}/{selectedDevice.totalQuantity}
-            </p>
-          </Card>
-        )}
+		onSubmit(newRequest);
 
-        <Form.Item
-          label="Số lượng mượn"
-          name="quantity"
-          rules={[{ required: true, message: 'Vui lòng nhập số lượng' }]}
-        >
-          <InputNumber
-            min={1}
-            max={selectedDevice?.availableQuantity || 1}
-            style={{ width: '100%' }}
-          />
-        </Form.Item>
+		form.resetFields();
 
-        <Form.Item
-          label="Ngày mượn"
-          name="borrowDate"
-          rules={[{ required: true, message: 'Vui lòng chọn ngày mượn' }]}
-        >
-          <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
-        </Form.Item>
+		form.setFieldsValue({
+			quantity: 1,
+			borrowDate: moment(),
+			expectedReturnDate: moment().add(3, 'days'),
+		});
 
-        <Form.Item
-          label="Ngày trả dự kiến"
-          name="expectedReturnDate"
-          rules={[{ required: true, message: 'Vui lòng chọn ngày trả dự kiến' }]}
-        >
-          <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
-        </Form.Item>
+		message.success('Gửi yêu cầu mượn thành công');
+	};
 
-        <Form.Item
-          label="Lý do mượn"
-          name="reason"
-          rules={[{ required: true, message: 'Vui lòng nhập lý do mượn' }]}
-        >
-          <TextArea
-            rows={4}
-            placeholder="Ví dụ: Mượn máy chiếu để phục vụ buổi thuyết trình của câu lạc bộ"
-          />
-        </Form.Item>
+	return (
+		<Card title='Gửi yêu cầu mượn thiết bị'>
+			<Form
+				form={form}
+				layout='vertical'
+				onFinish={handleFinish}
+				initialValues={{
+					quantity: 1,
+					borrowDate: moment(),
+					expectedReturnDate: moment().add(3, 'days'),
+				}}
+			>
+				<Form.Item
+					label='Thiết bị muốn mượn'
+					name='deviceId'
+					rules={[{ required: true, message: 'Vui lòng chọn thiết bị' }]}
+				>
+					<Select placeholder='Chọn thiết bị'>
+						{devices.map((device) => (
+							<Select.Option
+								key={device.id}
+								value={device.id}
+								disabled={device.availableQuantity <= 0 || device.condition === 'Đang bảo trì'}
+							>
+								{device.name} - còn {device.availableQuantity}/{device.totalQuantity}
+							</Select.Option>
+						))}
+					</Select>
+				</Form.Item>
 
-        <Button type="primary" htmlType="submit">
-          Gửi yêu cầu
-        </Button>
-      </Form>
-    </Card>
-  );
+				{selectedDevice && (
+					<Card size='small' style={{ marginBottom: 16, background: '#fafafa' }}>
+						<p>
+							<strong>Loại:</strong> {selectedDevice.category}
+						</p>
+						<p>
+							<strong>Tình trạng:</strong> {selectedDevice.condition}
+						</p>
+						<p>
+							<strong>Số lượng còn:</strong> {selectedDevice.availableQuantity}/{selectedDevice.totalQuantity}
+						</p>
+					</Card>
+				)}
+
+				<Form.Item
+					label='Số lượng mượn'
+					name='quantity'
+					rules={[{ required: true, message: 'Vui lòng nhập số lượng' }]}
+				>
+					<InputNumber min={1} max={selectedDevice?.availableQuantity || 1} style={{ width: '100%' }} />
+				</Form.Item>
+
+				<Form.Item label='Ngày mượn' name='borrowDate' rules={[{ required: true, message: 'Vui lòng chọn ngày mượn' }]}>
+					<DatePicker
+						style={{ width: '100%' }}
+						format='DD/MM/YYYY'
+						placeholder='Chọn ngày mượn'
+						disabledDate={disabledBorrowDate}
+						onChange={() => {
+							form.setFieldsValue({
+								expectedReturnDate: undefined,
+							});
+						}}
+					/>
+				</Form.Item>
+
+				<Form.Item
+					label='Ngày trả dự kiến'
+					name='expectedReturnDate'
+					rules={[{ required: true, message: 'Vui lòng chọn ngày trả dự kiến' }]}
+				>
+					<DatePicker
+						style={{ width: '100%' }}
+						format='DD/MM/YYYY'
+						placeholder='Chọn ngày trả dự kiến'
+						disabledDate={disabledReturnDate}
+					/>
+				</Form.Item>
+
+				<Form.Item label='Lý do mượn' name='reason' rules={[{ required: true, message: 'Vui lòng nhập lý do mượn' }]}>
+					<TextArea rows={4} placeholder='Ví dụ: Mượn máy chiếu để phục vụ buổi thuyết trình của câu lạc bộ' />
+				</Form.Item>
+
+				<Button type='primary' htmlType='submit'>
+					Gửi yêu cầu
+				</Button>
+			</Form>
+		</Card>
+	);
 };
 
 export default BorrowRequestForm;
