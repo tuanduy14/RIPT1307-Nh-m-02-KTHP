@@ -1,6 +1,5 @@
 import { BorrowRequest, Device, StudentNotification, StudentUser } from '@/types/studentBorrow';
 import {
-	addDevice,
 	createBorrowRequest,
 	getBorrowRequests,
 	getCurrentStudent,
@@ -107,17 +106,6 @@ export default {
 				type: 'save',
 				payload: {
 					notifications: getNotifications(),
-				},
-			});
-		},
-
-		*addDevice({ payload }: { payload: Device }, { put }: any) {
-			addDevice(payload);
-
-			yield put({
-				type: 'save',
-				payload: {
-					devices: getDevices(),
 				},
 			});
 		},

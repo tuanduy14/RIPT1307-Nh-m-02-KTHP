@@ -1,12 +1,10 @@
 import React from 'react';
-import { Button, Card, Space, Typography, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Card, Typography } from 'antd';
 import { connect, history } from 'umi';
 import { StudentBorrowModelState } from '@/models/studentBorrowModel';
 import { Device } from '@/types/studentBorrow';
 import DeviceTable from '@/components/Student/DeviceTable';
 import DeviceDetailModal from '@/components/Student/DeviceDetailModal';
-import DeviceFormModal from '@/components/Student/DeviceFormModal';
 
 const { Title, Paragraph } = Typography;
 
@@ -19,8 +17,8 @@ const DevicesPage: React.FC<DevicesPageProps> = ({ studentBorrow, dispatch }) =>
 	const { devices } = studentBorrow;
 
 	const [selectedDevice, setSelectedDevice] = React.useState<Device | null>(null);
+
 	const [visibleDetail, setVisibleDetail] = React.useState(false);
-	const [visibleAddModal, setVisibleAddModal] = React.useState(false);
 
 	React.useEffect(() => {
 		dispatch({
@@ -37,37 +35,17 @@ const DevicesPage: React.FC<DevicesPageProps> = ({ studentBorrow, dispatch }) =>
 		history.push(`/student/borrow-request?deviceId=${device.id}`);
 	};
 
-	const handleAddDevice = (device: Device) => {
-		dispatch({
-			type: 'studentBorrow/addDevice',
-			payload: device,
-		});
-
-		setVisibleAddModal(false);
-		message.success('Thêm thiết bị mới thành công');
-	};
-
 	return (
 		<>
-			<Space
-				style={{
-					width: '100%',
-					justifyContent: 'space-between',
-					alignItems: 'flex-start',
-					marginBottom: 16,
-				}}
-			>
-				<div>
-					<Title level={3}>Danh sách thiết bị</Title>
-					<Paragraph type='secondary'>
-						Sinh viên có thể xem thông tin thiết bị, số lượng còn lại và gửi yêu cầu mượn.
-					</Paragraph>
-				</div>
+			<div style={{ marginBottom: 24 }}>
+				<Title level={3} style={{ marginBottom: 8 }}>
+					Danh sách thiết bị
+				</Title>
 
-				<Button type='primary' icon={<PlusOutlined />} onClick={() => setVisibleAddModal(true)}>
-					Thêm thiết bị
-				</Button>
-			</Space>
+				<Paragraph type='secondary' style={{ marginBottom: 0 }}>
+					Sinh viên có thể xem thông tin thiết bị, số lượng còn lại và gửi yêu cầu mượn.
+				</Paragraph>
+			</div>
 
 			<Card>
 				<DeviceTable devices={devices} onViewDetail={handleViewDetail} onBorrow={handleBorrow} />
@@ -78,12 +56,6 @@ const DevicesPage: React.FC<DevicesPageProps> = ({ studentBorrow, dispatch }) =>
 				device={selectedDevice}
 				onCancel={() => setVisibleDetail(false)}
 				onBorrow={handleBorrow}
-			/>
-
-			<DeviceFormModal
-				visible={visibleAddModal}
-				onCancel={() => setVisibleAddModal(false)}
-				onSubmit={handleAddDevice}
 			/>
 		</>
 	);

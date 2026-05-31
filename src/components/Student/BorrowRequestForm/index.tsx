@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, DatePicker, Form, Input, InputNumber, Select, message } from 'antd';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { BorrowRequest, Device, StudentUser } from '@/types/studentBorrow';
 
 const { TextArea } = Input;
@@ -23,22 +23,51 @@ const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({ devices, currentU
 		if (selectedDeviceId) {
 			form.setFieldsValue({
 				deviceId: selectedDeviceId,
+				quantity: 1,
 			});
 		}
 	}, [selectedDeviceId, form]);
 
-	const disabledBorrowDate = (current: moment.Moment) => {
+	const disabledBorrowDate = (current: Moment) => {
 		return current && current < moment().startOf('day');
 	};
 
-	const disabledReturnDate = (current: moment.Moment) => {
+	const disabledReturnDate = (current: Moment) => {
 		const borrowDate = form.getFieldValue('borrowDate');
 
 		if (!borrowDate) {
 			return current && current < moment().startOf('day');
 		}
 
-		return current && current <= borrowDate.startOf('day');
+		return current && current <= borrowDate.clone().startOf('day');
+	};
+
+	const handleDeviceChange = () => {
+		form.setFieldsValue({
+			quantity: 1,
+		});
+	};
+
+	const validateQuantity = (_: any, value: number) => {
+		if (!selectedDevice) {
+			return Promise.reject(new Error('Vui lòng chọn thiết bị trước'));
+		}
+
+		if (!value || value <= 0) {
+			return Promise.reject(new Error('Số lượng mượn phải lớn hơn 0'));
+		}
+
+		if (selectedDevice.availableQuantity <= 0) {
+			return Promise.reject(new Error('Thiết bị này hiện đã hết hàng'));
+		}
+
+		if (value > selectedDevice.availableQuantity) {
+			return Promise.reject(
+				new Error(`Số lượng còn lại chỉ còn ${selectedDevice.availableQuantity}. Không thể mượn ${value} thiết bị.`),
+			);
+		}
+
+		return Promise.resolve();
 	};
 
 	const handleFinish = (values: any) => {
@@ -54,8 +83,10 @@ const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({ devices, currentU
 			return;
 		}
 
-		if (values.quantity > device.availableQuantity) {
-			message.error('Số lượng mượn không được vượt quá số lượng còn trong kho');
+		if (Number(values.quantity) > device.availableQuantity) {
+			message.error(
+				`Số lượng còn lại chỉ còn ${device.availableQuantity}. Không thể mượn ${values.quantity} thiết bị.`,
+			);
 			return;
 		}
 
@@ -71,7 +102,7 @@ const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({ devices, currentU
 			studentEmail: currentUser.email,
 			deviceId: device.id,
 			deviceName: device.name,
-			quantity: values.quantity,
+			quantity: Number(values.quantity),
 			borrowDate: values.borrowDate.format('YYYY-MM-DD'),
 			expectedReturnDate: values.expectedReturnDate.format('YYYY-MM-DD'),
 			reason: values.reason,
@@ -109,7 +140,7 @@ const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({ devices, currentU
 					name='deviceId'
 					rules={[{ required: true, message: 'Vui lòng chọn thiết bị' }]}
 				>
-					<Select placeholder='Chọn thiết bị'>
+					<Select placeholder='Chọn thiết bị' onChange={handleDeviceChange}>
 						{devices.map((device) => (
 							<Select.Option
 								key={device.id}
@@ -123,13 +154,21 @@ const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({ devices, currentU
 				</Form.Item>
 
 				{selectedDevice && (
-					<Card size='small' style={{ marginBottom: 16, background: '#fafafa' }}>
+					<Card
+						size='small'
+						style={{
+							marginBottom: 16,
+							background: '#fafafa',
+						}}
+					>
 						<p>
 							<strong>Loại:</strong> {selectedDevice.category}
 						</p>
+
 						<p>
 							<strong>Tình trạng:</strong> {selectedDevice.condition}
 						</p>
+
 						<p>
 							<strong>Số lượng còn:</strong> {selectedDevice.availableQuantity}/{selectedDevice.totalQuantity}
 						</p>
@@ -139,9 +178,9 @@ const BorrowRequestForm: React.FC<BorrowRequestFormProps> = ({ devices, currentU
 				<Form.Item
 					label='Số lượng mượn'
 					name='quantity'
-					rules={[{ required: true, message: 'Vui lòng nhập số lượng' }]}
+					rules={[{ required: true, message: 'Vui lòng nhập số lượng' }, { validator: validateQuantity }]}
 				>
-					<InputNumber min={1} max={selectedDevice?.availableQuantity || 1} style={{ width: '100%' }} />
+					<InputNumber min={1} style={{ width: '100%' }} placeholder='Nhập số lượng muốn mượn' />
 				</Form.Item>
 
 				<Form.Item label='Ngày mượn' name='borrowDate' rules={[{ required: true, message: 'Vui lòng chọn ngày mượn' }]}>

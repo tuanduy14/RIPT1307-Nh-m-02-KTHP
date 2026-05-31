@@ -106,21 +106,12 @@ export function getCurrentStudent(): StudentUser | null {
 
 export function getDevices(): Device[] {
 	initStudentData();
+
 	return getLocalData<Device[]>(DEVICE_KEY, mockDevices);
 }
 
 export function saveDevices(devices: Device[]): void {
 	setLocalData<Device[]>(DEVICE_KEY, devices);
-}
-
-export function addDevice(device: Device): Device {
-	const devices = getDevices();
-
-	const newDevices = [device, ...devices];
-
-	saveDevices(newDevices);
-
-	return device;
 }
 
 export function getBorrowRequests(): BorrowRequest[] {
