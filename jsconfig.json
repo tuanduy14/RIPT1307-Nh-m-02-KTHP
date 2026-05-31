@@ -1,5 +1,6 @@
-{
-  "compilerOptions": {
+export default defineConfig({
+  plugins: ['@umijs/plugin-layout'],
+  compilerOptions: {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
@@ -7,4 +8,4 @@
       "@/*": ["./src/*"]
     }
   }
-}
+});
