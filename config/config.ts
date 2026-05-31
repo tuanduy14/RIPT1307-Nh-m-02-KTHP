@@ -3,19 +3,15 @@ import { defineConfig, history } from 'umi';
 import defaultSettings from './defaultSettings';
 import routes from './routes';
 import React from 'react';
-import Footer from '../src/components/Footer';
-import RightContent from '../src/components/RightContent';
-import { OIDCBounder } from '../src/components/OIDCBounder';
 import { unCheckPermissionPaths } from '../src/components/OIDCBounder/constant';
-import TechnicalSupportBounder from '../src/components/TechnicalSupportBounder';
 import { currentRole } from '../src/utils/ip';
 // import proxy from './proxy';
 // const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
-	presets: ['@umijs/preset-react'],
 	hash: true,
 	antd: {},
+	publicPath: './',
 	dva: {
 		hmr: true,
 	},
@@ -23,19 +19,18 @@ export default defineConfig({
 		// https://umijs.org/zh-CN/plugins/plugin-layout
 		locale: true,
 		...defaultSettings,
-		unAccessible: React.createElement(
-			OIDCBounder,
-			null,
-			React.createElement(
-				TechnicalSupportBounder,
-				null,
-				React.createElement('div', null, '403 - Không có quyền truy cập'),
-			),
-		),
+		unAccessible: React.createElement('div', null, '403 - Không có quyền truy cập'),
 		noFound: React.createElement('div', null, '404 - Không tìm thấy trang'),
-		rightContentRender: () => React.createElement(RightContent, null),
+		rightContentRender: () => null,
 		disableContentMargin: false,
-		footerRender: () => React.createElement(Footer, null),
+		footerRender: () =>
+			React.createElement(
+				'div',
+				{
+					style: { width: '100%', textAlign: 'center', padding: 12 },
+				},
+				`2025 CopyRight - ${APP_CONFIG_APP_VERSION}`,
+			),
 		onPageChange: () => {
 			const { location } = history;
 			const isUncheckPath = unCheckPermissionPaths.some((path) => window.location.pathname.includes(path));

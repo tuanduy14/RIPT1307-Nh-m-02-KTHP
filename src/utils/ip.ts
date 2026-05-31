@@ -1,4 +1,4 @@
-import { AppModules, EModuleKey } from '@/services/base/constant';
+import { AppModules, EModuleKey } from '../services/base/constant';
 
 // Điền chính xác link Render Backend của bạn vào đây (nhớ giữ dấu nháy đơn)
 const ipRoot = 'https://club-backend-dmy7.onrender.com/api/'; 
