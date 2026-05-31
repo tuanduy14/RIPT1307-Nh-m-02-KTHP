@@ -1,15 +1,33 @@
-# Simple Render blueprint: Static frontend + web service for API
+# Render blueprint for FE + BE on the same repo.
 services:
   - type: web
     name: backend
     env: node
     buildCommand: "cd server && yarn install && yarn build"
     startCommand: "cd server && yarn start"
+    envVars:
+      - key: DATABASE_URL
+        value: "<YOUR_DATABASE_URL>"
+      - key: SMTP_HOST
+        value: "<YOUR_SMTP_HOST>"
+      - key: SMTP_PORT
+        value: "<YOUR_SMTP_PORT>"
+      - key: SMTP_USER
+        value: "<YOUR_SMTP_USER>"
+      - key: SMTP_PASS
+        value: "<YOUR_SMTP_PASS>"
+      - key: SMTP_FROM
+        value: "<YOUR_SMTP_FROM>"
   - type: static
     name: frontend
     env: static
     buildCommand: "yarn install && yarn build"
     staticPublishPath: dist
+    envVars:
+      - key: API_BASE
+        value: "https://<YOUR_BACKEND_SERVICE>.onrender.com/api"
 
-# On Render, create a Postgres service and set DATABASE_URL in service env.
-# Set API_BASE in frontend environment to the backend URL, e.g. https://<backend>.onrender.com/api
+# Notes:
+# 1) Replace placeholders with actual Render values or set them in the dashboard.
+# 2) DATABASE_URL should come from a Postgres service.
+# 3) SMTP_* settings are required for email notifications.
