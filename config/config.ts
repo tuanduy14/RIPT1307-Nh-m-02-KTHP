@@ -42,7 +42,7 @@ export default defineConfig({
 			const initialState = (window as any).g_initialState;
 
 			if (location.pathname === '/') {
-				history.replace('/dashboard');
+				history.replace('/student/dashboard');
 			} else if (
 				!isUncheckPath &&
 				currentRole &&
