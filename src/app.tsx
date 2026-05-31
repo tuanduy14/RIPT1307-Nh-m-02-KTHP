@@ -85,7 +85,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
 		},
 
 		menuItemRender: (item: any, dom: any) => (
-			
+			<a
 				className='not-underline'
 				key={item?.path}
 				href={item?.path}
@@ -99,7 +99,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
 			</a>
 		),
 
-		childrenRender: (dom) => (
+		childrenRender: (dom: any) => (
 			<OIDCBounder>
 				<ErrorBoundary>
 					<OneSignalBounder>{dom}</OneSignalBounder>
