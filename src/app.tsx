@@ -6,38 +6,26 @@ import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
 import { getIntl, getLocale, history } from 'umi';
 import type { RequestOptionsInit, ResponseError } from 'umi-request';
 import ErrorBoundary from './components/ErrorBoundary';
-// import LoadingPage from './components/Loading';
 import { OIDCBounder } from './components/OIDCBounder';
 import { unCheckPermissionPaths } from './components/OIDCBounder/constant';
 import OneSignalBounder from './components/OneSignalBounder';
 import TechnicalSupportBounder from './components/TechnicalSupportBounder';
-import NotAccessible from './pages/exception/403';
-import NotFoundContent from './pages/exception/404';
 import type { IInitialState } from './services/base/typing';
 import './styles/global.less';
 import { currentRole } from './utils/ip';
 
-/**  loading */
 export const initialStateConfig = {
 	loading: <></>,
 };
 
-/**
- * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
- * // Tobe removed
- * */
 export async function getInitialState(): Promise<IInitialState> {
 	return {
 		permissionLoading: true,
 	};
 }
 
-// Tobe removed
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => ({});
 
-/**
- * @see https://beta-pro.ant.design/docs/request-cn
- */
 export const request: RequestConfig = {
 	errorHandler: (error: ResponseError) => {
 		const { messages } = getIntl(getLocale());
@@ -65,20 +53,18 @@ export const request: RequestConfig = {
 	requestInterceptors: [authHeaderInterceptor],
 };
 
-// ProLayout  https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
 	return {
 		unAccessible: (
 			<OIDCBounder>
 				<TechnicalSupportBounder>
-					<NotAccessible />
+					<div>403 - Không có quyền truy cập</div>
 				</TechnicalSupportBounder>
 			</OIDCBounder>
 		),
-		noFound: <NotFoundContent />,
+		noFound: <div>404 - Không tìm thấy trang</div>,
 		rightContentRender: () => <RightContent />,
 		disableContentMargin: false,
-
 		footerRender: () => <Footer />,
 
 		onPageChange: () => {
@@ -99,7 +85,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
 		},
 
 		menuItemRender: (item: any, dom: any) => (
-			<a
+			
 				className='not-underline'
 				key={item?.path}
 				href={item?.path}
@@ -116,9 +102,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
 		childrenRender: (dom) => (
 			<OIDCBounder>
 				<ErrorBoundary>
-					{/* <TechnicalSupportBounder> */}
 					<OneSignalBounder>{dom}</OneSignalBounder>
-					{/* </TechnicalSupportBounder> */}
 				</ErrorBoundary>
 			</OIDCBounder>
 		),
