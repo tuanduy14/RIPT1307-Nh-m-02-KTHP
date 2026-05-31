@@ -18,7 +18,7 @@ services:
         value: "<YOUR_SMTP_PASS>"
       - key: SMTP_FROM
         value: "<YOUR_SMTP_FROM>"
-  - type: static
+  - type: web
     name: frontend
     env: static
     buildCommand: "yarn install && yarn build"
