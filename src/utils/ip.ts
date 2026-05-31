@@ -15,13 +15,19 @@ const oneSignalRole = EModuleKey.CONNECT;
 
 // DO NOT TOUCH
 const keycloakClientID = AppModules[currentRole].clientId;
-const keycloakAuthority = 'APP_CONFIG_KEYCLOAK_AUTHORITY';
+const keycloakAuthority = typeof APP_CONFIG_KEYCLOAK_AUTHORITY !== 'undefined' ? APP_CONFIG_KEYCLOAK_AUTHORITY : '';
 const resourceServerClientId = 'auth_resource_client_id';
-const keycloakAuthEndpoint = 'APP_CONFIG_KEYCLOAK_AUTHORITY/protocol/openid-connect/auth';
-const keycloakTokenEndpoint = 'APP_CONFIG_KEYCLOAK_AUTHORITY/protocol/openid-connect/token';
-const keycloakUserInfoEndpoint = 'APP_CONFIG_KEYCLOAK_AUTHORITY/protocol/openid-connect/userinfo';
-const sentryDSN = 'APP_CONFIG_SENTRY_DSN';
-const oneSignalClient = 'APP_CONFIG_ONE_SIGNAL_ID';
+const keycloakAuthEndpoint = typeof APP_CONFIG_KEYCLOAK_AUTHORITY !== 'undefined'
+    ? `${APP_CONFIG_KEYCLOAK_AUTHORITY}/protocol/openid-connect/auth`
+    : '';
+const keycloakTokenEndpoint = typeof APP_CONFIG_KEYCLOAK_AUTHORITY !== 'undefined'
+    ? `${APP_CONFIG_KEYCLOAK_AUTHORITY}/protocol/openid-connect/token`
+    : '';
+const keycloakUserInfoEndpoint = typeof APP_CONFIG_KEYCLOAK_AUTHORITY !== 'undefined'
+    ? `${APP_CONFIG_KEYCLOAK_AUTHORITY}/protocol/openid-connect/userinfo`
+    : '';
+const sentryDSN = typeof APP_CONFIG_SENTRY_DSN !== 'undefined' ? APP_CONFIG_SENTRY_DSN : '';
+const oneSignalClient = typeof APP_CONFIG_ONE_SIGNAL_ID !== 'undefined' ? APP_CONFIG_ONE_SIGNAL_ID : '';
 
 export {
     ip3,

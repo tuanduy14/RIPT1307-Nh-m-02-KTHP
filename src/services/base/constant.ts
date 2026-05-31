@@ -16,93 +16,93 @@ export enum EModuleKey {
 
 export const AppModules: Record<EModuleKey, Login.TModule> = {
     [EModuleKey.CONNECT]: {
-        title: 'APP_CONFIG_TITLE_CONNECT',
+        title: typeof APP_CONFIG_TITLE_CONNECT !== 'undefined' ? APP_CONFIG_TITLE_CONNECT : '',
         clientId: 'connect_client_id',
-        url: 'APP_CONFIG_URL_CONNECT',
+        url: typeof APP_CONFIG_URL_CONNECT !== 'undefined' ? APP_CONFIG_URL_CONNECT : '',
         icon: EModuleKey.CONNECT + '.svg',
     },
     [EModuleKey.CONG_CAN_BO]: {
-        title: 'APP_CONFIG_TITLE_CAN_BO',
+        title: typeof APP_CONFIG_TITLE_CAN_BO !== 'undefined' ? APP_CONFIG_TITLE_CAN_BO : '',
         clientId: 'connect_client_id',
-        url: 'APP_CONFIG_URL_CAN_BO',
+        url: typeof APP_CONFIG_URL_CAN_BO !== 'undefined' ? APP_CONFIG_URL_CAN_BO : '',
         icon: EModuleKey.CONG_CAN_BO + '.svg',
     },
     [EModuleKey.CORE]: {
-        title: 'APP_CONFIG_TITLE_CORE',
+        title: typeof APP_CONFIG_TITLE_CORE !== 'undefined' ? APP_CONFIG_TITLE_CORE : '',
         clientId: 'core_client_id',
-        url: 'APP_CONFIG_URL_CORE',
+        url: typeof APP_CONFIG_URL_CORE !== 'undefined' ? APP_CONFIG_URL_CORE : '',
         icon: EModuleKey.CORE + '.svg',
     },
     [EModuleKey.QLDT]: {
-        title: 'APP_CONFIG_TITLE_DAO_TAO',
+        title: typeof APP_CONFIG_TITLE_DAO_TAO !== 'undefined' ? APP_CONFIG_TITLE_DAO_TAO : '',
         clientId: 'qldt_client_id',
-        url: 'APP_CONFIG_URL_DAO_TAO',
+        url: typeof APP_CONFIG_URL_DAO_TAO !== 'undefined' ? APP_CONFIG_URL_DAO_TAO : '',
         icon: EModuleKey.QLDT + '.svg',
     },
     [EModuleKey.TCNS]: {
-        title: 'APP_CONFIG_TITLE_NHAN_SU',
+        title: typeof APP_CONFIG_TITLE_NHAN_SU !== 'undefined' ? APP_CONFIG_TITLE_NHAN_SU : '',
         clientId: 'tcns_client_id',
-        url: 'APP_CONFIG_URL_NHAN_SU',
+        url: typeof APP_CONFIG_URL_NHAN_SU !== 'undefined' ? APP_CONFIG_URL_NHAN_SU : '',
         icon: EModuleKey.TCNS + '.svg',
     },
     [EModuleKey.CTSV]: {
-        title: 'APP_CONFIG_TITLE_CTSV',
+        title: typeof APP_CONFIG_TITLE_CTSV !== 'undefined' ? APP_CONFIG_TITLE_CTSV : '',
         clientId: 'ctsv_client_id',
-        url: 'APP_CONFIG_URL_CTSV',
+        url: typeof APP_CONFIG_URL_CTSV !== 'undefined' ? APP_CONFIG_URL_CTSV : '',
         icon: EModuleKey.CTSV + '.svg',
     },
     [EModuleKey.VPS]: {
-        title: 'APP_CONFIG_TITLE_VPS',
+        title: typeof APP_CONFIG_TITLE_VPS !== 'undefined' ? APP_CONFIG_TITLE_VPS : '',
         clientId: 'vps_client_id',
-        url: 'APP_CONFIG_URL_VPS',
+        url: typeof APP_CONFIG_URL_VPS !== 'undefined' ? APP_CONFIG_URL_VPS : '',
         icon: EModuleKey.VPS + '.svg',
     },
     [EModuleKey.QLKH]: {
-        title: 'APP_CONFIG_TITLE_QLKH',
+        title: typeof APP_CONFIG_TITLE_QLKH !== 'undefined' ? APP_CONFIG_TITLE_QLKH : '',
         clientId: 'qlkh_client_id',
-        url: 'APP_CONFIG_URL_QLKH',
+        url: typeof APP_CONFIG_URL_QLKH !== 'undefined' ? APP_CONFIG_URL_QLKH : '',
         icon: EModuleKey.QLKH + '.svg',
     },
     [EModuleKey.TC]: {
-        title: 'APP_CONFIG_TITLE_TAI_CHINH',
+        title: typeof APP_CONFIG_TITLE_TAI_CHINH !== 'undefined' ? APP_CONFIG_TITLE_TAI_CHINH : '',
         clientId: 'tc_client_id',
-        url: 'APP_CONFIG_URL_TAI_CHINH',
+        url: typeof APP_CONFIG_URL_TAI_CHINH !== 'undefined' ? APP_CONFIG_URL_TAI_CHINH : '',
         icon: EModuleKey.TC + '.svg',
     },
     [EModuleKey.KT]: {
-        title: 'APP_CONFIG_TITLE_KHAO_THI',
+        title: typeof APP_CONFIG_TITLE_KHAO_THI !== 'undefined' ? APP_CONFIG_TITLE_KHAO_THI : '',
         clientId: 'kt_client_id',
-        url: 'APP_CONFIG_URL_KHAO_THI',
+        url: typeof APP_CONFIG_URL_KHAO_THI !== 'undefined' ? APP_CONFIG_URL_KHAO_THI : '',
         icon: EModuleKey.KT + '.svg',
     },
     [EModuleKey.CSVC]: {
-        title: 'APP_CONFIG_TITLE_CSVC',
+        title: typeof APP_CONFIG_TITLE_CSVC !== 'undefined' ? APP_CONFIG_TITLE_CSVC : '',
         clientId: 'csvc_client_id',
-        url: 'APP_CONFIG_URL_CSVC',
+        url: typeof APP_CONFIG_URL_CSVC !== 'undefined' ? APP_CONFIG_URL_CSVC : '',
         icon: EModuleKey.CSVC + '.svg',
     },
 };
 
 export const moduleThuVien: Partial<Login.TModule> = {
-    title: 'APP_CONFIG_TITLE_THU_VIEN',
-    url: 'APP_CONFIG_URL_THU_VIEN',
+    title: typeof APP_CONFIG_TITLE_THU_VIEN !== 'undefined' ? APP_CONFIG_TITLE_THU_VIEN : '',
+    url: typeof APP_CONFIG_URL_THU_VIEN !== 'undefined' ? APP_CONFIG_URL_THU_VIEN : '',
     icon: 'thu-vien.svg',
 };
 
 export const moduleQuanLyVanBan: Partial<Login.TModule> = {
-    title: 'APP_CONFIG_TITLE_QLVB',
-    url: 'APP_CONFIG_URL_QLVB',
+    title: typeof APP_CONFIG_TITLE_QLVB !== 'undefined' ? APP_CONFIG_TITLE_QLVB : '',
+    url: typeof APP_CONFIG_URL_QLVB !== 'undefined' ? APP_CONFIG_URL_QLVB : '',
     icon: 'quan-ly-van-ban.svg',
 };
 
 export const moduleCongThongTin: Partial<Login.TModule> = {
-    title: 'APP_CONFIG_TITLE_LANDING',
-    url: 'APP_CONFIG_URL_LANDING',
+    title: typeof APP_CONFIG_TITLE_LANDING !== 'undefined' ? APP_CONFIG_TITLE_LANDING : '',
+    url: typeof APP_CONFIG_URL_LANDING !== 'undefined' ? APP_CONFIG_URL_LANDING : '',
     icon: 'cong-thong-tin.svg',
 };
 
 /** Đường link landing page */
-export const landingUrl = 'APP_CONFIG_URL_LANDING';
+export const landingUrl = typeof APP_CONFIG_URL_LANDING !== 'undefined' ? APP_CONFIG_URL_LANDING : '';
 
 /** Màu sắc chủ đạo */
 export const primaryColor = '#1890ff'; // Gán mặc định màu xanh dương phổ biến của Ant Design
