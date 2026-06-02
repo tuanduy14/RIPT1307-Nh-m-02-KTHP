@@ -1,9 +1,3 @@
-import React from 'react';
-import { DatePicker } from 'antd';
-
-const MyDatepicker = DatePicker as any;
-
-export default MyDatepicker;
 import { DatePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/vi_VN';
 import 'antd/es/date-picker/style/index.less';
@@ -13,9 +7,6 @@ import moment from 'moment';
 
 const MyDatePicker = (
   props: Omit<PickerProps<Moment>, 'onChange'> & {
-    /**
-     * Format hiển thị, mặc định: DD/MM/YYYY
-     */
     format?: string;
     pickerStyle?: 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year' | undefined;
     showTime?:
@@ -33,10 +24,6 @@ const MyDatePicker = (
         };
     allowClear?: boolean;
     disabled?: boolean;
-
-    /**
-     * Format lưu lại, mặc định: ISOString
-     */
     saveFormat?: string;
     disabledDate?: (cur: string) => any;
     onChange?: (arg: string | null) => any;

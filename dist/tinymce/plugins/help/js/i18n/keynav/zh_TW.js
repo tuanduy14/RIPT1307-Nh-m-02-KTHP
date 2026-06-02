@@ -1,93 +1,93 @@
-tinymce.Resource.add('tinymce.html-i18n.help-keynav.zh_TW',
-'<h1>開始鍵盤瀏覽</h1>\n' +
-  '\n' +
-  '<dl>\n' +
-  '  <dt>跳至功能表列</dt>\n' +
-  '  <dd>Windows 或 Linux：Alt+F9</dd>\n' +
-  '  <dd>macOS：&#x2325;F9</dd>\n' +
-  '  <dt>跳至工具列</dt>\n' +
-  '  <dd>Windows 或 Linux：Alt+F10</dd>\n' +
-  '  <dd>macOS：&#x2325;F10</dd>\n' +
-  '  <dt>跳至頁尾</dt>\n' +
-  '  <dd>Windows 或 Linux：Alt+F11</dd>\n' +
-  '  <dd>macOS：&#x2325;F11</dd>\n' +
-  '  <dt>跳至通知</dt>\n' +
-  '  <dd>Windows 或 Linux：Alt+F12</dd>\n' +
-  '  <dd>macOS：&#x2325;F12</dd>\n' +
-  '  <dt>跳至關聯式工具列</dt>\n' +
-  '  <dd>Windows、Linux 或 macOS：Ctrl+F9</dd>\n' +
-  '</dl>\n' +
-  '\n' +
-  '<p>瀏覽會從第一個 UI 項目開始，該項目會反白顯示，但如果是「頁尾」元素路徑的第一項，\n' +
-  '  則加底線。</p>\n' +
-  '\n' +
-  '<h1>在 UI 區段之間瀏覽</h1>\n' +
-  '\n' +
-  '<p>從 UI 區段移至下一個，請按 <strong>Tab</strong>。</p>\n' +
-  '\n' +
-  '<p>從 UI 區段移回上一個，請按 <strong>Shift+Tab</strong>。</p>\n' +
-  '\n' +
-  '<p>這些 UI 區段的 <strong>Tab</strong> 順序如下：</p>\n' +
-  '\n' +
-  '<ol>\n' +
-  '  <li>功能表列</li>\n' +
-  '  <li>各個工具列群組</li>\n' +
-  '  <li>側邊欄</li>\n' +
-  '  <li>頁尾中的元素路徑</li>\n' +
-  '  <li>頁尾中字數切換按鈕</li>\n' +
-  '  <li>頁尾中的品牌連結</li>\n' +
-  '  <li>頁尾中編輯器調整大小控點</li>\n' +
-  '</ol>\n' +
-  '\n' +
-  '<p>如果 UI 區段未顯示，表示已略過該區段。</p>\n' +
-  '\n' +
-  '<p>如果鍵盤瀏覽跳至頁尾，但沒有顯示側邊欄，則按下 <strong>Shift+Tab</strong>\n' +
-  '  會跳至第一個工具列群組，而不是最後一個。</p>\n' +
-  '\n' +
-  '<h1>在 UI 區段之內瀏覽</h1>\n' +
-  '\n' +
-  '<p>在兩個 UI 元素之間移動，請按適當的<strong>方向</strong>鍵。</p>\n' +
-  '\n' +
-  '<p><strong>向左</strong>和<strong>向右</strong>方向鍵</p>\n' +
-  '\n' +
-  '<ul>\n' +
-  '  <li>在功能表列中的功能表之間移動。</li>\n' +
-  '  <li>開啟功能表中的子功能表。</li>\n' +
-  '  <li>在工具列群組中的按鈕之間移動。</li>\n' +
-  '  <li>在頁尾的元素路徑中項目之間移動。</li>\n' +
-  '</ul>\n' +
-  '\n' +
-  '<p><strong>向下</strong>和<strong>向上</strong>方向鍵</p>\n' +
-  '\n' +
-  '<ul>\n' +
-  '  <li>在功能表中的功能表項目之間移動。</li>\n' +
-  '  <li>在工具列快顯功能表中的項目之間移動。</li>\n' +
-  '</ul>\n' +
-  '\n' +
-  '<p><strong>方向</strong>鍵會在所跳至 UI 區段之內循環。</p>\n' +
-  '\n' +
-  '<p>若要關閉已開啟的功能表、已開啟的子功能表，或已開啟的快顯功能表，請按 <strong>Esc</strong> 鍵。</p>\n' +
-  '\n' +
-  '<p>如果目前已跳至特定 UI 區段的「頂端」，則按 <strong>Esc</strong> 鍵也會結束\n' +
-  '  整個鍵盤瀏覽。</p>\n' +
-  '\n' +
-  '<h1>執行功能表列項目或工具列按鈕</h1>\n' +
-  '\n' +
-  '<p>當想要的功能表項目或工具列按鈕已反白顯示時，按 <strong>Return</strong>、<strong>Enter</strong>、\n' +
-  '  或<strong>空白鍵</strong>即可執行該項目。</p>\n' +
-  '\n' +
-  '<h1>瀏覽非索引標籤式對話方塊</h1>\n' +
-  '\n' +
-  '<p>在非索引標籤式對話方塊中，開啟對話方塊時會跳至第一個互動元件。</p>\n' +
-  '\n' +
-  '<p>按 <strong>Tab</strong> 或 <strong>Shift+Tab</strong> 即可在互動式對話方塊元件之間瀏覽。</p>\n' +
-  '\n' +
-  '<h1>瀏覽索引標籤式對話方塊</h1>\n' +
-  '\n' +
-  '<p>在索引標籤式對話方塊中，開啟對話方塊時會跳至索引標籤式功能表中的第一個按鈕。</p>\n' +
-  '\n' +
-  '<p>若要在此對話方塊的互動式元件之間瀏覽，請按 <strong>Tab</strong> 或\n' +
-  '  <strong>Shift+Tab</strong>。</p>\n' +
-  '\n' +
-  '<p>先跳至索引標籤式功能表，然後按適當的<strong>方向</strong>鍵，即可切換至另一個對話方塊索引標籤，\n' +
-  '  以循環瀏覽可用的索引標籤。</p>\n');
+tinymce.Resource.add("tinymce.html-i18n.help-keynav.zh_TW",`<h1>\u958B\u59CB\u9375\u76E4\u700F\u89BD</h1>
+
+<dl>
+  <dt>\u8DF3\u81F3\u529F\u80FD\u8868\u5217</dt>
+  <dd>Windows \u6216 Linux\uFF1AAlt+F9</dd>
+  <dd>macOS\uFF1A&#x2325;F9</dd>
+  <dt>\u8DF3\u81F3\u5DE5\u5177\u5217</dt>
+  <dd>Windows \u6216 Linux\uFF1AAlt+F10</dd>
+  <dd>macOS\uFF1A&#x2325;F10</dd>
+  <dt>\u8DF3\u81F3\u9801\u5C3E</dt>
+  <dd>Windows \u6216 Linux\uFF1AAlt+F11</dd>
+  <dd>macOS\uFF1A&#x2325;F11</dd>
+  <dt>\u8DF3\u81F3\u901A\u77E5</dt>
+  <dd>Windows \u6216 Linux\uFF1AAlt+F12</dd>
+  <dd>macOS\uFF1A&#x2325;F12</dd>
+  <dt>\u8DF3\u81F3\u95DC\u806F\u5F0F\u5DE5\u5177\u5217</dt>
+  <dd>Windows\u3001Linux \u6216 macOS\uFF1ACtrl+F9</dd>
+</dl>
+
+<p>\u700F\u89BD\u6703\u5F9E\u7B2C\u4E00\u500B UI \u9805\u76EE\u958B\u59CB\uFF0C\u8A72\u9805\u76EE\u6703\u53CD\u767D\u986F\u793A\uFF0C\u4F46\u5982\u679C\u662F\u300C\u9801\u5C3E\u300D\u5143\u7D20\u8DEF\u5F91\u7684\u7B2C\u4E00\u9805\uFF0C
+  \u5247\u52A0\u5E95\u7DDA\u3002</p>
+
+<h1>\u5728 UI \u5340\u6BB5\u4E4B\u9593\u700F\u89BD</h1>
+
+<p>\u5F9E UI \u5340\u6BB5\u79FB\u81F3\u4E0B\u4E00\u500B\uFF0C\u8ACB\u6309 <strong>Tab</strong>\u3002</p>
+
+<p>\u5F9E UI \u5340\u6BB5\u79FB\u56DE\u4E0A\u4E00\u500B\uFF0C\u8ACB\u6309 <strong>Shift+Tab</strong>\u3002</p>
+
+<p>\u9019\u4E9B UI \u5340\u6BB5\u7684 <strong>Tab</strong> \u9806\u5E8F\u5982\u4E0B\uFF1A</p>
+
+<ol>
+  <li>\u529F\u80FD\u8868\u5217</li>
+  <li>\u5404\u500B\u5DE5\u5177\u5217\u7FA4\u7D44</li>
+  <li>\u5074\u908A\u6B04</li>
+  <li>\u9801\u5C3E\u4E2D\u7684\u5143\u7D20\u8DEF\u5F91</li>
+  <li>\u9801\u5C3E\u4E2D\u5B57\u6578\u5207\u63DB\u6309\u9215</li>
+  <li>\u9801\u5C3E\u4E2D\u7684\u54C1\u724C\u9023\u7D50</li>
+  <li>\u9801\u5C3E\u4E2D\u7DE8\u8F2F\u5668\u8ABF\u6574\u5927\u5C0F\u63A7\u9EDE</li>
+</ol>
+
+<p>\u5982\u679C UI \u5340\u6BB5\u672A\u986F\u793A\uFF0C\u8868\u793A\u5DF2\u7565\u904E\u8A72\u5340\u6BB5\u3002</p>
+
+<p>\u5982\u679C\u9375\u76E4\u700F\u89BD\u8DF3\u81F3\u9801\u5C3E\uFF0C\u4F46\u6C92\u6709\u986F\u793A\u5074\u908A\u6B04\uFF0C\u5247\u6309\u4E0B <strong>Shift+Tab</strong>
+  \u6703\u8DF3\u81F3\u7B2C\u4E00\u500B\u5DE5\u5177\u5217\u7FA4\u7D44\uFF0C\u800C\u4E0D\u662F\u6700\u5F8C\u4E00\u500B\u3002</p>
+
+<h1>\u5728 UI \u5340\u6BB5\u4E4B\u5167\u700F\u89BD</h1>
+
+<p>\u5728\u5169\u500B UI \u5143\u7D20\u4E4B\u9593\u79FB\u52D5\uFF0C\u8ACB\u6309\u9069\u7576\u7684<strong>\u65B9\u5411</strong>\u9375\u3002</p>
+
+<p><strong>\u5411\u5DE6</strong>\u548C<strong>\u5411\u53F3</strong>\u65B9\u5411\u9375</p>
+
+<ul>
+  <li>\u5728\u529F\u80FD\u8868\u5217\u4E2D\u7684\u529F\u80FD\u8868\u4E4B\u9593\u79FB\u52D5\u3002</li>
+  <li>\u958B\u555F\u529F\u80FD\u8868\u4E2D\u7684\u5B50\u529F\u80FD\u8868\u3002</li>
+  <li>\u5728\u5DE5\u5177\u5217\u7FA4\u7D44\u4E2D\u7684\u6309\u9215\u4E4B\u9593\u79FB\u52D5\u3002</li>
+  <li>\u5728\u9801\u5C3E\u7684\u5143\u7D20\u8DEF\u5F91\u4E2D\u9805\u76EE\u4E4B\u9593\u79FB\u52D5\u3002</li>
+</ul>
+
+<p><strong>\u5411\u4E0B</strong>\u548C<strong>\u5411\u4E0A</strong>\u65B9\u5411\u9375</p>
+
+<ul>
+  <li>\u5728\u529F\u80FD\u8868\u4E2D\u7684\u529F\u80FD\u8868\u9805\u76EE\u4E4B\u9593\u79FB\u52D5\u3002</li>
+  <li>\u5728\u5DE5\u5177\u5217\u5FEB\u986F\u529F\u80FD\u8868\u4E2D\u7684\u9805\u76EE\u4E4B\u9593\u79FB\u52D5\u3002</li>
+</ul>
+
+<p><strong>\u65B9\u5411</strong>\u9375\u6703\u5728\u6240\u8DF3\u81F3 UI \u5340\u6BB5\u4E4B\u5167\u5FAA\u74B0\u3002</p>
+
+<p>\u82E5\u8981\u95DC\u9589\u5DF2\u958B\u555F\u7684\u529F\u80FD\u8868\u3001\u5DF2\u958B\u555F\u7684\u5B50\u529F\u80FD\u8868\uFF0C\u6216\u5DF2\u958B\u555F\u7684\u5FEB\u986F\u529F\u80FD\u8868\uFF0C\u8ACB\u6309 <strong>Esc</strong> \u9375\u3002</p>
+
+<p>\u5982\u679C\u76EE\u524D\u5DF2\u8DF3\u81F3\u7279\u5B9A UI \u5340\u6BB5\u7684\u300C\u9802\u7AEF\u300D\uFF0C\u5247\u6309 <strong>Esc</strong> \u9375\u4E5F\u6703\u7D50\u675F
+  \u6574\u500B\u9375\u76E4\u700F\u89BD\u3002</p>
+
+<h1>\u57F7\u884C\u529F\u80FD\u8868\u5217\u9805\u76EE\u6216\u5DE5\u5177\u5217\u6309\u9215</h1>
+
+<p>\u7576\u60F3\u8981\u7684\u529F\u80FD\u8868\u9805\u76EE\u6216\u5DE5\u5177\u5217\u6309\u9215\u5DF2\u53CD\u767D\u986F\u793A\u6642\uFF0C\u6309 <strong>Return</strong>\u3001<strong>Enter</strong>\u3001
+  \u6216<strong>\u7A7A\u767D\u9375</strong>\u5373\u53EF\u57F7\u884C\u8A72\u9805\u76EE\u3002</p>
+
+<h1>\u700F\u89BD\u975E\u7D22\u5F15\u6A19\u7C64\u5F0F\u5C0D\u8A71\u65B9\u584A</h1>
+
+<p>\u5728\u975E\u7D22\u5F15\u6A19\u7C64\u5F0F\u5C0D\u8A71\u65B9\u584A\u4E2D\uFF0C\u958B\u555F\u5C0D\u8A71\u65B9\u584A\u6642\u6703\u8DF3\u81F3\u7B2C\u4E00\u500B\u4E92\u52D5\u5143\u4EF6\u3002</p>
+
+<p>\u6309 <strong>Tab</strong> \u6216 <strong>Shift+Tab</strong> \u5373\u53EF\u5728\u4E92\u52D5\u5F0F\u5C0D\u8A71\u65B9\u584A\u5143\u4EF6\u4E4B\u9593\u700F\u89BD\u3002</p>
+
+<h1>\u700F\u89BD\u7D22\u5F15\u6A19\u7C64\u5F0F\u5C0D\u8A71\u65B9\u584A</h1>
+
+<p>\u5728\u7D22\u5F15\u6A19\u7C64\u5F0F\u5C0D\u8A71\u65B9\u584A\u4E2D\uFF0C\u958B\u555F\u5C0D\u8A71\u65B9\u584A\u6642\u6703\u8DF3\u81F3\u7D22\u5F15\u6A19\u7C64\u5F0F\u529F\u80FD\u8868\u4E2D\u7684\u7B2C\u4E00\u500B\u6309\u9215\u3002</p>
+
+<p>\u82E5\u8981\u5728\u6B64\u5C0D\u8A71\u65B9\u584A\u7684\u4E92\u52D5\u5F0F\u5143\u4EF6\u4E4B\u9593\u700F\u89BD\uFF0C\u8ACB\u6309 <strong>Tab</strong> \u6216
+  <strong>Shift+Tab</strong>\u3002</p>
+
+<p>\u5148\u8DF3\u81F3\u7D22\u5F15\u6A19\u7C64\u5F0F\u529F\u80FD\u8868\uFF0C\u7136\u5F8C\u6309\u9069\u7576\u7684<strong>\u65B9\u5411</strong>\u9375\uFF0C\u5373\u53EF\u5207\u63DB\u81F3\u53E6\u4E00\u500B\u5C0D\u8A71\u65B9\u584A\u7D22\u5F15\u6A19\u7C64\uFF0C
+  \u4EE5\u5FAA\u74B0\u700F\u89BD\u53EF\u7528\u7684\u7D22\u5F15\u6A19\u7C64\u3002</p>
+`);

@@ -1,93 +1,93 @@
-tinymce.Resource.add('tinymce.html-i18n.help-keynav.sv_SE',
-'<h1>Påbörja tangentbordsnavigering</h1>\n' +
-  '\n' +
-  '<dl>\n' +
-  '  <dt>Fokusera på menyraden</dt>\n' +
-  '  <dd>Windows eller Linux: Alt+F9</dd>\n' +
-  '  <dd>macOS: &#x2325;F9</dd>\n' +
-  '  <dt>Fokusera på verktygsraden</dt>\n' +
-  '  <dd>Windows eller Linux: Alt+F10</dd>\n' +
-  '  <dd>macOS: &#x2325;F10</dd>\n' +
-  '  <dt>Fokusera på verktygsraden</dt>\n' +
-  '  <dd>Windows eller Linux: Alt+F11</dd>\n' +
-  '  <dd>macOS: &#x2325;F11</dd>\n' +
-  '  <dt>Fokusera aviseringen</dt>\n' +
-  '  <dd>Windows eller Linux: Alt+F12</dd>\n' +
-  '  <dd>macOS: &#x2325;F12</dd>\n' +
-  '  <dt>Fokusera på en snabbverktygsrad</dt>\n' +
-  '  <dd>Windows, Linux eller macOS: Ctrl+F9</dd>\n' +
-  '</dl>\n' +
-  '\n' +
-  '<p>Navigeringen börjar vid det första gränssnittsobjektet, vilket är markerat eller understruket om det gäller det första objektet i\n' +
-  '  sidfotens elementsökväg.</p>\n' +
-  '\n' +
-  '<h1>Navigera mellan UI-avsnitt</h1>\n' +
-  '\n' +
-  '<p>Flytta från ett UI-avsnitt till nästa genom att trycka på <strong>Tabb</strong>.</p>\n' +
-  '\n' +
-  '<p>Flytta från ett UI-avsnitt till det föregående genom att trycka på <strong>Skift+Tabb</strong>.</p>\n' +
-  '\n' +
-  '<p><strong>Tabb</strong>-ordningen för dessa UI-avsnitt är:</p>\n' +
-  '\n' +
-  '<ol>\n' +
-  '  <li>Menyrad</li>\n' +
-  '  <li>Varje verktygsradsgrupp</li>\n' +
-  '  <li>Sidoruta</li>\n' +
-  '  <li>Elementsökväg i sidfoten</li>\n' +
-  '  <li>Växlingsknapp för ordantal i sidfoten</li>\n' +
-  '  <li>Varumärkeslänk i sidfoten</li>\n' +
-  '  <li>Storlekshandtag för redigeraren i sidfoten</li>\n' +
-  '</ol>\n' +
-  '\n' +
-  '<p>Om ett UI-avsnitt inte finns hoppas det över.</p>\n' +
-  '\n' +
-  '<p>Om sidfoten har fokus på tangentbordsnavigering, och det inte finns någon synlig sidoruta, flyttas fokus till den första verktygsradsgruppen\n' +
-  '  när du trycker på <strong>Skift+Tabb</strong>, inte till den sista.</p>\n' +
-  '\n' +
-  '<h1>Navigera i UI-avsnitt</h1>\n' +
-  '\n' +
-  '<p>Flytta från ett UI-element till nästa genom att trycka på motsvarande <strong>piltangent</strong>.</p>\n' +
-  '\n' +
-  '<p><strong>Vänsterpil</strong> och <strong>högerpil</strong></p>\n' +
-  '\n' +
-  '<ul>\n' +
-  '  <li>flytta mellan menyer på menyraden.</li>\n' +
-  '  <li>öppna en undermeny på en meny.</li>\n' +
-  '  <li>flytta mellan knappar i en verktygsradgrupp.</li>\n' +
-  '  <li>flytta mellan objekt i sidfotens elementsökväg.</li>\n' +
-  '</ul>\n' +
-  '\n' +
-  '<p><strong>Nedpil</strong> och <strong>uppil</strong></p>\n' +
-  '\n' +
-  '<ul>\n' +
-  '  <li>flytta mellan menyalternativ på en meny.</li>\n' +
-  '  <li>flytta mellan alternativ på en popup-meny på verktygsraden.</li>\n' +
-  '</ul>\n' +
-  '\n' +
-  '<p><strong>Piltangenterna</strong> cirkulerar inom det fokuserade UI-avsnittet.</p>\n' +
-  '\n' +
-  '<p>Tryck på <strong>Esc</strong>-tangenten om du vill stänga en öppen meny, undermeny eller popup-meny.</p>\n' +
-  '\n' +
-  '<p>Om det aktuella fokuset är högst upp i ett UI-avsnitt avlutas även tangentbordsnavigeringen helt när\n' +
-  '  du trycker på <strong>Esc</strong>-tangenten.</p>\n' +
-  '\n' +
-  '<h1>Köra ett menyalternativ eller en verktygfältsknapp</h1>\n' +
-  '\n' +
-  '<p>När menyalternativet eller verktygsradsknappen är markerad trycker du på <strong>Retur</strong>, <strong>Enter</strong>\n' +
-  '  eller <strong>blanksteg</strong> för att köra alternativet.</p>\n' +
-  '\n' +
-  '<h1>Navigera i dialogrutor utan flikar</h1>\n' +
-  '\n' +
-  '<p>I dialogrutor utan flikar är den första interaktiva komponenten i fokus när dialogrutan öppnas.</p>\n' +
-  '\n' +
-  '<p>Navigera mellan interaktiva dialogkomponenter genom att trycka på <strong>Tabb</strong> eller <strong>Skift+Tabb</strong>.</p>\n' +
-  '\n' +
-  '<h1>Navigera i dialogrutor med flikar</h1>\n' +
-  '\n' +
-  '<p>I dialogrutor utan flikar är den första knappen på flikmenyn i fokus när dialogrutan öppnas.</p>\n' +
-  '\n' +
-  '<p>Navigera mellan interaktiva komponenter på dialogrutefliken genom att trycka på <strong>Tabb</strong> eller\n' +
-  '  <strong>Skift+Tabb</strong>.</p>\n' +
-  '\n' +
-  '<p>Växla till en annan dialogruta genom att fokusera på flikmenyn och sedan trycka på motsvarande <strong>piltangent</strong>\n' +
-  '  för att cirkulera mellan de tillgängliga flikarna.</p>\n');
+tinymce.Resource.add("tinymce.html-i18n.help-keynav.sv_SE",`<h1>P\xE5b\xF6rja tangentbordsnavigering</h1>
+
+<dl>
+  <dt>Fokusera p\xE5 menyraden</dt>
+  <dd>Windows eller Linux: Alt+F9</dd>
+  <dd>macOS: &#x2325;F9</dd>
+  <dt>Fokusera p\xE5 verktygsraden</dt>
+  <dd>Windows eller Linux: Alt+F10</dd>
+  <dd>macOS: &#x2325;F10</dd>
+  <dt>Fokusera p\xE5 verktygsraden</dt>
+  <dd>Windows eller Linux: Alt+F11</dd>
+  <dd>macOS: &#x2325;F11</dd>
+  <dt>Fokusera aviseringen</dt>
+  <dd>Windows eller Linux: Alt+F12</dd>
+  <dd>macOS: &#x2325;F12</dd>
+  <dt>Fokusera p\xE5 en snabbverktygsrad</dt>
+  <dd>Windows, Linux eller macOS: Ctrl+F9</dd>
+</dl>
+
+<p>Navigeringen b\xF6rjar vid det f\xF6rsta gr\xE4nssnittsobjektet, vilket \xE4r markerat eller understruket om det g\xE4ller det f\xF6rsta objektet i
+  sidfotens elements\xF6kv\xE4g.</p>
+
+<h1>Navigera mellan UI-avsnitt</h1>
+
+<p>Flytta fr\xE5n ett UI-avsnitt till n\xE4sta genom att trycka p\xE5 <strong>Tabb</strong>.</p>
+
+<p>Flytta fr\xE5n ett UI-avsnitt till det f\xF6reg\xE5ende genom att trycka p\xE5 <strong>Skift+Tabb</strong>.</p>
+
+<p><strong>Tabb</strong>-ordningen f\xF6r dessa UI-avsnitt \xE4r:</p>
+
+<ol>
+  <li>Menyrad</li>
+  <li>Varje verktygsradsgrupp</li>
+  <li>Sidoruta</li>
+  <li>Elements\xF6kv\xE4g i sidfoten</li>
+  <li>V\xE4xlingsknapp f\xF6r ordantal i sidfoten</li>
+  <li>Varum\xE4rkesl\xE4nk i sidfoten</li>
+  <li>Storlekshandtag f\xF6r redigeraren i sidfoten</li>
+</ol>
+
+<p>Om ett UI-avsnitt inte finns hoppas det \xF6ver.</p>
+
+<p>Om sidfoten har fokus p\xE5 tangentbordsnavigering, och det inte finns n\xE5gon synlig sidoruta, flyttas fokus till den f\xF6rsta verktygsradsgruppen
+  n\xE4r du trycker p\xE5 <strong>Skift+Tabb</strong>, inte till den sista.</p>
+
+<h1>Navigera i UI-avsnitt</h1>
+
+<p>Flytta fr\xE5n ett UI-element till n\xE4sta genom att trycka p\xE5 motsvarande <strong>piltangent</strong>.</p>
+
+<p><strong>V\xE4nsterpil</strong> och <strong>h\xF6gerpil</strong></p>
+
+<ul>
+  <li>flytta mellan menyer p\xE5 menyraden.</li>
+  <li>\xF6ppna en undermeny p\xE5 en meny.</li>
+  <li>flytta mellan knappar i en verktygsradgrupp.</li>
+  <li>flytta mellan objekt i sidfotens elements\xF6kv\xE4g.</li>
+</ul>
+
+<p><strong>Nedpil</strong> och <strong>uppil</strong></p>
+
+<ul>
+  <li>flytta mellan menyalternativ p\xE5 en meny.</li>
+  <li>flytta mellan alternativ p\xE5 en popup-meny p\xE5 verktygsraden.</li>
+</ul>
+
+<p><strong>Piltangenterna</strong> cirkulerar inom det fokuserade UI-avsnittet.</p>
+
+<p>Tryck p\xE5 <strong>Esc</strong>-tangenten om du vill st\xE4nga en \xF6ppen meny, undermeny eller popup-meny.</p>
+
+<p>Om det aktuella fokuset \xE4r h\xF6gst upp i ett UI-avsnitt avlutas \xE4ven tangentbordsnavigeringen helt n\xE4r
+  du trycker p\xE5 <strong>Esc</strong>-tangenten.</p>
+
+<h1>K\xF6ra ett menyalternativ eller en verktygf\xE4ltsknapp</h1>
+
+<p>N\xE4r menyalternativet eller verktygsradsknappen \xE4r markerad trycker du p\xE5 <strong>Retur</strong>, <strong>Enter</strong>
+  eller <strong>blanksteg</strong> f\xF6r att k\xF6ra alternativet.</p>
+
+<h1>Navigera i dialogrutor utan flikar</h1>
+
+<p>I dialogrutor utan flikar \xE4r den f\xF6rsta interaktiva komponenten i fokus n\xE4r dialogrutan \xF6ppnas.</p>
+
+<p>Navigera mellan interaktiva dialogkomponenter genom att trycka p\xE5 <strong>Tabb</strong> eller <strong>Skift+Tabb</strong>.</p>
+
+<h1>Navigera i dialogrutor med flikar</h1>
+
+<p>I dialogrutor utan flikar \xE4r den f\xF6rsta knappen p\xE5 flikmenyn i fokus n\xE4r dialogrutan \xF6ppnas.</p>
+
+<p>Navigera mellan interaktiva komponenter p\xE5 dialogrutefliken genom att trycka p\xE5 <strong>Tabb</strong> eller
+  <strong>Skift+Tabb</strong>.</p>
+
+<p>V\xE4xla till en annan dialogruta genom att fokusera p\xE5 flikmenyn och sedan trycka p\xE5 motsvarande <strong>piltangent</strong>
+  f\xF6r att cirkulera mellan de tillg\xE4ngliga flikarna.</p>
+`);

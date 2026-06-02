@@ -1,3 +1,6 @@
+
+
+typescriptreact
 import type { ReactNode } from 'react';
 import { notification } from 'antd';
 import 'moment/locale/vi';
@@ -58,4 +61,5 @@ export const request: RequestConfig = {
 	},
 	requestInterceptors: [authHeaderInterceptor],
 };
+
 

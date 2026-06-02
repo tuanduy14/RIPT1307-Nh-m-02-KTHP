@@ -1,93 +1,93 @@
-tinymce.Resource.add('tinymce.html-i18n.help-keynav.ko_KR',
-'<h1>키보드 탐색 시작</h1>\n' +
-  '\n' +
-  '<dl>\n' +
-  '  <dt>메뉴 모음 포커스 표시</dt>\n' +
-  '  <dd>Windows 또는 Linux: Alt+F9</dd>\n' +
-  '  <dd>macOS: &#x2325;F9</dd>\n' +
-  '  <dt>도구 모음 포커스 표시</dt>\n' +
-  '  <dd>Windows 또는 Linux: Alt+F10</dd>\n' +
-  '  <dd>macOS: &#x2325;F10</dd>\n' +
-  '  <dt>푸터 포커스 표시</dt>\n' +
-  '  <dd>Windows 또는 Linux: Alt+F11</dd>\n' +
-  '  <dd>macOS: &#x2325;F11</dd>\n' +
-  '  <dt>알림 포커스</dt>\n' +
-  '  <dd>Windows 또는 Linux: Alt+F12</dd>\n' +
-  '  <dd>macOS: &#x2325;F12</dd>\n' +
-  '  <dt>컨텍스트 도구 모음에 포커스 표시</dt>\n' +
-  '  <dd>Windows, Linux 또는 macOS: Ctrl+F9</dd>\n' +
-  '</dl>\n' +
-  '\n' +
-  '<p>첫 번째 UI 항목에서 탐색이 시작되며, 이때 첫 번째 항목이 강조 표시되거나 푸터 요소 경로에 있는\n' +
-  '  경우 밑줄 표시됩니다.</p>\n' +
-  '\n' +
-  '<h1>UI 섹션 간 탐색</h1>\n' +
-  '\n' +
-  '<p>한 UI 섹션에서 다음 UI 섹션으로 이동하려면 <strong>Tab(탭)</strong>을 누릅니다.</p>\n' +
-  '\n' +
-  '<p>한 UI 섹션에서 이전 UI 섹션으로 돌아가려면 <strong>Shift+Tab(시프트+탭)</strong>을 누릅니다.</p>\n' +
-  '\n' +
-  '<p>이 UI 섹션의 <strong>Tab(탭)</strong> 순서는 다음과 같습니다.</p>\n' +
-  '\n' +
-  '<ol>\n' +
-  '  <li>메뉴 바</li>\n' +
-  '  <li>각 도구 모음 그룹</li>\n' +
-  '  <li>사이드바</li>\n' +
-  '  <li>푸터의 요소 경로</li>\n' +
-  '  <li>푸터의 단어 수 토글 버튼</li>\n' +
-  '  <li>푸터의 브랜딩 링크</li>\n' +
-  '  <li>푸터의 에디터 크기 변경 핸들</li>\n' +
-  '</ol>\n' +
-  '\n' +
-  '<p>UI 섹션이 없는 경우 건너뛰기합니다.</p>\n' +
-  '\n' +
-  '<p>푸터에 키보드 탐색 포커스가 있고 사이드바는 보이지 않는 경우 <strong>Shift+Tab(시프트+탭)</strong>을 누르면\n' +
-  '  포커스 표시가 마지막이 아닌 첫 번째 도구 모음 그룹으로 이동합니다.</p>\n' +
-  '\n' +
-  '<h1>UI 섹션 내 탐색</h1>\n' +
-  '\n' +
-  '<p>한 UI 요소에서 다음 UI 요소로 이동하려면 적절한 <strong>화살표</strong> 키를 누릅니다.</p>\n' +
-  '\n' +
-  '<p><strong>왼쪽</strong>과 <strong>오른쪽</strong> 화살표 키의 용도:</p>\n' +
-  '\n' +
-  '<ul>\n' +
-  '  <li>메뉴 모음에서 메뉴 항목 사이를 이동합니다.</li>\n' +
-  '  <li>메뉴에서 하위 메뉴를 엽니다.</li>\n' +
-  '  <li>도구 모음 그룹에서 버튼 사이를 이동합니다.</li>\n' +
-  '  <li>푸터의 요소 경로에서 항목 간에 이동합니다.</li>\n' +
-  '</ul>\n' +
-  '\n' +
-  '<p><strong>아래</strong>와 <strong>위</strong> 화살표 키의 용도:</p>\n' +
-  '\n' +
-  '<ul>\n' +
-  '  <li>메뉴에서 메뉴 항목 사이를 이동합니다.</li>\n' +
-  '  <li>도구 모음 팝업 메뉴에서 메뉴 항목 사이를 이동합니다.</li>\n' +
-  '</ul>\n' +
-  '\n' +
-  '<p><strong>화살표</strong> 키는 포커스 표시 UI 섹션 내에서 순환됩니다.</p>\n' +
-  '\n' +
-  '<p>열려 있는 메뉴, 열려 있는 하위 메뉴 또는 열려 있는 팝업 메뉴를 닫으려면 <strong>Esc</strong> 키를 누릅니다.</p>\n' +
-  '\n' +
-  "<p>현재 포커스 표시가 특정 UI 섹션 '상단'에 있는 경우 이때도 <strong>Esc</strong> 키를 누르면\n" +
-  '  키보드 탐색이 완전히 종료됩니다.</p>\n' +
-  '\n' +
-  '<h1>메뉴 항목 또는 도구 모음 버튼 실행</h1>\n' +
-  '\n' +
-  '<p>원하는 메뉴 항목 또는 도구 모음 버튼이 강조 표시되어 있을 때 <strong>Return(리턴)</strong>, <strong>Enter(엔터)</strong>,\n' +
-  '  또는 <strong>Space bar(스페이스바)</strong>를 눌러 해당 항목을 실행합니다.</p>\n' +
-  '\n' +
-  '<h1>탭이 없는 대화 탐색</h1>\n' +
-  '\n' +
-  '<p>탭이 없는 대화의 경우, 첫 번째 대화형 요소가 포커스 표시된 상태로 대화가 열립니다.</p>\n' +
-  '\n' +
-  '<p>대화형 요소들 사이를 이동할 때는 <strong>Tab(탭)</strong> 또는 <strong>Shift+Tab(시프트+탭)</strong>을 누릅니다.</p>\n' +
-  '\n' +
-  '<h1>탭이 있는 대화 탐색</h1>\n' +
-  '\n' +
-  '<p>탭이 있는 대화의 경우, 탭 메뉴에서 첫 번째 버튼이 포커스 표시된 상태로 대화가 열립니다.</p>\n' +
-  '\n' +
-  '<p>이 대화 탭의 대화형 요소들 사이를 이동할 때는 <strong>Tab(탭)</strong> 또는\n' +
-  '  <strong>Shift+Tab(시프트+탭)</strong>을 누릅니다.</p>\n' +
-  '\n' +
-  '<p>다른 대화 탭으로 이동하려면 탭 메뉴를 포커스 표시한 다음 적절한 <strong>화살표</strong>\n' +
-  '  키를 눌러 사용 가능한 탭들을 지나 원하는 탭으로 이동합니다.</p>\n');
+tinymce.Resource.add("tinymce.html-i18n.help-keynav.ko_KR",`<h1>\uD0A4\uBCF4\uB4DC \uD0D0\uC0C9 \uC2DC\uC791</h1>
+
+<dl>
+  <dt>\uBA54\uB274 \uBAA8\uC74C \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC</dt>
+  <dd>Windows \uB610\uB294 Linux: Alt+F9</dd>
+  <dd>macOS: &#x2325;F9</dd>
+  <dt>\uB3C4\uAD6C \uBAA8\uC74C \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC</dt>
+  <dd>Windows \uB610\uB294 Linux: Alt+F10</dd>
+  <dd>macOS: &#x2325;F10</dd>
+  <dt>\uD478\uD130 \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC</dt>
+  <dd>Windows \uB610\uB294 Linux: Alt+F11</dd>
+  <dd>macOS: &#x2325;F11</dd>
+  <dt>\uC54C\uB9BC \uD3EC\uCEE4\uC2A4</dt>
+  <dd>Windows \uB610\uB294 Linux: Alt+F12</dd>
+  <dd>macOS: &#x2325;F12</dd>
+  <dt>\uCEE8\uD14D\uC2A4\uD2B8 \uB3C4\uAD6C \uBAA8\uC74C\uC5D0 \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC</dt>
+  <dd>Windows, Linux \uB610\uB294 macOS: Ctrl+F9</dd>
+</dl>
+
+<p>\uCCAB \uBC88\uC9F8 UI \uD56D\uBAA9\uC5D0\uC11C \uD0D0\uC0C9\uC774 \uC2DC\uC791\uB418\uBA70, \uC774\uB54C \uCCAB \uBC88\uC9F8 \uD56D\uBAA9\uC774 \uAC15\uC870 \uD45C\uC2DC\uB418\uAC70\uB098 \uD478\uD130 \uC694\uC18C \uACBD\uB85C\uC5D0 \uC788\uB294
+  \uACBD\uC6B0 \uBC11\uC904 \uD45C\uC2DC\uB429\uB2C8\uB2E4.</p>
+
+<h1>UI \uC139\uC158 \uAC04 \uD0D0\uC0C9</h1>
+
+<p>\uD55C UI \uC139\uC158\uC5D0\uC11C \uB2E4\uC74C UI \uC139\uC158\uC73C\uB85C \uC774\uB3D9\uD558\uB824\uBA74 <strong>Tab(\uD0ED)</strong>\uC744 \uB204\uB985\uB2C8\uB2E4.</p>
+
+<p>\uD55C UI \uC139\uC158\uC5D0\uC11C \uC774\uC804 UI \uC139\uC158\uC73C\uB85C \uB3CC\uC544\uAC00\uB824\uBA74 <strong>Shift+Tab(\uC2DC\uD504\uD2B8+\uD0ED)</strong>\uC744 \uB204\uB985\uB2C8\uB2E4.</p>
+
+<p>\uC774 UI \uC139\uC158\uC758 <strong>Tab(\uD0ED)</strong> \uC21C\uC11C\uB294 \uB2E4\uC74C\uACFC \uAC19\uC2B5\uB2C8\uB2E4.</p>
+
+<ol>
+  <li>\uBA54\uB274 \uBC14</li>
+  <li>\uAC01 \uB3C4\uAD6C \uBAA8\uC74C \uADF8\uB8F9</li>
+  <li>\uC0AC\uC774\uB4DC\uBC14</li>
+  <li>\uD478\uD130\uC758 \uC694\uC18C \uACBD\uB85C</li>
+  <li>\uD478\uD130\uC758 \uB2E8\uC5B4 \uC218 \uD1A0\uAE00 \uBC84\uD2BC</li>
+  <li>\uD478\uD130\uC758 \uBE0C\uB79C\uB529 \uB9C1\uD06C</li>
+  <li>\uD478\uD130\uC758 \uC5D0\uB514\uD130 \uD06C\uAE30 \uBCC0\uACBD \uD578\uB4E4</li>
+</ol>
+
+<p>UI \uC139\uC158\uC774 \uC5C6\uB294 \uACBD\uC6B0 \uAC74\uB108\uB6F0\uAE30\uD569\uB2C8\uB2E4.</p>
+
+<p>\uD478\uD130\uC5D0 \uD0A4\uBCF4\uB4DC \uD0D0\uC0C9 \uD3EC\uCEE4\uC2A4\uAC00 \uC788\uACE0 \uC0AC\uC774\uB4DC\uBC14\uB294 \uBCF4\uC774\uC9C0 \uC54A\uB294 \uACBD\uC6B0 <strong>Shift+Tab(\uC2DC\uD504\uD2B8+\uD0ED)</strong>\uC744 \uB204\uB974\uBA74
+  \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC\uAC00 \uB9C8\uC9C0\uB9C9\uC774 \uC544\uB2CC \uCCAB \uBC88\uC9F8 \uB3C4\uAD6C \uBAA8\uC74C \uADF8\uB8F9\uC73C\uB85C \uC774\uB3D9\uD569\uB2C8\uB2E4.</p>
+
+<h1>UI \uC139\uC158 \uB0B4 \uD0D0\uC0C9</h1>
+
+<p>\uD55C UI \uC694\uC18C\uC5D0\uC11C \uB2E4\uC74C UI \uC694\uC18C\uB85C \uC774\uB3D9\uD558\uB824\uBA74 \uC801\uC808\uD55C <strong>\uD654\uC0B4\uD45C</strong> \uD0A4\uB97C \uB204\uB985\uB2C8\uB2E4.</p>
+
+<p><strong>\uC67C\uCABD</strong>\uACFC <strong>\uC624\uB978\uCABD</strong> \uD654\uC0B4\uD45C \uD0A4\uC758 \uC6A9\uB3C4:</p>
+
+<ul>
+  <li>\uBA54\uB274 \uBAA8\uC74C\uC5D0\uC11C \uBA54\uB274 \uD56D\uBAA9 \uC0AC\uC774\uB97C \uC774\uB3D9\uD569\uB2C8\uB2E4.</li>
+  <li>\uBA54\uB274\uC5D0\uC11C \uD558\uC704 \uBA54\uB274\uB97C \uC5FD\uB2C8\uB2E4.</li>
+  <li>\uB3C4\uAD6C \uBAA8\uC74C \uADF8\uB8F9\uC5D0\uC11C \uBC84\uD2BC \uC0AC\uC774\uB97C \uC774\uB3D9\uD569\uB2C8\uB2E4.</li>
+  <li>\uD478\uD130\uC758 \uC694\uC18C \uACBD\uB85C\uC5D0\uC11C \uD56D\uBAA9 \uAC04\uC5D0 \uC774\uB3D9\uD569\uB2C8\uB2E4.</li>
+</ul>
+
+<p><strong>\uC544\uB798</strong>\uC640 <strong>\uC704</strong> \uD654\uC0B4\uD45C \uD0A4\uC758 \uC6A9\uB3C4:</p>
+
+<ul>
+  <li>\uBA54\uB274\uC5D0\uC11C \uBA54\uB274 \uD56D\uBAA9 \uC0AC\uC774\uB97C \uC774\uB3D9\uD569\uB2C8\uB2E4.</li>
+  <li>\uB3C4\uAD6C \uBAA8\uC74C \uD31D\uC5C5 \uBA54\uB274\uC5D0\uC11C \uBA54\uB274 \uD56D\uBAA9 \uC0AC\uC774\uB97C \uC774\uB3D9\uD569\uB2C8\uB2E4.</li>
+</ul>
+
+<p><strong>\uD654\uC0B4\uD45C</strong> \uD0A4\uB294 \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC UI \uC139\uC158 \uB0B4\uC5D0\uC11C \uC21C\uD658\uB429\uB2C8\uB2E4.</p>
+
+<p>\uC5F4\uB824 \uC788\uB294 \uBA54\uB274, \uC5F4\uB824 \uC788\uB294 \uD558\uC704 \uBA54\uB274 \uB610\uB294 \uC5F4\uB824 \uC788\uB294 \uD31D\uC5C5 \uBA54\uB274\uB97C \uB2EB\uC73C\uB824\uBA74 <strong>Esc</strong> \uD0A4\uB97C \uB204\uB985\uB2C8\uB2E4.</p>
+
+<p>\uD604\uC7AC \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC\uAC00 \uD2B9\uC815 UI \uC139\uC158 '\uC0C1\uB2E8'\uC5D0 \uC788\uB294 \uACBD\uC6B0 \uC774\uB54C\uB3C4 <strong>Esc</strong> \uD0A4\uB97C \uB204\uB974\uBA74
+  \uD0A4\uBCF4\uB4DC \uD0D0\uC0C9\uC774 \uC644\uC804\uD788 \uC885\uB8CC\uB429\uB2C8\uB2E4.</p>
+
+<h1>\uBA54\uB274 \uD56D\uBAA9 \uB610\uB294 \uB3C4\uAD6C \uBAA8\uC74C \uBC84\uD2BC \uC2E4\uD589</h1>
+
+<p>\uC6D0\uD558\uB294 \uBA54\uB274 \uD56D\uBAA9 \uB610\uB294 \uB3C4\uAD6C \uBAA8\uC74C \uBC84\uD2BC\uC774 \uAC15\uC870 \uD45C\uC2DC\uB418\uC5B4 \uC788\uC744 \uB54C <strong>Return(\uB9AC\uD134)</strong>, <strong>Enter(\uC5D4\uD130)</strong>,
+  \uB610\uB294 <strong>Space bar(\uC2A4\uD398\uC774\uC2A4\uBC14)</strong>\uB97C \uB20C\uB7EC \uD574\uB2F9 \uD56D\uBAA9\uC744 \uC2E4\uD589\uD569\uB2C8\uB2E4.</p>
+
+<h1>\uD0ED\uC774 \uC5C6\uB294 \uB300\uD654 \uD0D0\uC0C9</h1>
+
+<p>\uD0ED\uC774 \uC5C6\uB294 \uB300\uD654\uC758 \uACBD\uC6B0, \uCCAB \uBC88\uC9F8 \uB300\uD654\uD615 \uC694\uC18C\uAC00 \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC\uB41C \uC0C1\uD0DC\uB85C \uB300\uD654\uAC00 \uC5F4\uB9BD\uB2C8\uB2E4.</p>
+
+<p>\uB300\uD654\uD615 \uC694\uC18C\uB4E4 \uC0AC\uC774\uB97C \uC774\uB3D9\uD560 \uB54C\uB294 <strong>Tab(\uD0ED)</strong> \uB610\uB294 <strong>Shift+Tab(\uC2DC\uD504\uD2B8+\uD0ED)</strong>\uC744 \uB204\uB985\uB2C8\uB2E4.</p>
+
+<h1>\uD0ED\uC774 \uC788\uB294 \uB300\uD654 \uD0D0\uC0C9</h1>
+
+<p>\uD0ED\uC774 \uC788\uB294 \uB300\uD654\uC758 \uACBD\uC6B0, \uD0ED \uBA54\uB274\uC5D0\uC11C \uCCAB \uBC88\uC9F8 \uBC84\uD2BC\uC774 \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC\uB41C \uC0C1\uD0DC\uB85C \uB300\uD654\uAC00 \uC5F4\uB9BD\uB2C8\uB2E4.</p>
+
+<p>\uC774 \uB300\uD654 \uD0ED\uC758 \uB300\uD654\uD615 \uC694\uC18C\uB4E4 \uC0AC\uC774\uB97C \uC774\uB3D9\uD560 \uB54C\uB294 <strong>Tab(\uD0ED)</strong> \uB610\uB294
+  <strong>Shift+Tab(\uC2DC\uD504\uD2B8+\uD0ED)</strong>\uC744 \uB204\uB985\uB2C8\uB2E4.</p>
+
+<p>\uB2E4\uB978 \uB300\uD654 \uD0ED\uC73C\uB85C \uC774\uB3D9\uD558\uB824\uBA74 \uD0ED \uBA54\uB274\uB97C \uD3EC\uCEE4\uC2A4 \uD45C\uC2DC\uD55C \uB2E4\uC74C \uC801\uC808\uD55C <strong>\uD654\uC0B4\uD45C</strong>
+  \uD0A4\uB97C \uB20C\uB7EC \uC0AC\uC6A9 \uAC00\uB2A5\uD55C \uD0ED\uB4E4\uC744 \uC9C0\uB098 \uC6D0\uD558\uB294 \uD0ED\uC73C\uB85C \uC774\uB3D9\uD569\uB2C8\uB2E4.</p>
+`);

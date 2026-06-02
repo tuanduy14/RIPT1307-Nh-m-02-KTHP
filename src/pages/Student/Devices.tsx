@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, InputNumber } from 'antd';
-import MyDatepicker from '../../components/MyDatepicker';
+import MyDatepicker from '../../components/MyDatePicker';
 import { getEquipments } from '../../services/equipment';
 import { createRequest } from '../../services/request';
 import notify from '../../components/Notify';
