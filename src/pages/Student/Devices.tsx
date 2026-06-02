@@ -99,61 +99,66 @@ const Devices: React.FC = () => {
         footer={null}
         width={500}
         zIndex={10000}
+        destroyOnClose
       >
-        <Form 
-          form={form}
-          onFinish={onFinish} 
-          layout="vertical"
-          style={{ marginTop: 24 }}
-          initialValues={{
-            amount: undefined,
-            dateRange: undefined
-          }}
-        >
-          <Form.Item 
-            label="Số lượng mượn" 
-            name="amount" 
-            rules={[
-              { required: true, message: 'Vui lòng nhập số lượng' },
-              { 
-                type: 'number', 
-                min: 1, 
-                max: selected?.quantity,
-                message: `Số lượng không được vượt quá ${selected?.quantity}`
-              }
-            ]}
-          >
-            <InputNumber 
-              min={1} 
-              max={selected?.quantity}
-              placeholder="Nhập số lượng"
-              style={{ width: '100%' }} 
-            />
-          </Form.Item>
-          
-          <Form.Item 
-            label="Khoảng thời gian mượn" 
-            name="dateRange" 
-            rules={[{ required: true, message: 'Vui lòng chọn ngày mượn và hạn trả' }]}
-          >
-            <DatePicker.RangePicker 
-              placeholder={['Ngày mượn', 'Hạn trả']}
-              style={{ width: '100%' }} 
-            />
-          </Form.Item>
+        {open && (
+          <>
+            <Form 
+              form={form}
+              onFinish={onFinish} 
+              layout="vertical"
+              style={{ marginTop: 24 }}
+              initialValues={{
+                amount: undefined,
+                dateRange: undefined
+              }}
+            >
+            <Form.Item 
+              label="Số lượng mượn" 
+              name="amount" 
+              rules={[
+                { required: true, message: 'Vui lòng nhập số lượng' },
+                { 
+                  type: 'number', 
+                  min: 1, 
+                  max: selected?.quantity,
+                  message: `Số lượng không được vượt quá ${selected?.quantity}`
+                }
+              ]}
+            >
+              <InputNumber 
+                min={1} 
+                max={selected?.quantity}
+                placeholder="Nhập số lượng"
+                style={{ width: '100%' }} 
+              />
+            </Form.Item>
+            
+            <Form.Item 
+              label="Khoảng thời gian mượn" 
+              name="dateRange" 
+              rules={[{ required: true, message: 'Vui lòng chọn ngày mượn và hạn trả' }]}
+            >
+              <DatePicker.RangePicker 
+                placeholder={['Ngày mượn', 'Hạn trả']}
+                style={{ width: '100%' }} 
+              />
+            </Form.Item>
 
-          <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
-            <Button onClick={() => {
-              setOpen(false);
-              form.resetFields();
-            }}>
-              Hủy
-            </Button>
-            <Button type="primary" htmlType="submit">
-              Gửi yêu cầu
-            </Button>
-          </Space>
-        </Form>
+            <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
+              <Button onClick={() => {
+                setOpen(false);
+                form.resetFields();
+              }}>
+                Hủy
+              </Button>
+              <Button type="primary" htmlType="submit">
+                Gửi yêu cầu
+              </Button>
+            </Space>
+          </Form>
+          </>
+        )}
       </Modal>
     </div>
   );
