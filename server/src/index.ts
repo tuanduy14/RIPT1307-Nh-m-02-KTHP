@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import equipmentRoutes from './routes/equipment';
 import requestRoutes from './routes/request';
 import { notifyAdminOverdue, notifyStudentDueSoon } from './notifications';
@@ -8,6 +9,7 @@ import db from './db';
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use('/api/equipments', equipmentRoutes);
 app.use('/api/requests', requestRoutes);
