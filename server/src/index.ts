@@ -9,19 +9,8 @@ import db from './db';
 
 const app = express();
 
-// CORS configuration
-const corsOptions = {
-  origin: [
-    'http://localhost:8000',
-    'http://localhost:3000',
-    'https://club-frontend-xvfr.onrender.com',
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
-app.use(cors(corsOptions));
+// CORS configuration - Allow all origins for testing
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/equipments', equipmentRoutes);
