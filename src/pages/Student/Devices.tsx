@@ -90,7 +90,7 @@ const Devices: React.FC = () => {
       />
 
       <Modal
-        open={open}
+        visible={open}
         title={`Tạo yêu cầu mượn: ${selected?.name || ''}`}
         onCancel={() => {
           setOpen(false);
@@ -159,7 +159,7 @@ const Devices: React.FC = () => {
           </Form>
           </>
         )}
-      </Modal> //here
+      </Modal> 
     </div>
   );
 };
