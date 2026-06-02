@@ -1,11 +1,11 @@
 {
   "/umi.css": "./umi.42778a08.css",
-  "/umi.js": "./umi.1b216f66.js",
+  "/umi.js": "./umi.6346c01a.js",
   "/t__plugin-layout__Layout.css": "./t__plugin-layout__Layout.85b4bb32.chunk.css",
   "/t__plugin-layout__Layout.js": "./t__plugin-layout__Layout.b00d6795.async.js",
   "/p__Student__Dashboard.css": "./p__Student__Dashboard.93ddaf63.chunk.css",
   "/p__Student__Dashboard.js": "./p__Student__Dashboard.3cd6d898.async.js",
-  "/p__Student__Devices.js": "./p__Student__Devices.4f62bf44.async.js",
+  "/p__Student__Devices.js": "./p__Student__Devices.9a1db4d1.async.js",
   "/p__Student__History.js": "./p__Student__History.b8c200ea.async.js",
   "/p__Admin__Requests.css": "./p__Admin__Requests.9b4aa8eb.chunk.css",
   "/p__Admin__Requests.js": "./p__Admin__Requests.90d7ec21.async.js",
@@ -21,7 +21,7 @@
   "/443.37bfc866.async.js": "./443.37bfc866.async.js",
   "/171.21256a1e.chunk.css": "./171.21256a1e.chunk.css",
   "/171.0da8bb63.async.js": "./171.0da8bb63.async.js",
-  "/671.06280fe9.chunk.css": "./671.06280fe9.chunk.css",
+  "/671.e8303271.chunk.css": "./671.e8303271.chunk.css",
   "/671.02956cc8.async.js": "./671.02956cc8.async.js",
   "/229.9303d47c.async.js": "./229.9303d47c.async.js",
   "/public/tinymce/tinymce.min.js": "./tinymce/tinymce.min.js",
@@ -172,5 +172,6 @@
   "/public/tinymce/langs/README.md": "./tinymce/langs/README.md",
   "/public/.htaccess": "./.htaccess",
   "/public/OneSignalSDKWorker.js": "./OneSignalSDKWorker.js",
-  "/public/CNAME": "./CNAME"
+  "/public/CNAME": "./CNAME",
+  "/public/_redirects": "./_redirects"
 }
