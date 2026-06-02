@@ -11,7 +11,7 @@ import { currentRole } from '../src/utils/ip';
 export default defineConfig({
 	hash: true,
 	antd: {},
-	publicPath: './',
+	publicPath: '/',
 	dva: {
 		hmr: true,
 	},
