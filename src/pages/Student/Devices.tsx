@@ -92,7 +92,8 @@ const Devices: React.FC = () => {
         }}
         footer={null}
         width={500}
-        getContainer={false}
+        getContainer={document.body}
+        zIndex={9999}
       >
         <Form 
           form={form}
