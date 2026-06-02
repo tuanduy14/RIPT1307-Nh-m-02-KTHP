@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Form, InputNumber } from 'antd';
-import MyDatepicker from '../../components/MyDatePicker';
+import { Table, Button, Modal, Form, InputNumber, DatePicker } from 'antd';
 import { getEquipments } from '../../services/equipment';
 import { createRequest } from '../../services/request';
 import notify from '../../components/Notify';
@@ -46,25 +45,36 @@ const Devices: React.FC = () => {
   const columns = [
     { title: 'Tên', dataIndex: 'name', key: 'name' },
     { title: 'Số lượng', dataIndex: 'quantity', key: 'quantity' },
-    { title: 'Hành động', key: 'action', render: (_: any, record: any) => (
-      <Button onClick={() => openRequest(record)}>Mượn</Button>
-    ) },
+    {
+      title: 'Hành động',
+      key: 'action',
+      render: (_: any, record: any) => (
+        <Button onClick={() => openRequest(record)}>Mượn</Button>
+      ),
+    },
   ];
 
   return (
     <div style={{ padding: 16 }}>
       <Table rowKey="id" dataSource={list} columns={columns} loading={loading} />
 
-      <Modal visible={open} title="Tạo yêu cầu mượn" onCancel={() => setOpen(false)} footer={null}>
+      <Modal
+        open={open}
+        title="Tạo yêu cầu mượn"
+        onCancel={() => setOpen(false)}
+        footer={null}
+      >
         <Form onFinish={onFinish} layout="vertical">
           <Form.Item label="Số lượng" name="amount" rules={[{ required: true }]}>
-            <InputNumber min={1} />
+            <InputNumber min={1} style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item label="Ngày mượn - trả" name="dateRange" rules={[{ required: true }]}>
-            <MyDatepicker.RangePicker />
+            <DatePicker.RangePicker style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">Gửi yêu cầu</Button>
+            <Button type="primary" htmlType="submit">
+              Gửi yêu cầu
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
