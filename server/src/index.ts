@@ -8,8 +8,21 @@ import { notifyAdminOverdue, notifyStudentDueSoon } from './notifications';
 import db from './db';
 
 const app = express();
+
+// CORS configuration
+const corsOptions = {
+  origin: [
+    'http://localhost:8000',
+    'http://localhost:3000',
+    'https://club-frontend-xvfr.onrender.com',
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(cors());
 
 app.use('/api/equipments', equipmentRoutes);
 app.use('/api/requests', requestRoutes);
