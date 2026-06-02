@@ -5,8 +5,8 @@ import routes from './routes';
 import React from 'react';
 import { unCheckPermissionPaths } from '../src/components/OIDCBounder/constant';
 import { currentRole } from '../src/utils/ip';
-// import proxy from './proxy';
-// const { REACT_APP_ENV } = process.env;
+import proxy from './proxy';
+const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
 	hash: true,
@@ -89,7 +89,7 @@ export default defineConfig({
 	esbuild: {},
 	title: false,
 	ignoreMomentLocale: true,
-	// proxy: proxy[REACT_APP_ENV || 'dev'],
+	proxy: proxy[REACT_APP_ENV || 'dev'],
 	manifest: {
 		basePath: '/',
 	},

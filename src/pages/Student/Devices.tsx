@@ -33,7 +33,12 @@ const Devices: React.FC = () => {
 
   const onFinish = async (values: any) => {
     try {
-      await createRequest({ equipmentId: selected.id, ...values });
+      const [fromDate, toDate] = values.dateRange;
+      await createRequest({
+        equipmentId: selected.id,
+        amount: values.amount,
+        dateRange: [fromDate?.format('YYYY-MM-DD'), toDate?.format('YYYY-MM-DD')],
+      });
       notify.success('Tạo yêu cầu thành công');
       setOpen(false);
       fetchList();

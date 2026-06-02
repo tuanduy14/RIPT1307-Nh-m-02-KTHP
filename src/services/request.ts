@@ -4,5 +4,6 @@ export const createRequest = async (data: any) => apiFetch('/requests', { method
 export const getMyRequests = async () => apiFetch('/requests/mine');
 export const getRequests = async () => apiFetch('/requests');
 export const approveRequest = async (id: number) => apiFetch(`/requests/${id}/approve`, { method: 'POST' });
+export const returnRequest = async (id: number) => apiFetch(`/requests/${id}/return`, { method: 'POST' });
 
-export default { createRequest, getMyRequests, getRequests, approveRequest };
+export default { createRequest, getMyRequests, getRequests, approveRequest, returnRequest };

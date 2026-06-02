@@ -7,6 +7,11 @@
  */
 export default {
   dev: {
+    '/api/': {
+      target: 'http://localhost:4000',
+      changeOrigin: true,
+      pathRewrite: { '^/api/': '/api/' },
+    },
     '/v1/': {
       target: 'http://203.162.10.108:8099',
       changeOrigin: true,
@@ -14,6 +19,11 @@ export default {
     },
   },
   test: {
+    '/api/': {
+      target: 'http://localhost:4000',
+      changeOrigin: true,
+      pathRewrite: { '^/api/': '/api/' },
+    },
     '/v2.2/': {
       target: 'https://apidev.sotaydangvien.com',
       changeOrigin: true,
@@ -21,6 +31,11 @@ export default {
     },
   },
   pre: {
+    '/api/': {
+      target: 'http://localhost:4000',
+      changeOrigin: true,
+      pathRewrite: { '^/api/': '/api/' },
+    },
     '/v2.2/': {
       target: 'https://apidev.sotaydangvien.com',
       changeOrigin: true,
