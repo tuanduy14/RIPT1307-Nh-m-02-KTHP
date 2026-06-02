@@ -13,11 +13,16 @@ const OneSignalBounder = (props: { children: React.ReactNode }) => {
 
 	const getUserIdOnesignal = async () => {
 		if (!!oneSignalClient) {
-			await OneSignal.init({
-				appId: oneSignalClient,
-			});
-			const id = await OneSignal.getUserId();
-			setOneSignalId(id);
+			try {
+				await OneSignal.init({
+					appId: oneSignalClient,
+				});
+				const id = await OneSignal.getUserId();
+				setOneSignalId(id);
+			} catch (e) {
+				console.warn('OneSignal initialization failed:', e);
+				// OneSignal may fail on non-allowlisted domains
+			}
 		}
 	};
 
