@@ -159,7 +159,7 @@ const Devices: React.FC = () => {
           </Form>
           </>
         )}
-      </Modal>
+      </Modal> //here
     </div>
   );
 };
