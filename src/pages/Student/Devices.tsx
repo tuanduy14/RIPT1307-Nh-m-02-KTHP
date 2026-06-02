@@ -15,6 +15,10 @@ const Devices: React.FC = () => {
     fetchList();
   }, []);
 
+  useEffect(() => {
+    console.log('Modal open state changed:', open);
+  }, [open]);
+
   const fetchList = async () => {
     setLoading(true);
     try {
@@ -31,6 +35,7 @@ const Devices: React.FC = () => {
     console.log('openRequest called', record); 
     setSelected(record);
     setOpen(true);
+    console.log('State set to:', { selected: record, open: true });
     setTimeout(() => {
       form.resetFields();
     }, 0);
