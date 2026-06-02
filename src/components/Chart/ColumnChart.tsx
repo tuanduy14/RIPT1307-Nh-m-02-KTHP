@@ -90,3 +90,4 @@ const ColumnChart = (props: DataChartType) => {
 };
 
 export default ColumnChart;
+export { ColumnChart };
