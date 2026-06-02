@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ColumnChart } from '../../components/Chart';
+import ColumnChart from '../../components/Chart/ColumnChart';
 import { Card } from 'antd';
 import { getStats } from '../../services/equipment';
 import notify from '../../components/Notify';
