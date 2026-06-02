@@ -28,6 +28,7 @@ const Devices: React.FC = () => {
   };
 
   const openRequest = (record: any) => {
+    console.log('openRequest called', record); // ← thêm dòng này
     setSelected(record);
     setOpen(true);
     // Reset form after modal opens
