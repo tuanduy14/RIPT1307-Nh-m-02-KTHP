@@ -29,8 +29,11 @@ const Devices: React.FC = () => {
 
   const openRequest = (record: any) => {
     setSelected(record);
-    form.resetFields();
     setOpen(true);
+    // Reset form after modal opens
+    setTimeout(() => {
+      form.resetFields();
+    }, 0);
   };
 
   const onFinish = async (values: any) => {
@@ -96,6 +99,10 @@ const Devices: React.FC = () => {
           onFinish={onFinish} 
           layout="vertical"
           style={{ marginTop: 24 }}
+          initialValues={{
+            amount: undefined,
+            dateRange: undefined
+          }}
         >
           <Form.Item 
             label="Số lượng mượn" 
