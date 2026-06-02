@@ -28,6 +28,7 @@ const Devices: React.FC = () => {
   };
 
   const openRequest = (record: any) => {
+    console.log('openRequest called', record); 
     setSelected(record);
     setOpen(true);
     setTimeout(() => {
