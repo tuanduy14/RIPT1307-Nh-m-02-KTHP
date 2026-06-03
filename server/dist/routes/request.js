@@ -9,16 +9,20 @@ const equipment_1 = require("../models/equipment");
 const notifications_1 = require("../notifications");
 const router = (0, express_1.Router)();
 router.post('/', async (req, res) => {
-    const { equipmentId, amount, dateRange } = req.body;
+    const { equipmentId, amount, dateRange, userId: bodyUserId } = req.body;
     const [fromDate, toDate] = dateRange || [];
-    const userId = 1; // TODO: replace with authenticated user id
+    const userId = bodyUserId || 1; // Dùng userId từ client (sau khi login)
     const result = await db_1.default.query('INSERT INTO requests (equipment_id, user_id, amount, status, from_date, to_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, now(), now()) RETURNING id', [equipmentId, userId, amount, 'pending', fromDate, toDate]);
     const requestId = result.rows[0].id;
     (0, notifications_1.notifyAdminNewRequest)(requestId).catch(() => { });
     res.json({ id: requestId });
 });
-router.get('/mine', async (_req, res) => {
-    const result = await db_1.default.query('SELECT r.id, r.amount, r.status, r.from_date, r.to_date, e.name as equipmentName, r.created_at FROM requests r JOIN equipments e ON e.id = r.equipment_id ORDER BY r.created_at DESC');
+router.get('/mine', async (req, res) => {
+    const userId = req.query.userId;
+    if (!userId) {
+        return res.status(400).json({ error: 'Thiếu thông tin userId' });
+    }
+    const result = await db_1.default.query('SELECT r.id, r.amount, r.status, r.from_date, r.to_date, e.name as equipmentName, r.created_at FROM requests r JOIN equipments e ON e.id = r.equipment_id WHERE r.user_id = $1 ORDER BY r.created_at DESC', [userId]);
     res.json(result.rows.map((row) => ({
         id: row.id,
         amount: row.amount,

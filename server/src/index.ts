@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import equipmentRoutes from './routes/equipment';
 import requestRoutes from './routes/request';
+import authRoutes from './routes/auth';
 import { notifyAdminOverdue, notifyStudentDueSoon } from './notifications';
 import db from './db';
 
@@ -13,6 +14,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use('/api/auth', authRoutes);
 app.use('/api/equipments', equipmentRoutes);
 app.use('/api/requests', requestRoutes);
 

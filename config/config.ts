@@ -21,7 +21,7 @@ export default defineConfig({
 		...defaultSettings,
 		unAccessible: React.createElement('div', null, '403 - Không có quyền truy cập'),
 		noFound: React.createElement('div', null, '404 - Không tìm thấy trang'),
-		rightContentRender: () => null,
+		rightContentRender: () => React.createElement(require('../src/components/RightContent').default),
 		disableContentMargin: false,
 		footerRender: () =>
 			React.createElement(
@@ -33,18 +33,33 @@ export default defineConfig({
 			),
 		onPageChange: () => {
 			const { location } = history;
-			const isUncheckPath = unCheckPermissionPaths.some((path) => window.location.pathname.includes(path));
-			const initialState = (window as any).g_initialState;
 
-			if (location.pathname === '/') {
+			// Bỏ qua trang login — tránh vòng lặp redirect
+			if (location.pathname === '/user/login') return;
+
+			// Kiểm tra đăng nhập qua localStorage
+			const rawUser = localStorage.getItem('ript_user');
+			const user = rawUser ? JSON.parse(rawUser) : null;
+
+			// Chưa đăng nhập → về trang login
+			if (!user) {
+				history.replace('/user/login');
+				return;
+			}
+
+			// Đã đăng nhập: chặn admin vào trang student và ngược lại
+			if (user.role === 'admin' && location.pathname.startsWith('/student')) {
+				history.replace('/admin/requests');
+				return;
+			}
+			if (user.role === 'student' && location.pathname.startsWith('/admin')) {
 				history.replace('/student/dashboard');
-			} else if (
-				!isUncheckPath &&
-				currentRole &&
-				initialState?.authorizedPermissions?.length &&
-				!initialState?.authorizedPermissions?.find((item: any) => item.rsname === currentRole)
-			) {
-				history.replace('/403');
+				return;
+			}
+
+			// Redirect root cho phù hợp role
+			if (location.pathname === '/') {
+				history.replace(user.role === 'admin' ? '/admin/requests' : '/student/dashboard');
 			}
 		},
 		menuItemRender: (item: any, dom: any) => React.createElement(

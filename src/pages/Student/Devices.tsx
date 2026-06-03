@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, InputNumber, DatePicker, Space, Tag } from 'antd';
 import { getEquipments } from '../../services/equipment';
 import { createRequest } from '../../services/request';
+import { getCurrentUser } from '../../services/user';
 import notify from '../../components/Notify';
 
 const Devices: React.FC = () => {
@@ -44,10 +45,12 @@ const Devices: React.FC = () => {
   const onFinish = async (values: any) => {
     try {
       const [fromDate, toDate] = values.dateRange;
+      const user = getCurrentUser();
       await createRequest({
         equipmentId: selected.id,
         amount: values.amount,
         dateRange: [fromDate?.format('YYYY-MM-DD'), toDate?.format('YYYY-MM-DD')],
+        userId: user?.id,
       });
       notify.success('Tạo yêu cầu thành công');
       setOpen(false);

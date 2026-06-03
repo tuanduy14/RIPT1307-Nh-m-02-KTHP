@@ -1,0 +1,277 @@
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  background: #f0f2f5;
+}
+
+/* ====== CỘT TRÁI — BRAND ====== */
+.login-brand {
+  flex: 0 0 45%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-brand::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: rgba(204, 13, 0, 0.15);
+  animation: float 8s ease-in-out infinite;
+}
+
+.login-brand::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(24, 144, 255, 0.12);
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+.login-brand-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.login-logo {
+  margin-bottom: 24px;
+}
+
+.login-logo img {
+  height: 72px;
+  filter: brightness(0) invert(1);
+}
+
+.login-school {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+}
+
+.login-app-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+  line-height: 1.3;
+  background: linear-gradient(90deg, #fff 0%, #90caf9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.login-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 36px 0;
+  line-height: 1.7;
+  max-width: 320px;
+}
+
+.login-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.login-feature-item {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px 16px;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s;
+}
+
+.login-feature-item:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ====== CỘT PHẢI — FORM ====== */
+.login-form-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 40px 32px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.login-card-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.login-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 24px;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(24, 144, 255, 0.35);
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 6px 0;
+}
+
+.login-subtitle {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+.login-input-icon {
+  color: #bfbfbf;
+}
+
+.login-btn {
+  height: 44px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(24, 144, 255, 0.3) !important;
+  transition: all 0.2s !important;
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(24, 144, 255, 0.4) !important;
+}
+
+/* Demo hint box */
+.login-demo-hint {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f6f8ff;
+  border: 1px dashed #91caff;
+  border-radius: 10px;
+}
+
+.login-demo-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #595959;
+  margin: 0 0 10px 0;
+}
+
+.login-demo-accounts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-demo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.login-demo-role {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.login-demo-role.admin {
+  background: #fff1f0;
+  color: #cf1322;
+  border: 1px solid #ffa39e;
+}
+
+.login-demo-role.student {
+  background: #e6f4ff;
+  color: #0958d9;
+  border: 1px solid #91caff;
+}
+
+.login-demo-info {
+  color: #595959;
+  font-family: monospace;
+}
+
+/* Footer */
+.login-footer {
+  margin-top: 24px;
+  font-size: 12px;
+  color: #bfbfbf;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .login-brand {
+    flex: none;
+    padding: 32px 24px;
+    min-height: 220px;
+  }
+
+  .login-app-name {
+    font-size: 20px;
+  }
+
+  .login-features {
+    display: none;
+  }
+
+  .login-card {
+    padding: 28px 24px;
+  }
+}

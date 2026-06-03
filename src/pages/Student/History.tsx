@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Popconfirm } from 'antd';
 import { getMyRequests, returnRequest } from '../../services/request';
+import { getCurrentUser } from '../../services/user';
 import notify from '../../components/Notify';
 
 const History: React.FC = () => {
@@ -12,7 +13,8 @@ const History: React.FC = () => {
 
   const load = async () => {
     try {
-      const res = await getMyRequests();
+      const user = getCurrentUser();
+      const res = await getMyRequests(user?.id);
       setData(res || []);
     } catch (e) {
       notify.error('Không tải được lịch sử');

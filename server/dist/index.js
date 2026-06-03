@@ -9,12 +9,14 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const equipment_1 = __importDefault(require("./routes/equipment"));
 const request_1 = __importDefault(require("./routes/request"));
+const auth_1 = __importDefault(require("./routes/auth"));
 const notifications_1 = require("./notifications");
 const db_1 = __importDefault(require("./db"));
 const app = (0, express_1.default)();
 // CORS configuration - Allow all origins for testing
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
+app.use('/api/auth', auth_1.default);
 app.use('/api/equipments', equipment_1.default);
 app.use('/api/requests', request_1.default);
 app.get('/api/me', (_req, res) => res.json({ id: 1, name: 'Demo User' }));
