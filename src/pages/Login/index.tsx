@@ -39,15 +39,8 @@ const LoginPage: React.FC = () => {
           </div>
           <h1 className="login-school">Học viện Công nghệ Bưu chính Viễn thông</h1>
           <h2 className="login-app-name">Hệ thống Quản lý Mượn Thiết bị</h2>
-          <p className="login-desc">
-            Quản lý việc mượn – trả thiết bị của câu lạc bộ một cách nhanh chóng, minh bạch và hiệu quả.
-          </p>
-          <div className="login-features">
-            <div className="login-feature-item">📋 Đặt yêu cầu mượn thiết bị</div>
-            <div className="login-feature-item">✅ Duyệt yêu cầu tức thì</div>
-            <div className="login-feature-item">📊 Thống kê trực quan</div>
-            <div className="login-feature-item">📧 Thông báo qua email</div>
-          </div>
+
+
         </div>
       </div>
 
@@ -118,23 +111,7 @@ const LoginPage: React.FC = () => {
             </Form.Item>
           </Form>
 
-          <div className="login-demo-hint">
-            <p className="login-demo-title">🔑 Tài khoản demo:</p>
-            <div className="login-demo-accounts">
-              <div className="login-demo-item">
-                <span className="login-demo-role admin">Admin</span>
-                <span className="login-demo-info">duynv@gmail.com / admin123</span>
-              </div>
-              <div className="login-demo-item">
-                <span className="login-demo-role student">Sinh viên 1</span>
-                <span className="login-demo-info">maitt@gmail.com / student123</span>
-              </div>
-              <div className="login-demo-item">
-                <span className="login-demo-role student">Sinh viên 2</span>
-                <span className="login-demo-info">namlh@gmail.com / student456</span>
-              </div>
-            </div>
-          </div>
+
         </div>
 
         <p className="login-footer">
