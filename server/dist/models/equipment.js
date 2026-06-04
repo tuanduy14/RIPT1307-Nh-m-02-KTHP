@@ -30,6 +30,7 @@ async function createEquipment(data) {
 }
 exports.createEquipment = createEquipment;
 async function deleteEquipment(id) {
+    await db_1.default.query('DELETE FROM requests WHERE equipment_id = $1', [id]);
     await db_1.default.query('DELETE FROM equipments WHERE id = $1', [id]);
 }
 exports.deleteEquipment = deleteEquipment;
