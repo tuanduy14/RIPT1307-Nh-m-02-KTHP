@@ -12,11 +12,12 @@ export default [
     redirect: '/user/login',
   },
 
-  // Student pages
+  // Student pages — chỉ student thấy
   {
     path: '/student',
     name: 'Student',
     icon: 'UserOutlined',
+    access: 'isStudent',
     routes: [
       {
         path: '/student/dashboard',
@@ -40,11 +41,12 @@ export default [
     ],
   },
 
-  // Admin pages
+  // Admin pages — chỉ admin thấy
   {
     path: '/admin',
     name: 'Admin',
     icon: 'SettingOutlined',
+    access: 'isAdmin',
     routes: [
       {
         path: '/admin/requests',
