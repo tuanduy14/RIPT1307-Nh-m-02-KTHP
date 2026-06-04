@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.statsByMonth = exports.adjust = exports.listEquipments = void 0;
+exports.updateEquipment = exports.statsByMonth = exports.adjust = exports.listEquipments = void 0;
 const db_1 = __importDefault(require("../db"));
 async function listEquipments() {
     const res = await db_1.default.query('SELECT id, name, quantity FROM equipments ORDER BY id');
@@ -19,3 +19,8 @@ async function statsByMonth() {
     return res.rows;
 }
 exports.statsByMonth = statsByMonth;
+async function updateEquipment(id, data) {
+    const res = await db_1.default.query('UPDATE equipments SET name = $1, quantity = $2 WHERE id = $3 RETURNING *', [data.name, data.quantity, id]);
+    return res.rows[0];
+}
+exports.updateEquipment = updateEquipment;

@@ -11,4 +11,10 @@ router.get('/stats', async (_req, res) => {
     const rows = await (0, equipment_1.statsByMonth)();
     res.json(rows);
 });
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const row = await (0, equipment_1.updateEquipment)(Number(id), { name, quantity });
+    res.json(row);
+});
 exports.default = router;
