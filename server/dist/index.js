@@ -14,7 +14,11 @@ const notifications_1 = require("./notifications");
 const db_1 = __importDefault(require("./db"));
 const app = (0, express_1.default)();
 // CORS configuration - Allow all origins for testing
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(body_parser_1.default.json());
 app.use('/api/auth', auth_1.default);
 app.use('/api/equipments', equipment_1.default);
