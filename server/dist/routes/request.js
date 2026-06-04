@@ -76,4 +76,15 @@ router.post('/:id/return', async (req, res) => {
     await (0, equipment_1.adjust)(requestRow.equipment_id, requestRow.amount);
     res.json({ ok: true });
 });
+router.post('/:id/cancel', async (req, res) => {
+    const id = Number(req.params.id);
+    const requestResult = await db_1.default.query('SELECT * FROM requests WHERE id=$1', [id]);
+    if (!requestResult.rows.length)
+        return res.status(404).json({ error: 'Request not found' });
+    const requestRow = requestResult.rows[0];
+    if (requestRow.status !== 'pending')
+        return res.status(400).json({ error: 'Chỉ có thể hủy yêu cầu đang chờ duyệt' });
+    await db_1.default.query('UPDATE requests SET status=$1, updated_at=now() WHERE id=$2', ['rejected', id]);
+    res.json({ ok: true });
+});
 exports.default = router;
