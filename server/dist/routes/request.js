@@ -34,12 +34,19 @@ router.get('/mine', async (req, res) => {
     })));
 });
 router.get('/', async (_req, res) => {
-    const result = await db_1.default.query('SELECT r.id, r.amount, r.status, r.from_date, r.to_date, u.name as userName, e.name as equipmentName FROM requests r JOIN equipments e ON e.id = r.equipment_id LEFT JOIN users u ON u.id = r.user_id ORDER BY r.created_at DESC');
+    const result = await db_1.default.query(`SELECT r.id, r.amount, r.status, r.from_date, r.to_date, 
+     u.name as "userName", u.email as "email",
+     e.name as "equipmentName" 
+     FROM requests r 
+     JOIN equipments e ON e.id = r.equipment_id 
+     LEFT JOIN users u ON u.id = r.user_id 
+     ORDER BY r.created_at DESC`);
     res.json(result.rows.map((row) => ({
         id: row.id,
         amount: row.amount,
         status: row.status,
         userName: row.userName,
+        email: row.email,
         equipmentName: row.equipmentName,
         from: row.from_date,
         to: row.to_date,
