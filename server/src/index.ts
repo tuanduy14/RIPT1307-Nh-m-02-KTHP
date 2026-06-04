@@ -11,7 +11,11 @@ import db from './db';
 const app = express();
 
 // CORS configuration - Allow all origins for testing
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);

@@ -21,3 +21,15 @@ export async function updateEquipment(id: number, data: { name: string; quantity
   );
   return res.rows[0];
 }
+
+export async function createEquipment(data: { name: string; quantity: number }) {
+  const res = await db.query(
+    'INSERT INTO equipments (name, quantity) VALUES ($1, $2) RETURNING *',
+    [data.name, data.quantity]
+  );
+  return res.rows[0];
+}
+
+export async function deleteEquipment(id: number) {
+  await db.query('DELETE FROM equipments WHERE id = $1', [id]);
+}

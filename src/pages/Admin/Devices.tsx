@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber } from 'antd';
-import { getEquipments, updateEquipment } from '../../services/equipment';
+import { Table, Button, Modal, Form, Input, InputNumber, Popconfirm, Space } from 'antd';
+import { getEquipments, updateEquipment, createEquipment, deleteEquipment } from '../../services/equipment';
 import notify from '../../components/Notify';
 
 const DevicesAdmin: React.FC = () => {
@@ -26,14 +26,35 @@ const DevicesAdmin: React.FC = () => {
     setOpen(true);
   };
 
+  const openAdd = () => {
+    setSelected(null);
+    form.resetFields();
+    setOpen(true);
+  };
+
   const onFinish = async (values: any) => {
     try {
-      await updateEquipment(selected.id, values);
-      notify.success('Cập nhật thành công');
+      if (selected) {
+        await updateEquipment(selected.id, values);
+        notify.success('Cập nhật thành công');
+      } else {
+        await createEquipment(values);
+        notify.success('Thêm thiết bị thành công');
+      }
       setOpen(false);
       load();
     } catch (e) {
-      notify.error('Cập nhật thất bại');
+      notify.error(selected ? 'Cập nhật thất bại' : 'Thêm thất bại');
+    }
+  };
+
+  const onDelete = async (id: number) => {
+    try {
+      await deleteEquipment(id);
+      notify.success('Xóa thiết bị thành công');
+      load();
+    } catch (e) {
+      notify.error('Xóa thất bại');
     }
   };
 
@@ -44,18 +65,26 @@ const DevicesAdmin: React.FC = () => {
       title: 'Hành động',
       key: 'action',
       render: (_: any, record: any) => (
-        <Button onClick={() => openEdit(record)}>Chỉnh sửa</Button>
+        <Space>
+          <Button onClick={() => openEdit(record)}>Chỉnh sửa</Button>
+          <Popconfirm title="Xóa thiết bị?" onConfirm={() => onDelete(record.id)}>
+            <Button danger>Xóa</Button>
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
 
   return (
     <div style={{ padding: 16 }}>
+      <div style={{ marginBottom: 16, textAlign: 'right' }}>
+        <Button type="primary" onClick={openAdd}>Thêm thiết bị</Button>
+      </div>
       <Table rowKey="id" dataSource={list} columns={columns} />
 
       <Modal
         visible={open}
-        title="Chỉnh sửa thiết bị"
+        title={selected ? 'Chỉnh sửa thiết bị' : 'Thêm thiết bị'}
         onCancel={() => setOpen(false)}
         footer={null}
         zIndex={10000}
