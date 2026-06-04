@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateEquipment = exports.statsByMonth = exports.adjust = exports.listEquipments = void 0;
+exports.deleteEquipment = exports.createEquipment = exports.updateEquipment = exports.statsByMonth = exports.adjust = exports.listEquipments = void 0;
 const db_1 = __importDefault(require("../db"));
 async function listEquipments() {
     const res = await db_1.default.query('SELECT id, name, quantity FROM equipments ORDER BY id');
@@ -24,3 +24,12 @@ async function updateEquipment(id, data) {
     return res.rows[0];
 }
 exports.updateEquipment = updateEquipment;
+async function createEquipment(data) {
+    const res = await db_1.default.query('INSERT INTO equipments (name, quantity) VALUES ($1, $2) RETURNING *', [data.name, data.quantity]);
+    return res.rows[0];
+}
+exports.createEquipment = createEquipment;
+async function deleteEquipment(id) {
+    await db_1.default.query('DELETE FROM equipments WHERE id = $1', [id]);
+}
+exports.deleteEquipment = deleteEquipment;
