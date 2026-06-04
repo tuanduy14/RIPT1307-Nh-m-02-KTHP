@@ -122,7 +122,7 @@ const Devices: React.FC = () => {
       />
 
       <Modal
-        open={open}
+        visible={open}
         title={
           <Space>
             <ShoppingCartOutlined style={{ color: '#1890ff' }} />
