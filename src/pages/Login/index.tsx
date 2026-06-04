@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message, Alert } from 'antd';
 import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons';
-import { history } from 'umi';
 import { login, getCurrentUser } from '../../services/user';
 import './style.less';
 
@@ -13,14 +12,16 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await login(values.email, values.password);
+      await login(values.email, values.password);
       const user = getCurrentUser();
       message.success(`Chào mừng ${user?.name || ''}!`);
-      // Điều hướng theo role
+
+      // ✅ Dùng window.location.href thay vì history.replace
+      // để app khởi động lại và menuDataRender đọc đúng role
       if (user?.role === 'admin') {
-        history.replace('/admin/requests');
+        window.location.href = '/admin/requests';
       } else {
-        history.replace('/student/dashboard');
+        window.location.href = '/student/dashboard';
       }
     } catch (e: any) {
       setError(e?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
@@ -39,8 +40,6 @@ const LoginPage: React.FC = () => {
           </div>
           <h1 className="login-school">Học viện Công nghệ Bưu chính Viễn thông</h1>
           <h2 className="login-app-name">Hệ thống Quản lý Mượn Thiết bị</h2>
-
-
         </div>
       </div>
 
@@ -110,8 +109,6 @@ const LoginPage: React.FC = () => {
               </Button>
             </Form.Item>
           </Form>
-
-
         </div>
 
         <p className="login-footer">
