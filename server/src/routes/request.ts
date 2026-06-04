@@ -28,7 +28,7 @@ router.get('/mine', async (req, res) => {
   }
 
   const result = await db.query(
-    'SELECT r.id, r.amount, r.status, r.from_date, r.to_date, e.name as equipmentName, r.created_at FROM requests r JOIN equipments e ON e.id = r.equipment_id WHERE r.user_id = $1 ORDER BY r.created_at DESC',
+    'SELECT r.id, r.amount, r.status, r.from_date, r.to_date, e.name as "equipmentName", r.created_at FROM requests r JOIN equipments e ON e.id = r.equipment_id WHERE r.user_id = $1 ORDER BY r.created_at DESC',
     [userId],
   );
   res.json(
@@ -46,7 +46,13 @@ router.get('/mine', async (req, res) => {
 
 router.get('/', async (_req, res) => {
   const result = await db.query(
-    'SELECT r.id, r.amount, r.status, r.from_date, r.to_date, u.name as userName, e.name as equipmentName FROM requests r JOIN equipments e ON e.id = r.equipment_id LEFT JOIN users u ON u.id = r.user_id ORDER BY r.created_at DESC',
+    `SELECT r.id, r.amount, r.status, r.from_date, r.to_date, 
+     u.name as "userName", u.email as "email",
+     e.name as "equipmentName" 
+     FROM requests r 
+     JOIN equipments e ON e.id = r.equipment_id 
+     LEFT JOIN users u ON u.id = r.user_id 
+     ORDER BY r.created_at DESC`,
   );
   res.json(
     result.rows.map((row: any) => ({
@@ -54,6 +60,7 @@ router.get('/', async (_req, res) => {
       amount: row.amount,
       status: row.status,
       userName: row.userName,
+      email: row.email,
       equipmentName: row.equipmentName,
       from: row.from_date,
       to: row.to_date,

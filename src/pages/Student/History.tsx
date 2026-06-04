@@ -44,8 +44,8 @@ const History: React.FC = () => {
   const columns = [
     { title: 'Thiết bị', dataIndex: 'equipmentName', key: 'equipmentName' },
     { title: 'Số lượng', dataIndex: 'amount', key: 'amount' },
-    { title: 'Ngày mượn', dataIndex: 'from', key: 'from' },
-    { title: 'Ngày trả', dataIndex: 'to', key: 'to' },
+    { title: 'Ngày mượn', dataIndex: 'from', key: 'from', render: (v: string) => v?.slice(0, 10) },
+    { title: 'Ngày trả', dataIndex: 'to', key: 'to', render: (v: string) => v?.slice(0, 10) },
     { title: 'Trạng thái', dataIndex: 'status', key: 'status' },
     {
       title: 'Hành động',

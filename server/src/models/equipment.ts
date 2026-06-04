@@ -31,5 +31,6 @@ export async function createEquipment(data: { name: string; quantity: number }) 
 }
 
 export async function deleteEquipment(id: number) {
+  await db.query('DELETE FROM requests WHERE equipment_id = $1', [id]);
   await db.query('DELETE FROM equipments WHERE id = $1', [id]);
 }
