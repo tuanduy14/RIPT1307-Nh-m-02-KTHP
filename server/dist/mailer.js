@@ -1,19 +1,13 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const nodemailer_1 = __importDefault(require("nodemailer"));
-const transporter = nodemailer_1.default.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: false,
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-    },
-});
+const resend_1 = require("resend");
+const resend = new resend_1.Resend(process.env.RESEND_API_KEY);
 async function sendMail(opts) {
-    return transporter.sendMail({ from: process.env.SMTP_FROM || 'noreply@example.com', to: opts.to, subject: opts.subject, text: opts.text });
+    return resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: opts.to,
+        subject: opts.subject,
+        text: opts.text,
+    });
 }
 exports.default = sendMail;
