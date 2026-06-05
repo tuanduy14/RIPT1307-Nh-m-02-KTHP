@@ -11,6 +11,7 @@ import {
   notifyStudentOneDayBefore,
   notifyDueToday,
 } from './notifications';
+import sendMail from './mailer';
 import db from './db';
 
 const app = express();
@@ -23,6 +24,19 @@ app.use('/api/equipments', equipmentRoutes);
 app.use('/api/requests', requestRoutes);
 
 app.get('/api/me', (_req, res) => res.json({ id: 1, name: 'Demo User' }));
+
+app.get('/api/test-mail', async (_req, res) => {
+  try {
+    await sendMail({
+      to: 'duy15101996@gmail.com',
+      subject: 'Test mail',
+      text: 'Mail hoạt động!',
+    });
+    res.json({ ok: true });
+  } catch (e: any) {
+    res.json({ error: e.message });
+  }
+});
 
 const port = process.env.PORT || 4000;
 
@@ -45,10 +59,8 @@ app.listen(port, async () => {
     await notifyAdminOverdue().catch((e) => console.error('[Notifications] overdue:', e));
   };
 
-  // Chạy ngay khi boot để không bỏ sót ngày
   await runDailyNotifications();
 
-  // Lên lịch chạy lại lúc 7:00 sáng mỗi ngày
   scheduleDaily(7, 0, runDailyNotifications);
 });
 

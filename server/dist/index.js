@@ -11,6 +11,7 @@ const equipment_1 = __importDefault(require("./routes/equipment"));
 const request_1 = __importDefault(require("./routes/request"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const notifications_1 = require("./notifications");
+const mailer_1 = __importDefault(require("./mailer"));
 const db_1 = __importDefault(require("./db"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -19,6 +20,19 @@ app.use('/api/auth', auth_1.default);
 app.use('/api/equipments', equipment_1.default);
 app.use('/api/requests', request_1.default);
 app.get('/api/me', (_req, res) => res.json({ id: 1, name: 'Demo User' }));
+app.get('/api/test-mail', async (_req, res) => {
+    try {
+        await (0, mailer_1.default)({
+            to: 'duy15101996@gmail.com',
+            subject: 'Test mail',
+            text: 'Mail hoạt động!',
+        });
+        res.json({ ok: true });
+    }
+    catch (e) {
+        res.json({ error: e.message });
+    }
+});
 const port = process.env.PORT || 4000;
 app.listen(port, async () => {
     console.log(`Server listening on port ${port}`);
@@ -37,9 +51,7 @@ app.listen(port, async () => {
         await (0, notifications_1.notifyDueToday)().catch((e) => console.error('[Notifications] due_today:', e));
         await (0, notifications_1.notifyAdminOverdue)().catch((e) => console.error('[Notifications] overdue:', e));
     };
-    // Chạy ngay khi boot để không bỏ sót ngày
     await runDailyNotifications();
-    // Lên lịch chạy lại lúc 7:00 sáng mỗi ngày
     scheduleDaily(7, 0, runDailyNotifications);
 });
 function scheduleDaily(hour, minute, callback) {
