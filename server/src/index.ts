@@ -11,7 +11,6 @@ import {
   notifyStudentOneDayBefore,
   notifyDueToday,
 } from './notifications';
-import sendMail from './mailer';
 import db from './db';
 
 const app = express();
@@ -25,18 +24,6 @@ app.use('/api/requests', requestRoutes);
 
 app.get('/api/me', (_req, res) => res.json({ id: 1, name: 'Demo User' }));
 
-app.get('/api/test-mail', async (_req, res) => {
-  try {
-    await sendMail({
-      to: 'duy15101996@gmail.com',
-      subject: 'Test mail',
-      text: 'Mail hoạt động!',
-    });
-    res.json({ ok: true });
-  } catch (e: any) {
-    res.json({ error: e.message });
-  }
-});
 
 const port = process.env.PORT || 4000;
 
