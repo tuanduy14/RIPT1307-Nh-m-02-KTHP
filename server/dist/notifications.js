@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notifyAdminOverdue = exports.notifyDueToday = exports.notifyStudentOneDayBefore = exports.notifyStudentDueSoon = exports.notifyStudentApproved = exports.notifyAdminNewRequest = exports.getUserById = exports.getAdminEmails = void 0;
+exports.notifyAdminOverdue = exports.notifyDueToday = exports.notifyStudentOneDayBefore = exports.notifyStudentDueSoon = exports.notifyStudentRejected = exports.notifyStudentApproved = exports.notifyAdminNewRequest = exports.getUserById = exports.getAdminEmails = void 0;
 const db_1 = __importDefault(require("./db"));
 const mailer_1 = __importDefault(require("./mailer"));
 const ADMIN_EMAIL_FALLBACK = process.env.ADMIN_EMAIL;
@@ -78,6 +78,34 @@ async function notifyStudentApproved(requestId) {
     });
 }
 exports.notifyStudentApproved = notifyStudentApproved;
+// ─── 2b. Sinh viên: yêu cầu bị từ chối ─────────────────────────────────────
+async function notifyStudentRejected(requestId) {
+    const result = await db_1.default.query(`SELECT r.id, r.amount, r.from_date, r.to_date,
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
+     FROM requests r
+     JOIN users      u ON u.id = r.user_id
+     JOIN equipments e ON e.id = r.equipment_id
+     WHERE r.id = $1`, [requestId]);
+    if (!result.rows.length)
+        return;
+    const req = result.rows[0];
+    if (!req.student_email)
+        return;
+    await (0, mailer_1.default)({
+        to: req.student_email,
+        subject: `[Mượn thiết bị] Yêu cầu #${requestId} đã bị từ chối ❌`,
+        text: `Xin chào ${req.student_name},\n\n` +
+            `Yêu cầu mượn thiết bị của bạn đã bị từ chối:\n` +
+            `  • Thiết bị : ${req.equipment_name}\n` +
+            `  • Số lượng : ${req.amount}\n` +
+            `  • Từ ngày  : ${fmt(req.from_date)}\n` +
+            `  • Đến ngày : ${fmt(req.to_date)}\n\n` +
+            `Vui lòng liên hệ quản trị viên để biết thêm thông tin. Trân trọng!`,
+    });
+}
+exports.notifyStudentRejected = notifyStudentRejected;
 // ─── 3. Sinh viên: còn 2 ngày trước hạn ────────────────────────────────────
 async function notifyStudentDueSoon() {
     const result = await db_1.default.query(`SELECT r.id, r.amount, r.to_date,

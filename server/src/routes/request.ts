@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import db from '../db';
 import { adjust } from '../models/equipment';
-import { notifyAdminNewRequest, notifyStudentApproved } from '../notifications';
+import { notifyAdminNewRequest, notifyStudentApproved, notifyStudentRejected } from '../notifications';
 
 const router = Router();
 
 router.post('/', async (req, res) => {
   const { equipmentId, amount, dateRange, userId: bodyUserId } = req.body;
   const [fromDate, toDate] = dateRange || [];
-  const userId = bodyUserId || 1; // Dùng userId từ client (sau khi login)
+  const userId = bodyUserId || 1;
 
   const result = await db.query(
     'INSERT INTO requests (equipment_id, user_id, amount, status, from_date, to_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, now(), now()) RETURNING id',
@@ -84,9 +84,11 @@ router.post('/:id/approve', async (req, res) => {
 
   await db.query('UPDATE requests SET status=$1, updated_at=now() WHERE id=$2', ['approved', id]);
   await adjust(requestRow.equipment_id, -requestRow.amount);
+
   notifyStudentApproved(id)
-  .then(() => console.log('✓ Mail sent for request', id))
-  .catch((e) => console.error('✗ Mail failed:', e));
+    .then(() => console.log('✓ Mail sent for request', id))
+    .catch((e) => console.error('✗ Mail failed:', e));
+
   res.json({ ok: true });
 });
 
@@ -114,8 +116,11 @@ router.post('/:id/cancel', async (req, res) => {
 
   await db.query('UPDATE requests SET status=$1, updated_at=now() WHERE id=$2', ['rejected', id]);
 
+  notifyStudentRejected(id)
+    .then(() => console.log('✓ Reject mail sent for request', id))
+    .catch((e) => console.error('✗ Reject mail failed:', e));
+
   res.json({ ok: true });
 });
 
 export default router;
-

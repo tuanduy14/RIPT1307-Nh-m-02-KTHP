@@ -81,6 +81,38 @@ export async function notifyStudentApproved(requestId: number) {
   });
 }
 
+// ─── 2b. Sinh viên: yêu cầu bị từ chối ─────────────────────────────────────
+export async function notifyStudentRejected(requestId: number) {
+  const result = await db.query(
+    `SELECT r.id, r.amount, r.from_date, r.to_date,
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
+     FROM requests r
+     JOIN users      u ON u.id = r.user_id
+     JOIN equipments e ON e.id = r.equipment_id
+     WHERE r.id = $1`,
+    [requestId],
+  );
+  if (!result.rows.length) return;
+  const req = result.rows[0];
+
+  if (!req.student_email) return;
+
+  await sendMail({
+    to: req.student_email,
+    subject: `[Mượn thiết bị] Yêu cầu #${requestId} đã bị từ chối ❌`,
+    text:
+      `Xin chào ${req.student_name},\n\n` +
+      `Yêu cầu mượn thiết bị của bạn đã bị từ chối:\n` +
+      `  • Thiết bị : ${req.equipment_name}\n` +
+      `  • Số lượng : ${req.amount}\n` +
+      `  • Từ ngày  : ${fmt(req.from_date)}\n` +
+      `  • Đến ngày : ${fmt(req.to_date)}\n\n` +
+      `Vui lòng liên hệ quản trị viên để biết thêm thông tin. Trân trọng!`,
+  });
+}
+
 // ─── 3. Sinh viên: còn 2 ngày trước hạn ────────────────────────────────────
 export async function notifyStudentDueSoon() {
   const result = await db.query(

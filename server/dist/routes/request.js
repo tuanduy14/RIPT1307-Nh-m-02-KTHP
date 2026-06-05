@@ -11,7 +11,7 @@ const router = (0, express_1.Router)();
 router.post('/', async (req, res) => {
     const { equipmentId, amount, dateRange, userId: bodyUserId } = req.body;
     const [fromDate, toDate] = dateRange || [];
-    const userId = bodyUserId || 1; // Dùng userId từ client (sau khi login)
+    const userId = bodyUserId || 1;
     const result = await db_1.default.query('INSERT INTO requests (equipment_id, user_id, amount, status, from_date, to_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, now(), now()) RETURNING id', [equipmentId, userId, amount, 'pending', fromDate, toDate]);
     const requestId = result.rows[0].id;
     (0, notifications_1.notifyAdminNewRequest)(requestId).catch(() => { });
@@ -94,6 +94,9 @@ router.post('/:id/cancel', async (req, res) => {
     if (requestRow.status !== 'pending')
         return res.status(400).json({ error: 'Chỉ có thể hủy yêu cầu đang chờ duyệt' });
     await db_1.default.query('UPDATE requests SET status=$1, updated_at=now() WHERE id=$2', ['rejected', id]);
+    (0, notifications_1.notifyStudentRejected)(id)
+        .then(() => console.log('✓ Reject mail sent for request', id))
+        .catch((e) => console.error('✗ Reject mail failed:', e));
     res.json({ ok: true });
 });
 exports.default = router;
