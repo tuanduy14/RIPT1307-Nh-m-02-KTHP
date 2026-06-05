@@ -36,12 +36,14 @@ const Stats: React.FC = () => {
   const topCols = [
     { title: 'Tên thiết bị', dataIndex: 'name', render: (t: string, r: any) => <a onClick={() => loadHistory(r)}>{t}</a> },
     { title: 'Lượt mượn', dataIndex: 'borrow_count', align: 'right' as const, width: 110 },
-    { title: 'Tổng SL', dataIndex: 'total_amount', align: 'right' as const, width: 90 },
+    // total_amount = SUM(r.amount) từ DB — tổng số lượng thiết bị đã mượn
+    { title: 'Tổng SL', dataIndex: 'total_amount', align: 'right' as const, width: 90, render: (v: any) => Number(v) },
   ];
 
   const histCols = [
-    { title: 'Tên', dataIndex: 'user_name', width: 140 },
-    { title: 'Email', dataIndex: 'user_email', width: 180 },
+    { title: 'Tên', dataIndex: 'user_name', width: 130 },
+    { title: 'Email', dataIndex: 'user_email', width: 170 },
+    { title: 'SL mượn', dataIndex: 'amount', align: 'right' as const, width: 80 },
     { title: 'Ngày mượn', dataIndex: 'from_date', width: 110, render: (v: string) => v ? dayjs(v).format('DD/MM/YYYY') : '—' },
     { title: 'Ngày trả', dataIndex: 'to_date', width: 110, render: (v: string) => v ? dayjs(v).format('DD/MM/YYYY') : '—' },
     { title: 'Trạng thái', dataIndex: 'status', width: 110, render: (s: string) => <Tag color={STATUS_COLOR[s]}>{s}</Tag> },
@@ -50,7 +52,6 @@ const Stats: React.FC = () => {
   return (
     <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-      {/* Summary cards */}
       <Card>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', textAlign: 'center' }}>
           <div>
@@ -68,7 +69,6 @@ const Stats: React.FC = () => {
         </div>
       </Card>
 
-      {/* Top borrowed */}
       <Card title={<span>Thiết bị mượn nhiều nhất tháng <small style={{ color: '#888' }}>— click vào hàng để xem chi tiết</small></span>}>
         <Spin spinning={topLoading}>
           <Table dataSource={topList} columns={topCols} rowKey="id" pagination={false} size="small"
@@ -76,7 +76,6 @@ const Stats: React.FC = () => {
         </Spin>
       </Card>
 
-      {/* Borrow history */}
       {selected && (
         <Card title={<span>Lịch sử mượn: <span style={{ color: '#4a9eff' }}>{selected.name}</span></span>}>
           <Spin spinning={histLoading}>
