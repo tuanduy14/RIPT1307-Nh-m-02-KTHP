@@ -84,8 +84,9 @@ router.post('/:id/approve', async (req, res) => {
 
   await db.query('UPDATE requests SET status=$1, updated_at=now() WHERE id=$2', ['approved', id]);
   await adjust(requestRow.equipment_id, -requestRow.amount);
-  notifyStudentApproved(id).catch(() => {});
-
+  notifyStudentApproved(id)
+  .then(() => console.log('✓ Mail sent for request', id))
+  .catch((e) => console.error('✗ Mail failed:', e));
   res.json({ ok: true });
 });
 

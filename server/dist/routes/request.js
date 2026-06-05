@@ -68,7 +68,9 @@ router.post('/:id/approve', async (req, res) => {
         return res.status(400).json({ error: 'Không đủ số lượng hiện có' });
     await db_1.default.query('UPDATE requests SET status=$1, updated_at=now() WHERE id=$2', ['approved', id]);
     await (0, equipment_1.adjust)(requestRow.equipment_id, -requestRow.amount);
-    (0, notifications_1.notifyStudentApproved)(id).catch(() => { });
+    (0, notifications_1.notifyStudentApproved)(id)
+        .then(() => console.log('✓ Mail sent for request', id))
+        .catch((e) => console.error('✗ Mail failed:', e));
     res.json({ ok: true });
 });
 router.post('/:id/return', async (req, res) => {
