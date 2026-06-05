@@ -4,8 +4,8 @@ import sendMail from './mailer';
 const ADMIN_EMAIL_FALLBACK = process.env.ADMIN_EMAIL;
 
 export async function getAdminEmails(): Promise<string[]> {
-  const result = await db.query("SELECT email FROM users WHERE role = 'admin'");
-  const emails = result.rows.map((row: any) => row.email).filter(Boolean);
+  const result = await db.query("SELECT notify_email FROM users WHERE role = 'admin'");
+  const emails = result.rows.map((row: any) => row.notify_email).filter(Boolean);
   if (emails.length) return emails;
   if (ADMIN_EMAIL_FALLBACK)
     return ADMIN_EMAIL_FALLBACK.split(',').map((e) => e.trim()).filter(Boolean);
@@ -21,8 +21,9 @@ export async function getUserById(id: number) {
 export async function notifyAdminNewRequest(requestId: number) {
   const result = await db.query(
     `SELECT r.id, r.amount, r.from_date, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.email       AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -52,8 +53,9 @@ export async function notifyAdminNewRequest(requestId: number) {
 export async function notifyStudentApproved(requestId: number) {
   const result = await db.query(
     `SELECT r.id, r.amount, r.from_date, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -62,6 +64,8 @@ export async function notifyStudentApproved(requestId: number) {
   );
   if (!result.rows.length) return;
   const req = result.rows[0];
+
+  if (!req.student_email) return;
 
   await sendMail({
     to: req.student_email,
@@ -77,12 +81,13 @@ export async function notifyStudentApproved(requestId: number) {
   });
 }
 
-// ─── 3. Sinh viên: còn 2 ngày trước hạn (cũ, giữ nguyên) ───────────────────
+// ─── 3. Sinh viên: còn 2 ngày trước hạn ────────────────────────────────────
 export async function notifyStudentDueSoon() {
   const result = await db.query(
     `SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -93,6 +98,7 @@ export async function notifyStudentDueSoon() {
   if (!result.rows.length) return;
 
   for (const row of result.rows) {
+    if (!row.student_email) continue;
     await sendMail({
       to: row.student_email,
       subject: `[Mượn thiết bị] Sắp đến hạn trả #${row.id} (còn 2 ngày)`,
@@ -113,8 +119,9 @@ export async function notifyStudentDueSoon() {
 export async function notifyStudentOneDayBefore() {
   const result = await db.query(
     `SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -125,6 +132,7 @@ export async function notifyStudentOneDayBefore() {
   if (!result.rows.length) return;
 
   for (const row of result.rows) {
+    if (!row.student_email) continue;
     await sendMail({
       to: row.student_email,
       subject: `[Mượn thiết bị] Nhắc nhở: còn 1 ngày trước hạn trả #${row.id} ⏰`,
@@ -145,8 +153,9 @@ export async function notifyStudentOneDayBefore() {
 export async function notifyDueToday() {
   const result = await db.query(
     `SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -156,8 +165,8 @@ export async function notifyDueToday() {
   );
   if (!result.rows.length) return;
 
-  // Gửi cho từng sinh viên
   for (const row of result.rows) {
+    if (!row.student_email) continue;
     await sendMail({
       to: row.student_email,
       subject: `[Mượn thiết bị] Hôm nay là hạn trả thiết bị #${row.id} 📅`,
@@ -170,12 +179,11 @@ export async function notifyDueToday() {
     });
   }
 
-  // Gửi tổng hợp cho admin
   const adminEmails = await getAdminEmails();
   if (adminEmails.length) {
     const lines = result.rows.map(
       (r: any) =>
-        `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name} (${r.student_email})`,
+        `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name}`,
     );
     await sendMail({
       to: adminEmails.join(','),
@@ -186,7 +194,6 @@ export async function notifyDueToday() {
     });
   }
 
-  // Đánh dấu đã gửi
   const ids = result.rows.map((r: any) => r.id);
   await db.query('UPDATE requests SET due_today_notified_at = now() WHERE id = ANY($1)', [ids]);
 }
@@ -195,8 +202,9 @@ export async function notifyDueToday() {
 export async function notifyAdminOverdue() {
   const result = await db.query(
     `SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.email       AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -211,7 +219,7 @@ export async function notifyAdminOverdue() {
 
   const lines = result.rows.map(
     (r: any) =>
-      `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name} (${r.student_email}), hạn: ${fmt(r.to_date)}`,
+      `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name}, hạn: ${fmt(r.to_date)}`,
   );
 
   await sendMail({

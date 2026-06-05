@@ -8,8 +8,8 @@ const db_1 = __importDefault(require("./db"));
 const mailer_1 = __importDefault(require("./mailer"));
 const ADMIN_EMAIL_FALLBACK = process.env.ADMIN_EMAIL;
 async function getAdminEmails() {
-    const result = await db_1.default.query("SELECT email FROM users WHERE role = 'admin'");
-    const emails = result.rows.map((row) => row.email).filter(Boolean);
+    const result = await db_1.default.query("SELECT notify_email FROM users WHERE role = 'admin'");
+    const emails = result.rows.map((row) => row.notify_email).filter(Boolean);
     if (emails.length)
         return emails;
     if (ADMIN_EMAIL_FALLBACK)
@@ -25,8 +25,9 @@ exports.getUserById = getUserById;
 // ─── 1. Admin: có yêu cầu mượn mới ─────────────────────────────────────────
 async function notifyAdminNewRequest(requestId) {
     const result = await db_1.default.query(`SELECT r.id, r.amount, r.from_date, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.email       AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -52,8 +53,9 @@ exports.notifyAdminNewRequest = notifyAdminNewRequest;
 // ─── 2. Sinh viên: yêu cầu được duyệt ───────────────────────────────────────
 async function notifyStudentApproved(requestId) {
     const result = await db_1.default.query(`SELECT r.id, r.amount, r.from_date, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -61,6 +63,8 @@ async function notifyStudentApproved(requestId) {
     if (!result.rows.length)
         return;
     const req = result.rows[0];
+    if (!req.student_email)
+        return;
     await (0, mailer_1.default)({
         to: req.student_email,
         subject: `[Mượn thiết bị] Yêu cầu #${requestId} đã được duyệt ✅`,
@@ -74,11 +78,12 @@ async function notifyStudentApproved(requestId) {
     });
 }
 exports.notifyStudentApproved = notifyStudentApproved;
-// ─── 3. Sinh viên: còn 2 ngày trước hạn (cũ, giữ nguyên) ───────────────────
+// ─── 3. Sinh viên: còn 2 ngày trước hạn ────────────────────────────────────
 async function notifyStudentDueSoon() {
     const result = await db_1.default.query(`SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -88,6 +93,8 @@ async function notifyStudentDueSoon() {
     if (!result.rows.length)
         return;
     for (const row of result.rows) {
+        if (!row.student_email)
+            continue;
         await (0, mailer_1.default)({
             to: row.student_email,
             subject: `[Mượn thiết bị] Sắp đến hạn trả #${row.id} (còn 2 ngày)`,
@@ -105,8 +112,9 @@ exports.notifyStudentDueSoon = notifyStudentDueSoon;
 // ─── 4. Sinh viên: còn 1 ngày trước hạn ────────────────────────────────────
 async function notifyStudentOneDayBefore() {
     const result = await db_1.default.query(`SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -116,6 +124,8 @@ async function notifyStudentOneDayBefore() {
     if (!result.rows.length)
         return;
     for (const row of result.rows) {
+        if (!row.student_email)
+            continue;
         await (0, mailer_1.default)({
             to: row.student_email,
             subject: `[Mượn thiết bị] Nhắc nhở: còn 1 ngày trước hạn trả #${row.id} ⏰`,
@@ -133,8 +143,9 @@ exports.notifyStudentOneDayBefore = notifyStudentOneDayBefore;
 // ─── 5. Sinh viên + Admin: đúng ngày hạn trả ────────────────────────────────
 async function notifyDueToday() {
     const result = await db_1.default.query(`SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.notify_email AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -143,8 +154,9 @@ async function notifyDueToday() {
        AND r.due_today_notified_at IS NULL`);
     if (!result.rows.length)
         return;
-    // Gửi cho từng sinh viên
     for (const row of result.rows) {
+        if (!row.student_email)
+            continue;
         await (0, mailer_1.default)({
             to: row.student_email,
             subject: `[Mượn thiết bị] Hôm nay là hạn trả thiết bị #${row.id} 📅`,
@@ -155,10 +167,9 @@ async function notifyDueToday() {
                 `Vui lòng trả thiết bị trước khi hết ngày hôm nay. Trân trọng!`,
         });
     }
-    // Gửi tổng hợp cho admin
     const adminEmails = await getAdminEmails();
     if (adminEmails.length) {
-        const lines = result.rows.map((r) => `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name} (${r.student_email})`);
+        const lines = result.rows.map((r) => `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name}`);
         await (0, mailer_1.default)({
             to: adminEmails.join(','),
             subject: `[Mượn thiết bị] Danh sách đến hạn trả hôm nay (${fmt(new Date())})`,
@@ -166,7 +177,6 @@ async function notifyDueToday() {
                 `Vui lòng theo dõi và nhắc nhở sinh viên trả thiết bị đúng hạn.`,
         });
     }
-    // Đánh dấu đã gửi
     const ids = result.rows.map((r) => r.id);
     await db_1.default.query('UPDATE requests SET due_today_notified_at = now() WHERE id = ANY($1)', [ids]);
 }
@@ -174,8 +184,9 @@ exports.notifyDueToday = notifyDueToday;
 // ─── 6. Admin: thiết bị quá hạn ─────────────────────────────────────────────
 async function notifyAdminOverdue() {
     const result = await db_1.default.query(`SELECT r.id, r.amount, r.to_date,
-            u.name  AS student_name, u.email AS student_email,
-            e.name  AS equipment_name
+            u.name        AS student_name,
+            u.email       AS student_email,
+            e.name        AS equipment_name
      FROM requests r
      JOIN users      u ON u.id = r.user_id
      JOIN equipments e ON e.id = r.equipment_id
@@ -187,7 +198,7 @@ async function notifyAdminOverdue() {
     const adminEmails = await getAdminEmails();
     if (!adminEmails.length)
         return;
-    const lines = result.rows.map((r) => `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name} (${r.student_email}), hạn: ${fmt(r.to_date)}`);
+    const lines = result.rows.map((r) => `  • #${r.id} — ${r.equipment_name} x${r.amount} — ${r.student_name}, hạn: ${fmt(r.to_date)}`);
     await (0, mailer_1.default)({
         to: adminEmails.join(','),
         subject: `[Mượn thiết bị] ⚠️ Có ${result.rows.length} yêu cầu quá hạn trả`,
