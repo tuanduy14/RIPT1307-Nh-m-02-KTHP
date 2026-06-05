@@ -203,3 +203,7 @@ function fmt(d) {
         day: '2-digit', month: '2-digit', year: 'numeric',
     });
 }
+process.on('uncaughtException', (err) => {
+    console.error('UNCAUGHT EXCEPTION:', err);
+    process.exit(1);
+});
