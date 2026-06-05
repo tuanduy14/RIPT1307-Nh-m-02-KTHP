@@ -34,3 +34,31 @@ export async function deleteEquipment(id: number) {
   await db.query('DELETE FROM requests WHERE equipment_id = $1', [id]);
   await db.query('DELETE FROM equipments WHERE id = $1', [id]);
 }
+
+export async function topBorrowedByMonth(month: string) {
+  const res = await db.query(
+    `SELECT e.id, e.name, COUNT(r.id) as borrow_count, SUM(r.amount) as total_amount
+     FROM equipments e
+     JOIN requests r ON r.equipment_id = e.id
+     WHERE to_char(r.created_at, 'YYYY-MM') = $1
+       AND r.status IN ('approved', 'returned')
+     GROUP BY e.id, e.name
+     ORDER BY borrow_count DESC
+     LIMIT 10`,
+    [month]
+  );
+  return res.rows;
+}
+
+export async function borrowHistoryByEquipment(equipmentId: number) {
+  const res = await db.query(
+    `SELECT r.id, r.amount, r.status, r.from_date, r.to_date, r.created_at,
+            u.name as user_name, u.email as user_email
+     FROM requests r
+     JOIN users u ON u.id = r.user_id
+     WHERE r.equipment_id = $1
+     ORDER BY r.created_at DESC`,
+    [equipmentId]
+  );
+  return res.rows;
+}

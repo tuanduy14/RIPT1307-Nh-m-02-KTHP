@@ -11,6 +11,11 @@ router.get('/stats', async (_req, res) => {
     const rows = await (0, equipment_1.statsByMonth)();
     res.json(rows);
 });
+router.get('/top-borrowed', async (req, res) => {
+    const month = req.query.month || new Date().toISOString().slice(0, 7);
+    const rows = await (0, equipment_1.topBorrowedByMonth)(month);
+    res.json(rows);
+});
 router.post('/', async (req, res) => {
     const { name, quantity } = req.body;
     const row = await (0, equipment_1.createEquipment)({ name, quantity });
@@ -26,5 +31,9 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     await (0, equipment_1.deleteEquipment)(Number(id));
     res.json({ ok: true });
+});
+router.get('/:id/borrow-history', async (req, res) => {
+    const rows = await (0, equipment_1.borrowHistoryByEquipment)(Number(req.params.id));
+    res.json(rows);
 });
 exports.default = router;
