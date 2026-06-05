@@ -43,7 +43,7 @@ const Stats: React.FC = () => {
   const histCols = [
     { title: 'Tên', dataIndex: 'user_name', width: 130 },
     { title: 'Email', dataIndex: 'user_email', width: 170 },
-    { title: 'SL mượn', dataIndex: 'amount', align: 'right' as const, width: 80 },
+    { title: 'SL mượn', dataIndex: 'amount', width: 80 },
     { title: 'Ngày mượn', dataIndex: 'from_date', width: 110, render: (v: string) => v ? dayjs(v).format('DD/MM/YYYY') : '—' },
     { title: 'Ngày trả', dataIndex: 'to_date', width: 110, render: (v: string) => v ? dayjs(v).format('DD/MM/YYYY') : '—' },
     { title: 'Trạng thái', dataIndex: 'status', width: 110, render: (s: string) => <Tag color={STATUS_COLOR[s]}>{s}</Tag> },
