@@ -36,7 +36,6 @@ const Stats: React.FC = () => {
   const topCols = [
     { title: 'Tên thiết bị', dataIndex: 'name', render: (t: string, r: any) => <a onClick={() => loadHistory(r)}>{t}</a> },
     { title: 'Lượt mượn', dataIndex: 'borrow_count', align: 'right' as const, width: 110 },
-    { title: 'Tổng SL',dataIndex: 'quantity', key: 'quantity', align: 'right' as const, width: 90, render: (v: any) => Number(v) },
   ];
 
   const histCols = [
