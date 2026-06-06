@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phân công công việc — Dự án Mượn Thiết Bị</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --bg2: #ffffff;
+    --border: #e2e0d8;
+    --text: #1a1916;
+    --text2: #6b6960;
+    --text3: #9c9a92;
+    --be: #1a4f8a; --be-bg: #e8f0fb; --be-border: #b8d0f0;
+    --fe: #1a6b3a; --fe-bg: #e6f4ec; --fe-border: #a8d8ba;
+    --dev: #5a3a8a; --dev-bg: #f0ebfb; --dev-border: #c8b8ee;
+    --qa: #8a5a1a; --qa-bg: #faf0e0; --qa-border: #e8c888;
+    --cao: #c0392b; --cao-bg: #fdecea; --cao-border: #f5b8b2;
+    --tb: #b8620a; --tb-bg: #fef3e2; --tb-border: #f0d090;
+    --thp: #5a5a52; --thp-bg: #f2f1ec; --thp-border: #d0cfc8;
+    --duy: #5a4a9a; --duy-bg: #eeebfb;
+    --bach: #1a7a5a; --bach-bg: #e2f5ee;
+    --dai: #1a5a8a; --dai-bg: #e2eef8;
+    --quang: #8a6a1a; --quang-bg: #f8f0e0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 24px 60px;
+  }
+  header {
+    max-width: 1100px;
+    margin: 0 auto 36px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+  .project-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .stat-num {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1;
+  }
+  .board {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 700px) { .board { grid-template-columns: 1fr; } }
+  .col {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .col-head {
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .av-duy  { background: var(--duy-bg);   color: var(--duy); }
+  .av-bach { background: var(--bach-bg);  color: var(--bach); }
+  .av-dai  { background: var(--dai-bg);   color: var(--dai); }
+  .av-quang{ background: var(--quang-bg); color: var(--quang); }
+  .col-info { flex: 1; min-width: 0; }
+  .col-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .col-role { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .col-count {
+    font-size: 11px; font-weight: 600;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2px 9px;
+    color: var(--text2);
+  }
+  .col-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s;
+    background: var(--bg);
+  }
+  .card:hover { border-color: #b0ada4; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+  .card-title { font-size: 12.5px; font-weight: 500; color: var(--text); line-height: 1.4; }
+  .prio {
+    font-size: 10px; font-weight: 600;
+    border-radius: 4px; padding: 2px 6px;
+    white-space: nowrap; flex-shrink: 0;
+    letter-spacing: .02em;
+  }
+  .p-cao  { background: var(--cao-bg);  color: var(--cao);  border: 1px solid var(--cao-border); }
+  .p-tb   { background: var(--tb-bg);   color: var(--tb);   border: 1px solid var(--tb-border); }
+  .p-thp  { background: var(--thp-bg);  color: var(--thp);  border: 1px solid var(--thp-border); }
+  .card-meta { font-size: 11px; color: var(--text2); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+  .type-tag {
+    font-size: 10px; font-weight: 600;
+    border-radius: 4px; padding: 1px 5px;
+    letter-spacing: .03em;
+  }
+  .t-be  { background: var(--be-bg);  color: var(--be);  border: 1px solid var(--be-border); }
+  .t-fe  { background: var(--fe-bg);  color: var(--fe);  border: 1px solid var(--fe-border); }
+  .t-dev { background: var(--dev-bg); color: var(--dev); border: 1px solid var(--dev-border); }
+  .t-qa  { background: var(--qa-bg);  color: var(--qa);  border: 1px solid var(--qa-border); }
+  .card-file {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--text3);
+    word-break: break-all;
+  }
+  .legend {
+    max-width: 1100px;
+    margin: 28px auto 0;
+    display: flex; gap: 20px; flex-wrap: wrap;
+    font-size: 11px; color: var(--text2);
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .legend-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .legend-label { font-weight: 600; color: var(--text3); margin-right: 2px; }
+  .leg { display: flex; align-items: center; gap: 4px; }
+  .leg-dot { width: 8px; height: 8px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="project-label">Phân công công việc</div>
+  <h1>Hệ thống Mượn Thiết Bị</h1>
+  <div class="subtitle">Express · PostgreSQL · React · UmiJS · Ant Design · Resend</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">25</span> tasks</div>
+    <div class="stat"><span class="stat-num">4</span> thành viên</div>
+    <div class="stat" style="gap:4px">
+      <span class="type-tag t-be">Backend</span> 10 ·
+      <span class="type-tag t-fe">Frontend</span> 11 ·
+      <span class="type-tag t-dev">DevOps</span> 3 ·
+      <span class="type-tag t-qa">QA</span> 2
+    </div>
+  </div>
+</header>
+
+<div class="board" id="board"></div>
+
+<div class="legend">
+  <div class="legend-group">
+    <span class="legend-label">Loại:</span>
+    <span class="leg"><span class="leg-dot" style="background:#b8d0f0"></span> Backend</span>
+    <span class="leg"><span class="leg-dot" style="background:#a8d8ba"></span> Frontend</span>
+    <span class="leg"><span class="leg-dot" style="background:#c8b8ee"></span> DevOps</span>
+    <span class="leg"><span class="leg-dot" style="background:#e8c888"></span> QA/UX</span>
+  </div>
+  <div class="legend-group">
+    <span class="legend-label">Ưu tiên:</span>
+    <span class="leg"><span class="leg-dot" style="background:#f5b8b2"></span> Cao</span>
+    <span class="leg"><span class="leg-dot" style="background:#f0d090"></span> Trung bình</span>
+    <span class="leg"><span class="leg-dot" style="background:#d0cfc8"></span> Thấp</span>
+  </div>
+</div>
+
+<script>
+const members = [
+  {
+    key:"duy", av:"av-duy", name:"Đào Tuấn Duy", role:"Backend · Frontend core · DevOps",
+    tasks:[
+      {title:"Thiết kế & khởi tạo Database",      prio:"cao", type:"be",  file:"database/schema.sql",              meta:"users, equipments, requests"},
+      {title:"API xác thực (Auth)",                prio:"cao", type:"be",  file:"routes/auth.ts",                   meta:"POST /api/auth/login"},
+      {title:"API thiết bị (Equipment)",           prio:"cao", type:"be",  file:"routes/equipment.ts",              meta:"GET /api/equipments, /stats"},
+      {title:"API yêu cầu mượn (Request)",         prio:"cao", type:"be",  file:"routes/request.ts",                meta:"POST, GET /mine, approve, return"},
+      {title:"Gửi email thông báo (Resend)",       prio:"tb",  type:"be",  file:"mailer.ts · notifications.ts",     meta:"Resend SDK, notify admin/student"},
+      {title:"Thiết kế HTML email template",       prio:"tb",  type:"be",  file:"templates/email/",                 meta:"new-request, approved, overdue"},
+      {title:"Cron job nhắc nhở quá hạn",          prio:"tb",  type:"be",  file:"notifications.ts",                 meta:"24h interval, mail cảnh báo"},
+      {title:"Kết nối & cấu hình Database",        prio:"cao", type:"be",  file:"db.ts · .env",                     meta:"PostgreSQL pool, SSL Render"},
+      {title:"Thêm/sửa thiết bị (Admin)",          prio:"tb",  type:"be",  file:"routes/equipment.ts",              meta:"POST, PUT, adjust API"},
+      {title:"Middleware xác thực & CORS",         prio:"thp", type:"be",  file:"index.ts",                         meta:"cors(), body-parser, DB check"},
+      {title:"Trang đăng nhập",                    prio:"cao", type:"fe",  file:"pages/Login/index.tsx",            meta:"login(), localStorage, redirect"},
+      {title:"Route guard & điều hướng",           prio:"cao", type:"fe",  file:"config/routes.ts",                 meta:"onPageChange, bảo vệ route"},
+      {title:"Header / Right Content",             prio:"tb",  type:"fe",  file:"components/RightContent/index.tsx",meta:"Avatar, dropdown, logout"},
+      {title:"Service layer & API client",         prio:"cao", type:"fe",  file:"services/api.ts",                  meta:"apiFetch, login, createRequest…"},
+      {title:"Deploy lên Render",                  prio:"cao", type:"dev", file:"render.yaml · README-DEPLOY.md",   meta:"RESEND_API_KEY, build command"},
+      {title:"Cấu hình proxy dev & build",         prio:"tb",  type:"dev", file:"config/proxy.ts · .env",           meta:"proxy /api/ → localhost:4000"},
+      {title:"Seed dữ liệu mẫu",                   prio:"cao", type:"dev", file:"database/schema.sql",              meta:"bcrypt hash, INSERT users/equip"},
+    ]
+  },
+  {
+    key:"bach", av:"av-bach", name:"Lê Xuân Bách", role:"Frontend Admin",
+    tasks:[
+      {title:"Quản lý yêu cầu (Admin)",   prio:"cao", type:"fe",  file:"pages/Admin/Requests.tsx", meta:"approveRequest, Popconfirm"},
+      {title:"Quản lý thiết bị (Admin)",  prio:"tb",  type:"fe",  file:"pages/Admin/Devices.tsx",  meta:"CRUD, modal thêm/sửa"},
+      {title:"Trang thống kê (Admin)",    prio:"tb",  type:"fe",  file:"pages/Admin/Stats.tsx",    meta:"ColumnChart, xAxis/yAxis API"},
+      {title:"Viết tài liệu & báo cáo",  prio:"thp", type:"dev", file:"README.md",                meta:"Phần Admin, API docs"},
+    ]
+  },
+  {
+    key:"dai", av:"av-dai", name:"Lê Đức Đại", role:"Frontend Student",
+    tasks:[
+      {title:"Dashboard sinh viên",       prio:"tb",  type:"fe",  file:"pages/Student/Dashboard.tsx", meta:"Statistic card, gọi API"},
+      {title:"Danh sách thiết bị (SV)",   prio:"cao", type:"fe",  file:"pages/Student/Devices.tsx",   meta:"Table + Modal, DateRangePicker"},
+      {title:"Lịch sử mượn (SV)",         prio:"cao", type:"fe",  file:"pages/Student/History.tsx",   meta:"getMyRequests, returnRequest"},
+      {title:"Viết tài liệu & báo cáo",  prio:"thp", type:"dev", file:"README.md",                   meta:"Phần Student, hướng dẫn dùng"},
+    ]
+  },
+  {
+    key:"quang", av:"av-quang", name:"Nguyễn Minh Quang", role:"QA · UI/UX · Tài liệu",
+    tasks:[
+      {title:"Tester / QA toàn hệ thống", prio:"cao", type:"qa",  file:"tests/",                       meta:"Test case, kiểm thử chức năng"},
+      {title:"Thiết kế UI/UX",            prio:"tb",  type:"qa",  file:"figma / mockup",               meta:"Wireframe, design system"},
+      {title:"Trang lỗi & UX nhỏ",        prio:"thp", type:"fe",  file:"pages/exception/",             meta:"404, 500, toast, loading"},
+      {title:"Viết tài liệu",             prio:"thp", type:"dev", file:"README.md · README-DEPLOY.md", meta:"Kiến trúc, hướng dẫn deploy"},
+    ]
+  },
+];
+
+const pmap = {cao:"Cao", tb:"Trung bình", thp:"Thấp"};
+const tmap = {be:"Backend", fe:"Frontend", dev:"DevOps", qa:"QA"};
+const board = document.getElementById('board');
+
+members.forEach(m => {
+  const col = document.createElement('div');
+  col.className = 'col';
+  col.innerHTML = `
+    <div class="col-head">
+      <div class="avatar ${m.av}">${m.name.split(' ').pop()[0]}</div>
+      <div class="col-info">
+        <div class="col-name">${m.name}</div>
+        <div class="col-role">${m.role}</div>
+      </div>
+      <div class="col-count">${m.tasks.length} tasks</div>
+    </div>
+    <div class="col-body" id="col-${m.key}"></div>`;
+  board.appendChild(col);
+
+  const body = col.querySelector(`#col-${m.key}`);
+  m.tasks.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="card-title">${t.title}</span>
+        <span class="prio p-${t.prio}">${pmap[t.prio]}</span>
+      </div>
+      <div class="card-meta">${t.meta} <span class="type-tag t-${t.type}">${tmap[t.type]}</span></div>
+      <div class="card-file">${t.file}</div>`;
+    body.appendChild(card);
+  });
+});
+</script>
+</body>
+</html>
