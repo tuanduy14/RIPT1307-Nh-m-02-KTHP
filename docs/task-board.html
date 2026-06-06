@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -31,22 +32,9 @@
   .stats { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--text2); }
   .stat-num { font-size: 17px; font-weight: 600; color: var(--text); }
 
-  /* toggle */
-  .view-toggle { max-width: 1100px; margin: 0 auto 20px; display: flex; gap: 6px; }
-  .tog-btn {
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 12px; font-weight: 500;
-    padding: 7px 16px; border-radius: 8px; cursor: pointer;
-    border: 1px solid var(--border); background: var(--bg2); color: var(--text2);
-    transition: all .15s;
-  }
-  .tog-btn:hover { border-color: #b0ada4; color: var(--text); }
-  .tog-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
-
   /* board */
   .board { max-width: 1100px; margin: 0 auto; display: grid; gap: 18px; }
   .board.view-member { grid-template-columns: repeat(2, 1fr); }
-  .board.view-type   { grid-template-columns: repeat(2, 1fr); }
   @media (max-width: 700px) { .board { grid-template-columns: 1fr !important; } }
 
   .col { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
@@ -56,10 +44,6 @@
   .av-bach  { background: var(--bach-bg);  color: var(--bach-c); }
   .av-dai   { background: var(--dai-bg);   color: var(--dai-c); }
   .av-quang { background: var(--quang-bg); color: var(--quang-c); }
-  .av-be    { background: var(--be-bg);    color: var(--be); }
-  .av-fe    { background: var(--fe-bg);    color: var(--fe); }
-  .av-dev   { background: var(--dev-bg);   color: var(--dev); }
-  .av-qa    { background: var(--qa-bg);    color: var(--qa); }
   .col-info { flex: 1; min-width: 0; }
   .col-name { font-size: 14px; font-weight: 600; }
   .col-role { font-size: 11px; color: var(--text3); margin-top: 1px; }
@@ -83,7 +67,7 @@
   .t-qa  { background: var(--qa-bg);  color: var(--qa);  border: 1px solid var(--qa-border); }
   .card-file { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); word-break: break-all; }
 
-  /* in type view, show owner chip on card */
+  /* owner chip */
   .owner-chip { font-size: 10px; font-weight: 600; border-radius: 4px; padding: 1px 6px; }
   .oc-duy   { background: var(--duy-bg);   color: var(--duy-c); }
   .oc-bach  { background: var(--bach-bg);  color: var(--bach-c); }
@@ -116,7 +100,7 @@
   <h1>Hệ thống Mượn Thiết Bị</h1>
   <div class="subtitle">Express · PostgreSQL · React · UmiJS · Ant Design · Resend</div>
   <div class="stats">
-    <span><span class="stat-num">25</span> tasks</span>
+    <span><span class="stat-num">27</span> tasks</span>
     <span>·</span>
     <span><span class="stat-num">4</span> thành viên</span>
     <span>·</span>
@@ -126,11 +110,6 @@
     <span class="type-tag t-qa">QA</span> 2
   </div>
 </header>
-
-<div class="view-toggle">
-  <button class="tog-btn active" onclick="setView('member')">👤 Theo thành viên</button>
-  <button class="tog-btn" onclick="setView('type')">🗂 Theo loại việc</button>
-</div>
 
 <div class="board view-member" id="board"></div>
 
@@ -145,7 +124,6 @@
   <div class="leg"><span class="leg-dot" style="background:#d0cfc8"></span> Thấp</div>
 </div>
 
-<!-- Modal -->
 <div class="modal-backdrop" id="modal" onclick="closeModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
@@ -172,8 +150,8 @@ const tmap = {be:"Backend", fe:"Frontend", dev:"DevOps", qa:"QA"};
 const ownerName = {duy:"Đào Tuấn Duy", bach:"Lê Xuân Bách", dai:"Lê Đức Đại", quang:"Nguyễn Minh Quang"};
 
 const tasks = [
-  {id:1,  title:"Thiết kế & khởi tạo Database",      owner:"duy",   prio:"cao", type:"be",  file:"database/schema.sql",               meta:"users, equipments, requests",       desc:"Viết schema SQL đầy đủ cho 3 bảng: users, equipments, requests. Định nghĩa enum request_status (pending/approved/returned). Thiết lập foreign key, index.", dep:"Không phụ thuộc — làm trước tiên"},
-  {id:2,  title:"API xác thực (Auth)",                owner:"duy",   prio:"cao", type:"be",  file:"routes/auth.ts",                    meta:"POST /api/auth/login",              desc:"Xử lý đăng nhập bằng email + bcrypt. So sánh password_hash, trả về user object (loại bỏ password_hash). Trả lỗi 401 nếu sai thông tin.", dep:"Task 1 (Database)"},
+  {id:1,  title:"Thiết kế & khởi tạo Database",      owner:"duy",   prio:"cao", type:"be",  file:"database/schema.sql",       meta:"users, equipments, requests",       desc:"Viết schema SQL đầy đủ cho 3 bảng: users, equipments, requests. Định nghĩa enum request_status (pending/approved/returned). Thiết lập foreign key, index.", dep:"Không phụ thuộc — làm trước tiên"},
+  {id:2,  title:"API xác thực (Auth)",                owner:"duy",   prio:"cao", type:"be",  file:"routes/auth.ts",                    meta:"POST /api/auth/login",               desc:"Xử lý đăng nhập bằng email + bcrypt. So sánh password_hash, trả về user object (loại bỏ password_hash). Trả lỗi 401 nếu sai thông tin.", dep:"Task 1 (Database)"},
   {id:3,  title:"API thiết bị (Equipment)",           owner:"duy",   prio:"cao", type:"be",  file:"routes/equipment.ts · models/equipment.ts", meta:"GET /api/equipments, /stats", desc:"GET /api/equipments trả danh sách thiết bị còn hàng. GET /api/equipments/stats trả thống kê số lượng yêu cầu theo tháng.", dep:"Task 1, Task 7"},
   {id:4,  title:"API yêu cầu mượn (Request)",         owner:"duy",   prio:"cao", type:"be",  file:"routes/request.ts",                 meta:"POST, GET /mine, approve, return",  desc:"POST / tạo yêu cầu mới (trừ tồn kho). GET /mine lấy yêu cầu của sinh viên. GET / lấy tất cả (admin). POST /:id/approve duyệt. POST /:id/return hoàn trả (cộng lại tồn kho).", dep:"Task 1, Task 2, Task 3"},
   {id:5,  title:"Gửi email thông báo (Resend)",       owner:"duy",   prio:"tb",  type:"be",  file:"mailer.ts · notifications.ts",      meta:"Resend SDK, notify admin/student",  desc:"Dùng Resend SDK gửi mail khi có yêu cầu mới (notifyAdminNewRequest) và khi được duyệt (notifyStudentApproved). Đọc RESEND_API_KEY từ .env.", dep:"Task 4, Task 9 (HTML template)"},
@@ -192,58 +170,43 @@ const tasks = [
   {id:18, title:"Quản lý yêu cầu (Admin)",            owner:"bach",  prio:"cao", type:"fe",  file:"pages/Admin/Requests.tsx",          meta:"approveRequest, Popconfirm",        desc:"Table hiển thị tất cả yêu cầu. Lọc theo trạng thái pending/approved/returned. Nút Duyệt có Popconfirm xác nhận. Badge màu theo trạng thái.", dep:"Task 14 (Service layer)"},
   {id:19, title:"Quản lý thiết bị (Admin)",           owner:"bach",  prio:"tb",  type:"fe",  file:"pages/Admin/Devices.tsx",           meta:"CRUD, modal thêm/sửa",              desc:"Table danh sách thiết bị. Modal thêm mới và chỉnh sửa. Nút điều chỉnh số lượng. Gọi getEquipments(), createEquipment(), updateEquipment().", dep:"Task 14, Task 9"},
   {id:20, title:"Trang thống kê (Admin)",             owner:"bach",  prio:"tb",  type:"fe",  file:"pages/Admin/Stats.tsx",             meta:"ColumnChart, xAxis/yAxis API",      desc:"Gọi getStats() lấy dữ liệu số lượng yêu cầu theo tháng. Render ColumnChart (Ant Design Charts). xAxis là tháng, yAxis là số lượng.", dep:"Task 3, Task 14"},
-  {id:21, title:"Viết tài liệu & báo cáo (Admin)",   owner:"bach",  prio:"thp", type:"dev", file:"README.md",                         meta:"Phần Admin, API docs",              desc:"Mô tả các tính năng Admin trong README. Viết API docs cho các endpoint /api/equipments và /api/requests.", dep:"Sau khi hoàn thành task 18,19,20"},
+  {id:21, title:"Viết tài liệu & báo cáo (Admin)",   owner:"bach",  prio:"thp", type:"dev", file:"README.md",                                                 meta:"Phần Admin, API docs",              desc:"Mô tả các tính năng Admin trong README. Viết API docs cho các endpoint /api/equipments và /api/requests.", dep:"Sau khi hoàn thành task 18,19,20"},
   {id:22, title:"Dashboard sinh viên",                owner:"dai",   prio:"tb",  type:"fe",  file:"pages/Student/Dashboard.tsx",       meta:"Statistic card, gọi API",           desc:"Hiển thị 3 Statistic card: tổng thiết bị có sẵn, số yêu cầu đang chờ duyệt, số thiết bị đang mượn. Gọi API thực thay hardcode.", dep:"Task 14"},
   {id:23, title:"Danh sách thiết bị (SV)",            owner:"dai",   prio:"cao", type:"fe",  file:"pages/Student/Devices.tsx",         meta:"Table + Modal, DateRangePicker",    desc:"Table thiết bị còn hàng. Nút Mượn mở Modal form: số lượng (max = tồn kho), DateRangePicker chọn ngày mượn–trả. Gọi createRequest().", dep:"Task 14, Task 4"},
   {id:24, title:"Lịch sử mượn (SV)",                  owner:"dai",   prio:"cao", type:"fe",  file:"pages/Student/History.tsx",         meta:"getMyRequests, returnRequest",      desc:"Table hiển thị yêu cầu của sinh viên đang đăng nhập. Badge trạng thái. Nút Trả thiết bị (chỉ hiện khi status=approved). Gọi returnRequest(id).", dep:"Task 14, Task 4"},
-  {id:25, title:"Viết tài liệu & báo cáo (SV)",      owner:"dai",   prio:"thp", type:"dev", file:"README.md",                         meta:"Phần Student, hướng dẫn dùng",      desc:"Mô tả luồng sử dụng của sinh viên: đăng nhập → xem thiết bị → tạo yêu cầu → theo dõi lịch sử → trả thiết bị.", dep:"Sau khi hoàn thành task 22,23,24"},
-  {id:26, title:"Tester / QA toàn hệ thống",         owner:"quang", prio:"cao", type:"qa",  file:"tests/",                            meta:"Test case, kiểm thử chức năng",     desc:"Viết test case cho các luồng chính: đăng nhập, mượn thiết bị, duyệt yêu cầu, trả thiết bị, gửi mail. Kiểm thử trên cả 2 role admin và sinh viên.", dep:"Sau khi backend và frontend cơ bản hoàn thành"},
+  {id:25, title:"Viết tài liệu & báo cáo (SV)",      owner:"dai",   prio:"thp", type:"dev", file:"README.md",                                                 meta:"Phần Student, hướng dẫn dùng",      desc:"Mô tả luồng sử dụng của sinh viên: đăng nhập → xem thiết bị → tạo yêu cầu → theo dõi lịch sử → trả thiết bị.", dep:"Sau khi hoàn thành task 22,23,24"},
+  {id:26, title:"Tester / QA toàn hệ thống",         owner:"quang", prio:"cao", type:"qa",  file:"tests/",                                                            meta:"Test case, kiểm thử chức năng",     desc:"Viết test case cho các luồng chính: đăng nhập, mượn thiết bị, duyệt yêu cầu, trả thiết bị, gửi mail. Kiểm thử trên cả 2 role admin và sinh viên.", dep:"Sau khi backend và frontend cơ bản hoàn thành"},
   {id:27, title:"Thiết kế UI/UX & Tài liệu",         owner:"quang", prio:"tb",  type:"qa",  file:"figma / mockup · README-DEPLOY.md", meta:"Wireframe, hướng dẫn deploy",       desc:"Thiết kế wireframe các màn hình chính trên Figma. Viết README-DEPLOY.md hướng dẫn cài đặt local và deploy lên Render.", dep:"Nên làm sớm để định hướng UI cho FE"},
 ];
 
 const memberCols = [
-  { key:"duy",   av:"av-duy",   name:"Đào Tuấn Duy",     role:"Backend · Frontend core · DevOps" },
+  { key:"duy",  av:"av-duy",  name:"Đào Tuấn Duy",    role:"Backend · Frontend core · DevOps" },
   { key:"bach",  av:"av-bach",  name:"Lê Xuân Bách",      role:"Frontend Admin" },
-  { key:"dai",   av:"av-dai",   name:"Lê Đức Đại",        role:"Frontend Student" },
+  { key:"dai",   av:"av-dai",  name:"Lê Đức Đại",        role:"Frontend Student" },
   { key:"quang", av:"av-quang", name:"Nguyễn Minh Quang", role:"QA · UI/UX · Tài liệu" },
 ];
-const typeCols = [
-  { key:"be",  av:"av-be",  name:"Backend",  role:"Express · PostgreSQL · Resend" },
-  { key:"fe",  av:"av-fe",  name:"Frontend", role:"React · UmiJS · Ant Design" },
-  { key:"dev", av:"av-dev", name:"DevOps",   role:"DB · Deploy · Docs" },
-  { key:"qa",  av:"av-qa",  name:"QA / UX",  role:"Testing · Design · Tài liệu" },
-];
 
-let currentView = 'member';
-
-function buildCard(t, showOwner) {
+function buildCard(t) {
   const div = document.createElement('div');
   div.className = 'card';
-  const ownerChip = showOwner
-    ? `<span class="owner-chip oc-${t.owner}">${ownerName[t.owner].split(' ').pop()}</span>`
-    : '';
   div.innerHTML = `
     <div class="card-top">
       <span class="card-title">${t.title}</span>
       <span class="prio p-${t.prio}">${pmap[t.prio]}</span>
     </div>
-    <div class="card-meta">${t.meta} <span class="type-tag t-${t.type}">${tmap[t.type]}</span>${ownerChip}</div>
+    <div class="card-meta">${t.meta} <span class="type-tag t-${t.type}">${tmap[t.type]}</span></div>
     <div class="card-file">${t.file}</div>`;
   div.onclick = () => openModal(t);
   return div;
 }
 
-function renderBoard(view) {
+function renderBoard() {
   const board = document.getElementById('board');
   board.innerHTML = '';
-  board.className = 'board view-' + view;
-  const cols = view === 'member' ? memberCols : typeCols;
-  const showOwner = view === 'type';
+  board.className = 'board view-member';
 
-  cols.forEach(col => {
-    const filtered = view === 'member'
-      ? tasks.filter(t => t.owner === col.key)
-      : tasks.filter(t => t.type === col.key);
+  memberCols.forEach(col => {
+    const filtered = tasks.filter(t => t.owner === col.key);
 
     const colEl = document.createElement('div');
     colEl.className = 'col';
@@ -258,17 +221,9 @@ function renderBoard(view) {
       </div>
       <div class="col-body"></div>`;
     const body = colEl.querySelector('.col-body');
-    filtered.forEach(t => body.appendChild(buildCard(t, showOwner)));
+    filtered.forEach(t => body.appendChild(buildCard(t)));
     board.appendChild(colEl);
   });
-}
-
-function setView(v) {
-  currentView = v;
-  document.querySelectorAll('.tog-btn').forEach((b, i) => {
-    b.classList.toggle('active', (i === 0 && v === 'member') || (i === 1 && v === 'type'));
-  });
-  renderBoard(v);
 }
 
 function openModal(t) {
@@ -287,7 +242,9 @@ function closeModal(e) {
   if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
 }
 
-renderBoard('member');
+
+renderBoard();
 </script>
 </body>
 </html>
+
